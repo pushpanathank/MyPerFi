@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "MyPerFi",
+    "slug": "MyPerFi",
+    "description": "A simple personal finance/budget management app",
+    "privacy": "public",
+    "sdkVersion": "33.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#7f70e7"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.pushpanathan.myperfi"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pushpanathan.myperfi"
+    }
+  }
+}
