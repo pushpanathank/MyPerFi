@@ -16,7 +16,7 @@ import {
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
-import { Colors, ActionTypes } from '../constants';
+import { Colors, ActionTypes, Layout } from '../constants';
 import SetLanguage from './SetLanguage';
 
 
@@ -26,10 +26,16 @@ class SelectLanguage extends React.Component {
   }
   render() {
     return (
-      <View style={[appStyles.rowXYcenter,{backgroundColor: Colors.primary}]}>
-        <Text style={[appStyles.slideTitle,{marginBottom:30}]}>Choose your language</Text>
-        <SetLanguage btnView={true}/>
-      </View>
+      <Container style={appStyles.container}>
+          <ImageBackground 
+              source={imgs.languageBg} 
+              style={ { width: Layout.window.width, height: Layout.window.height }}>
+              <View style={[appStyles.rowXYcenter]}>
+                <Text style={[appStyles.slideTitle,{marginBottom:30}]}>Choose your language</Text>
+                <SetLanguage btnView={true}/>
+              </View>
+           </ImageBackground>
+        </Container>
       );
   }
 }
