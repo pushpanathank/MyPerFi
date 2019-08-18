@@ -19,7 +19,7 @@ import { submit } from 'redux-form';
 import * as Animatable from 'react-native-animatable';
 
 import { Layout, Colors, Screens, ActionTypes } from '../../constants';
-import { Logo, Statusbar, ModalBox, SetLanguage } from '../../components';
+import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import { showToast } from '../../utils/common';
@@ -40,7 +40,7 @@ class SignIn extends React.Component {
       this.props.navigation.navigate(Screens.SignInStack.route);
     }
     setTimeout(()=>{
-      if(this.props.languageSet==0){
+      if(this.props.languageSet==0 && !this.props.showIntro){
         this.props.showModal();
       }
     },2000);
@@ -78,7 +78,16 @@ class SignIn extends React.Component {
 
   render(){
     const { language } = this.props;
+    if(this.props.showIntro){
+      // Show the app intro on first time launch
+      if(this.props.languageSet==0){
+        return (<SelectLanguage />);
+      }else{
+        return (<AppIntro />);
+      }
+    }
     if(this.props.user==null){
+      // Login 
       return (
         <Container style={appStyles.container}>
           <ImageBackground 
@@ -88,7 +97,9 @@ class SignIn extends React.Component {
               <View style={{flexDirection: 'column', flex:1}}>
                 <View style={{flex: 0.8,height: Layout.window.height-80,}}>
                   <View style={appStyles.rowXcenter}>
-                    <Logo style={appStyles.loginLogo} />
+                    <TouchableWithoutFeedback onPress={() => this.props.resetState()}>
+                      <Logo style={appStyles.loginLogo} />
+                    </TouchableWithoutFeedback >
                     <TouchableWithoutFeedback onPress={() => this.props.showModal()}>
                       <Text style={appStyles.loginMidText}>{language.signinTitle}</Text>
                     </TouchableWithoutFeedback >
@@ -148,24 +159,8 @@ class SignIn extends React.Component {
        
       );
     }else{
-      return (
-        <Container style={appStyles.container}>
-          <ImageBackground 
-              source={imgs.bg} 
-              style={ { width: Layout.window.width, height: Layout.window.height }}>
-            <Content enableOnAndroid>
-              <View style={{flexDirection: 'column', flex:1}}>
-                <View style={{flex: 1,height: Layout.window.height,}}>
-                  <View style={appStyles.rowXcenter}>
-                    <Logo style={[appStyles.loginLogo,{paddingTop:Layout.sixIndent}]} />
-                    <Spinner color={Colors.secondary} />
-                  </View> 
-                </View>  
-              </View>  
-            </Content>
-           </ImageBackground>
-        </Container>
-      );
+      // Authendicating
+      return (<Loader />);
     }
   }
 }
@@ -173,6 +168,7 @@ class SignIn extends React.Component {
 const mapStateToProps = (state) => {
   // Redux Store --> Component
   return {
+    showIntro: state.auth.showIntro,
     isLoading: state.common.isLoading,
     user: state.auth.user,
     language: state.auth.language,
@@ -186,7 +182,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
       pressSignin: () => dispatch(submit('signinForm')),
       setLanguage: () => dispatch(userActions.setLanguage({id:1,set:1})),
-      showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true })
+      showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true }),
+      resetState: () => dispatch({ type: ActionTypes.RESETSTATE })
    };
 };
 

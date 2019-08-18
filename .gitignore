@@ -2,10 +2,18 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 *.jks
+<<<<<<< HEAD
 *.p8
+=======
+>>>>>>> b5c07b6594a4da1bfe0692ccde5781e692d6c146
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
 web-build/
 web-report/
+<<<<<<< HEAD
+=======
+ .expo-shared/
+ .watchmanconfig/
+>>>>>>> b5c07b6594a4da1bfe0692ccde5781e692d6c146

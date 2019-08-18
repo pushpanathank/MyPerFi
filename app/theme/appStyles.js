@@ -54,8 +54,56 @@ export default StyleSheet.create({
     margin: 0,
   },
 
+  introLangBtn:{
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    width: '50%',
+    marginLeft: '25%',
+    marginBottom: Layout.halfIndent,
+  },
+  introLangBtnActive:{
+    backgroundColor: Colors.secondary,
+  },
+  // Slider
+  slide:{
+    backgroundColor: Colors.primary,
+    flex:1
+  },
+  slideTitle:{
+    color: Colors.white,
+    fontSize: 30,
+    textAlign:'center',
+  },
+  slideText:{
+    textAlign:'center',
+    color: Colors.lightWhite
+  },
+  slideImage: {
+    width: 300,
+    height: 300,
+  },
+  slideIcon: {
+    backgroundColor: 'transparent', 
+    color: Colors.white
+  },
+  buttonCircle: {
+    width: 40,
+    height: 40,
+    color: Colors.white,
+    backgroundColor: 'rgba(0, 0, 0, .2)',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  activeDotStyle:{
+    backgroundColor: Colors.secondary
+  },
+
   logo: {
 
+  },
+  loaderLogo: {
+    height: 68, 
+    width: 220
   },
   loginLogo: {
     marginTop: Layout.sixIndent,
@@ -84,6 +132,8 @@ export default StyleSheet.create({
   loginBackIcon:{
     color: Colors.white
   },
+
+  // Input
   itemInput:{
 
   },

@@ -11,7 +11,8 @@ class Logo extends React.Component {
     return (
         <Animatable.Image
           animation="pulse"
-          duration={2000}
+          duration={this.props.duration||2000}
+          iterationCount={this.props.iterationCount||1}
           {...this.props} 
           style={[appStyles.rowXYcenter,appStyles.logo, this.props.style]}
           source={imgs.logo}
