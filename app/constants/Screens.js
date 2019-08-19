@@ -14,6 +14,11 @@ export default {
     icon:(<Icon fontSize='12' type='AntDesign' name='home' />),
     label:"Home",
   },
+  Category : {
+    route: 'Category',
+    icon:(<Icon fontSize='12' type='AntDesign' name='home' />),
+    label:"Category",
+  },
   Settings : {
     route: 'Settings',
     icon:(<Icon fontSize='12' type='AntDesign' name='setting' />),

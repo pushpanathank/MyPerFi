@@ -16,12 +16,12 @@ export default[
 		reset: 'Reset',
 
 		// App intro sliders
-		slide1Title: 'Your Personal Budget Assistant',
-		slide1Text: 'Helps you to manage your budget wisely with\nactual analysis and reports.',
-		slide2Title: 'Smart Wallet',
-		slide2Text: 'Help you to budget for automate spending,\nloans and investments.',
-		slide3Title: 'Budget Recap',
-		slide3Text: 'You can monitor the amount of expenses in the\nspecific time period. This app enable you to\nhave a better financial plan.',
+		slide1Title: 'TRACK YOUR MONEY',
+		slide1Text: 'It helps you to track your\nexpenses quickly and easily.',
+		slide2Title: 'UNDERSTAND YOUR FINANCES',
+		slide2Text: 'Overview your past and current\nspending progress by category.',
+		slide3Title: 'ORGANIZE YOUR FINANCES',
+		slide3Text: 'Easy and user friendly Personal\nFinance App to take control of\nyour money.',
 
 		//Validation messages
 		required: 'is required',
@@ -46,12 +46,12 @@ export default[
 		reset: 'மீட்டமை',
 
 		// App intro sliders
-		slide1Title: 'உங்கள் தனிப்பட்ட வரவு செலவு உதவியாளர்',
-		slide1Text: 'உண்மையான பகுப்பாய்வு மற்றும் அறிக்கைகள்\nமூலம் உங்கள் வரவு செலவு பட்டியலை\nபுத்திசாலித்தனமாக நிர்வகிக்க உதவுகிறது.',
-		slide2Title: 'புத்திசாலி பணப்பை',
-		slide2Text: 'தானியங்கு செலவு, கடன்கள் மற்றும் முதலீடுகளுக்கான\nபட்டியலை நிர்வகிக்க உதவும்.',
-		slide3Title: 'வரவு செலவு மறுபயன்பாடு',
-		slide3Text: 'குறிப்பிட்ட காலப்பகுதியில் செலவுகளின் அளவை\nநீங்கள் கண்காணிக்கலாம். சிறந்த நிதித்\nதிட்டத்தை இந்த பயன்பாடு உங்களுக்கு\nஉதவுகிறது.',
+		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',
+		slide1Text: 'உங்கள் செலவுகளை விரைவாகவும்\nஎளிதாகவும் கண்காணிக்க இது உதவுகிறது.',
+		slide2Title: 'உங்கள் நிதிகளைப் புரிந்து கொள்ளுங்கள்',
+		slide2Text: 'உங்கள் கடந்த கால மற்றும் தற்போதைய\nசெலவு முன்னேற்றத்தை வகைப்படுத்த உதவுகிறது.',
+		slide3Title: 'உங்கள் நிதிகளை ஒழுங்கமைக்கவும்',
+		slide3Text: 'உங்கள் பணத்தை கட்டுப்படுத்த எளிதான\nமற்றும் பயனர் நட்பு தனிப்பட்ட நிதி பயன்பாடு.',
 
 		//Validation messages
 		required: 'தேவை',

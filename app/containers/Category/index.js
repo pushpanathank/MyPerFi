@@ -18,7 +18,7 @@ import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-class Home extends React.Component {
+class Category extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -29,10 +29,10 @@ class Home extends React.Component {
             source={imgs.bg} 
             style={ { width: Layout.window.width, height: Layout.window.height }}>
           <Headers {...this.props} />
-          <Content enableOnAndroid style={appStyles.content}>
-            <View style={appStyles.contentBg}>
-              <Svgicon name="chart"  width={200}/>
-            </View>
+          <Content enableOnAndroid>
+            <Svgicon
+            name="menu"
+            />
           </Content>
          </ImageBackground>
       </Container>
@@ -53,4 +53,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Exports
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

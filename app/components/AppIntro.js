@@ -48,7 +48,7 @@ class AppIntro extends React.Component {
   }
   renderItem = ({ item }) => {
     return (
-      <View style={[appStyles.slide,appStyles.rowXYcenter]}>
+      <View style={[appStyles.slide,appStyles.rowXYcenter,{padding:Layout.indent}]}>
         <Text style={appStyles.slideTitle}>{item.title}</Text>
         <Image source={item.image} style={appStyles.slideImage} resizeMode="contain"/>
         <Text style={appStyles.slideText}>{item.text}</Text>

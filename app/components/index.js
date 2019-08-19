@@ -7,5 +7,19 @@ import InputBox from "./InputBox";
 import ModalBox from "./ModalBox";
 import SetLanguage from "./SetLanguage";
 import SelectLanguage from "./SelectLanguage";
+import Svgicon from "./Svgicon";
+import Headers from "./Headers";
 
-export { Loader, AppIntro, Logo, Statusbar, LoginBackIcon, InputBox, ModalBox, SetLanguage, SelectLanguage };
+export { 
+	Loader, 
+	AppIntro, 
+	Logo, 
+	Statusbar, 
+	LoginBackIcon, 
+	InputBox, 
+	ModalBox, 
+	SetLanguage, 
+	SelectLanguage, 
+	Svgicon, 
+	Headers, 
+};

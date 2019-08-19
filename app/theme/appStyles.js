@@ -35,6 +35,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.secondary,
     fontFamily: 'Font-Regular',
   },
+  content:{
+    marginTop: Layout.indent
+  },
+  contentBg:{
+    backgroundColor: Colors.white,
+    padding: Layout.indent,
+    flex:1
+  },
 
   setLanguage: {
     justifyContent: 'flex-start',
@@ -98,8 +106,15 @@ export default StyleSheet.create({
     backgroundColor: Colors.secondary
   },
 
+  menuBtn:{
+    padding: Layout.indent
+  },
   logo: {
 
+  },
+  headerLogo:{
+    height: 40, 
+    width: 120
   },
   loaderLogo: {
     height: 68, 
