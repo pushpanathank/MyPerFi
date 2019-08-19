@@ -109,6 +109,34 @@ export default StyleSheet.create({
   menuBtn:{
     padding: Layout.indent
   },
+  drawerList:{
+    margin:0,
+    paddingLeft:0
+  },
+  drawerItem:{
+    margin:0,
+    padding:0
+  },
+  drawerIcon:{
+    paddingRight: Layout.indent,
+  },
+  drawerText:{
+    fontSize: 17, 
+    fontWeight: '600', 
+    color: Colors.black,
+    paddingLeft: Layout.indent
+  },
+  profileName:{
+    color: Colors.white,
+    fontSize: 22
+  },
+  profileEmail:{
+    color: Colors.lightWhite,
+    fontSize: 14
+  },
+  activeDrawerItem:{
+    // backgroundColor: Colors.primaryLight
+  },
   logo: {
 
   },

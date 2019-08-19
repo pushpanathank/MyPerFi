@@ -1,8 +1,8 @@
 import React from "react";
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
-import SvgIcon from 'react-native-svg-icon';
+
 import {
   Button,
   Text,
@@ -11,13 +11,21 @@ import {
 
 import appStyles from '../theme/appStyles';
 import svgs from '../assets/svgs';
-import { Colors, Layout } from '../constants';
+import { Colors, Layout, ActionTypes } from '../constants';
 import Logo from './Logo';
 import Svgicon from './Svgicon';
+
+
+import ModalBox from './ModalBox';
+import SetLanguage from './SetLanguage';
+
 
 class Headers extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      visibleModal:false
+    }
   }
   render() {
     return (
@@ -28,13 +36,21 @@ class Headers extends React.Component {
             </Button>
           </Left>
           <Body style={appStyles.rowXcenter}>
-            <Logo header={true} />
+            <TouchableWithoutFeedback onPress={() => this.props.showModal()}>
+              <Logo header={true} />
+            </TouchableWithoutFeedback>
           </Body>
           <Right style={appStyles.row}>
             <Button transparent>
               <Svgicon color={Colors.white} name="bell" />
             </Button>
           </Right>
+          <ModalBox 
+                  visibleModal={this.state.visibleModal}
+                  content={<SetLanguage />} 
+                  style={appStyles.bottomModal}
+                  contentStyle={appStyles.setLanguage}
+                  />
         </Header>
     );
   }
@@ -45,7 +61,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+      showModal: () => {
+        dispatch({ type: ActionTypes.SHOWMODAL, showModal: true })
+      },
+    };
 };
 
 // Exports

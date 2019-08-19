@@ -14,6 +14,11 @@ export default[
 		signin: 'Sign In',
 		signup: 'Sign Up',
 		reset: 'Reset',
+		logout: 'Logout',
+
+		home: 'Home',
+		categories: 'Categories',
+		settings: 'Settings',
 
 		// App intro sliders
 		slide1Title: 'TRACK YOUR MONEY',
@@ -44,6 +49,11 @@ export default[
 		signin: 'உள்நுழை',
 		signup: 'பதிவு செய்',
 		reset: 'மீட்டமை',
+		logout: 'வெளியேறு',
+
+		home: 'முகப்பு',
+		categories: 'வகைகள்',
+		settings: 'அமைப்புகள்',
 
 		// App intro sliders
 		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',
