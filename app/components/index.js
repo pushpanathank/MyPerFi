@@ -9,6 +9,7 @@ import SetLanguage from "./SetLanguage";
 import SelectLanguage from "./SelectLanguage";
 import Svgicon from "./Svgicon";
 import Headers from "./Headers";
+import IconList from "./IconList";
 
 export { 
 	Loader, 
@@ -22,4 +23,5 @@ export {
 	SelectLanguage, 
 	Svgicon, 
 	Headers, 
+	IconList, 
 };

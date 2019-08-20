@@ -10,7 +10,6 @@ import {
 } from 'native-base';
 
 import appStyles from '../theme/appStyles';
-import svgs from '../assets/svgs';
 import { Colors, Layout, ActionTypes } from '../constants';
 import Logo from './Logo';
 import Svgicon from './Svgicon';
