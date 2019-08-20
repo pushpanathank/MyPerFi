@@ -77,7 +77,8 @@ class Drawer extends React.Component {
                         style={appStyles.drawerIcon} 
                         color={(data.route==currentRoute) ? Colors.secondary:Colors.black} 
                         name={data.icon} 
-                        />
+                        width={20} 
+                        height={20} />
                       <Text
                       style={appStyles.drawerText}>
                       {language[(data.route).toLowerCase()]}</Text>

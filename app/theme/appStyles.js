@@ -137,6 +137,30 @@ export default StyleSheet.create({
   activeDrawerItem:{
     // backgroundColor: Colors.primaryLight
   },
+
+  iconList:{
+    justifyContent: 'space-around',
+  },
+  iconListItem:{
+    width: Layout.bigIconSize,
+    height:Layout.bigIconSize,
+    borderRadius:25,
+    padding:0,
+    margin:Layout.indent, 
+    justifyContent:'center',
+  },
+  iconListSingle:{
+
+  },
+  iconListText:{
+    textAlign:'center',
+    fontSize:10,
+    marginTop:-Layout.halfIndent,
+    fontFamily:'Font-Regular',
+    color: Colors.lightBlack
+  },
+
+
   logo: {
 
   },

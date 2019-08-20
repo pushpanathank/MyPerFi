@@ -24,9 +24,8 @@ const halfVerticalIndent = verticalScale(indent / 2);
 
 const borderRadius = 4;
 
-const iconSize = moderateScale(28);
-const bigIconSize = moderateScale(40);
-const iconMargin = Platform.OS === 'android' ? 16 : 10;
+const iconSize = moderateScale(35);
+const bigIconSize = moderateScale(50);
 
 export default {
 	window: {
@@ -48,6 +47,5 @@ export default {
 	borderRadius,
 	iconSize,
 	bigIconSize,
-	iconMargin,
 	isSmallDevice: width < 375,
 };

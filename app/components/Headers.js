@@ -41,7 +41,7 @@ class Headers extends React.Component {
           </Body>
           <Right style={appStyles.row}>
             <Button transparent>
-              <Svgicon color={Colors.white} name="bell" />
+              <Svgicon color={Colors.white} name="bell" width={24} />
             </Button>
           </Right>
           <ModalBox 
