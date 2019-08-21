@@ -18,6 +18,8 @@ export default[
 
 		home: 'Home',
 		categories: 'Categories',
+		accounts: 'Accounts',
+		accountsSub: 'Manage your accounts',
 		settings: 'Settings',
 
 		// App intro sliders
@@ -53,6 +55,8 @@ export default[
 
 		home: 'முகப்பு',
 		categories: 'வகைகள்',
+		accounts: 'கணக்குகள்',
+		accountsSub: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
 		settings: 'அமைப்புகள்',
 
 		// App intro sliders

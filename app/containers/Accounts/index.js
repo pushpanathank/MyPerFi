@@ -1,16 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, Image} from 'react-native'
 import _ from 'lodash'; 
-import { Layout, Colors, Screens } from '../../constants';
+import { Layout, Colors, Screens, Strings } from '../../constants';
 import { Logo, Svgicon, Headers, IconList } from '../../components';
 import imgs from '../../assets/images';
 import {
-  Container,
-  Content,
-  Icon,
-  Spinner,
-  Button,
-  Text,
+  Container, Content, Icon, Spinner, Button, Text,
   Header, Left, Body, Title, Right
 } from 'native-base';
 import { connect } from "react-redux";
@@ -18,7 +13,7 @@ import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-class Categories extends React.Component {
+class Accounts extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -34,12 +29,11 @@ class Categories extends React.Component {
             style={ { width: Layout.window.width, height: Layout.window.height }}>
           <Headers {...this.props} />
           <View style={[appStyles.headingWithSub]}>
-            <Text style={appStyles.headingText}>{language.categories}</Text>
+            <Text style={appStyles.headingText}>{language.accounts}</Text>
             <Text style={appStyles.subheadingText}>{language.accountsSub}</Text>
           </View>
           <Content enableOnAndroid style={appStyles.content}>
             <View style={appStyles.contentBg}>
-            <IconList selectedColor={this.setColor} />
             </View>
           </Content>
          </ImageBackground>
@@ -62,4 +56,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Exports
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts);

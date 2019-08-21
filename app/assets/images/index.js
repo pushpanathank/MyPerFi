@@ -3,6 +3,7 @@ import { Icon } from 'native-base';
 
 const images = {
 	logo : require('./logo.png'),
+	logoonly : require('./logoonly.png'),
 	bg : require('./bg.jpg'),
 	languageBg : require('./language-bg.jpg'),
 	intro01 : require('./intro-01.png'),

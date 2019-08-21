@@ -20,6 +20,11 @@ export default {
     icon:'inbox',
     label: Strings.categories,
   },
+  Accounts : {
+    route: 'Accounts',
+    icon:'inbox',
+    label: Strings.accounts,
+  },
   Settings : {
     route: 'Settings',
     icon:'settings',

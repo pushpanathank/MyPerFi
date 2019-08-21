@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import {
-  Button,
+  Button, Badge,
   Text,
   Header, Left, Body, Title, Right
 } from 'native-base';
@@ -41,7 +41,10 @@ class Headers extends React.Component {
           </Body>
           <Right style={appStyles.row}>
             <Button transparent>
-              <Svgicon color={Colors.white} name="bell" width={24} />
+              <Svgicon color={Colors.white} name="bell" width={27} />
+              <Badge style={{ position: 'absolute', right:5, top:5, width:23, height:23 }}>
+                <Text style={{ fontSize: 10, color: "#fff", lineHeight: 23 }}>2</Text>
+              </Badge>
             </Button>
           </Right>
           <ModalBox 

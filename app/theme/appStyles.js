@@ -36,12 +36,37 @@ export default StyleSheet.create({
     fontFamily: 'Font-Regular',
   },
   content:{
-    marginTop: Layout.indent
+    // marginTop: Layout.indent,
+    paddingLeft: Layout.indent,
+    paddingRight: Layout.indent,
+    flex:1
   },
   contentBg:{
     backgroundColor: Colors.white,
     padding: Layout.indent,
-    flex:1
+    flex:1,
+    height: Layout.window.height-145,
+  },
+  heading:{
+    height:40,
+    paddingLeft: Layout.indent,
+    paddingRight: Layout.indent,
+  },
+  headingWithSub:{
+    height:60,
+    paddingLeft: Layout.indent,
+    paddingRight: Layout.indent,
+  },
+  headingText:{
+    color: Colors.white,
+    fontSize: Layout.moderateScale(25),
+    fontFamily: 'Font-Light',
+  },
+  subheadingText:{
+    color: Colors.white,
+    fontSize: Layout.moderateScale(14),
+    fontFamily: 'Font-Light',
+    color: Colors.lightWhite
   },
 
   setLanguage: {
@@ -121,10 +146,11 @@ export default StyleSheet.create({
     paddingRight: Layout.indent,
   },
   drawerText:{
-    fontSize: 17, 
-    fontWeight: '600', 
+    fontSize: 14, 
     color: Colors.black,
-    paddingLeft: Layout.indent
+    paddingLeft: Layout.indent,
+    fontFamily: 'Font-Regular',
+    color: Colors.lightBlack
   },
   profileName:{
     color: Colors.white,
@@ -170,13 +196,17 @@ export default StyleSheet.create({
   },
   loaderLogo: {
     height: 68, 
-    width: 220
+    // width: 220
+    width: 70
   },
   loginLogo: {
-    marginTop: Layout.sixIndent,
+    // marginTop: Layout.sixIndent,
+    // width: 220
     height: 68, 
-    width: 220
+    marginTop: Layout.fourIndent,
+    width: 80
   },
+
   loginMidText:{
     fontSize: 16,
     fontFamily: 'Font-Light',
