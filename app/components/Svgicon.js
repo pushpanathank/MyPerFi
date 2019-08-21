@@ -20,6 +20,7 @@ class Svgicon extends React.Component {
           fill={this.props.color || Colors.icon}
           name={this.props.name}
           svgs={svgs}
+          style={this.props.style ||{}}
         />
     );
   }

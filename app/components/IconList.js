@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import {
-  Button,
+  Button, Item, Icon, Input,
   Text,
   List, ListItem
 } from 'native-base';
@@ -16,12 +16,40 @@ import Svgicon from './Svgicon';
 class IconList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      data: iconList,
+    };
   }
+  searchFilterFunction = text => {
+    console.log("text", text);
+    this.setState({
+      value: text,
+    });
+
+    const newData = iconList.filter(item => {
+      const itemData = `${item.label.toUpperCase()} ${item.icon.toUpperCase()}`;
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({
+      data: newData,
+    });
+  };
   render() {
     return (
         <View>
+          <Item>
+            <Svgicon name='search' color={Colors.lightBlack} width={20} height={20}/>
+            <Input 
+              placeholder="Search"
+              onChangeText={text => this.searchFilterFunction(text)}
+              style={{paddingLeft:Layout.indent, paddingRight:Layout.indent}}
+            />
+            <Svgicon name='close' color={Colors.lightBlack} width={30} height={30}/>
+          </Item>
           <List
-              dataArray={iconList}
+              dataArray={this.state.data}
               keyExtractor={(item, index) => index.toString()} 
               contentContainerStyle={appStyles.iconList}
               horizontal={false}
@@ -31,7 +59,7 @@ class IconList extends React.Component {
                   <View style={{width:'25%'}}>
                     <Button 
                     style={[appStyles.iconListItem,{backgroundColor:data.color}]}
-                    onPress={() => this.props.navigation.navigate(data.route)}>
+                    onPress={() => this.props.selectedColor(data)}>
                         <Svgicon 
                           style={appStyles.iconListSingle} 
                           color={Colors.white} 

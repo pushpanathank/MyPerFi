@@ -213,6 +213,10 @@ export default StyleSheet.create({
     fontFamily: 'Font-Regular',
     fontSize:14
   },
+  inputIcon:{
+    marginTop: Layout.indent,
+    marginLeft: Layout.indent,
+  },
   inputError:{
     color: Colors.red,
     top:20,

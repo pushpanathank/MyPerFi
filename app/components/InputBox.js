@@ -25,7 +25,7 @@ const InputBox = ({
   iconStyle={},
 }) => {
   let hasError= false;
-  let iconImg = getFontIcon(icon,iconStyle)||<Icon/>;
+  // let iconImg = getFontIcon(icon,iconStyle)||<Icon/>;
   if(touched && error){
     hasError= true;
   }
@@ -34,7 +34,8 @@ const InputBox = ({
   }else{
     return(
       <Item style= {appStyles.itemInput} error= {hasError}>
-      {iconImg}
+      {/*iconImg*/}
+      {icon}
         <Input 
           {...input}
           placeholder={placeholder}

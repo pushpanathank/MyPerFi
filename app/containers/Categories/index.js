@@ -19,15 +19,11 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 class Categories extends React.Component {
-/*  static navigationOptions = ({navigation}) => {
-    console.log("navigation", navigation.state);
-    return {
-    drawerIcon: Screens.Categories.icon,
-    drawerLabel: this.props.language.categories
-    }
-  }*/
   constructor(props) {
     super(props);
+  }
+  setColor(color){
+    console.log("color", color);
   }
   render(){
     return (
@@ -38,7 +34,7 @@ class Categories extends React.Component {
           <Headers {...this.props} />
           <Content enableOnAndroid style={appStyles.content}>
             <View style={appStyles.contentBg}>
-            <IconList />
+            <IconList selectedColor={this.setColor} />
             </View>
           </Content>
          </ImageBackground>

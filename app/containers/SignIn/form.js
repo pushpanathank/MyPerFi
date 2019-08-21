@@ -5,7 +5,9 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { Form, Item, Input, Title, Button, Text } from 'native-base';
 import { required, email } from 'redux-form-validators'
-import { InputBox } from '../../components';
+import { InputBox, Svgicon } from '../../components';
+import { Colors } from '../../constants';
+import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 class SignInForm extends React.Component {
@@ -21,7 +23,7 @@ class SignInForm extends React.Component {
           component={InputBox} 
           placeholder={language.email}
           keyboardType={'email-address'}
-          icon='user'
+          icon={<Svgicon name='username' width='20' color={Colors.white} style={appStyles.inputIcon} />}
           iconStyle={{top:5,paddingLeft:15}}
           validate={[required({msg: `${language.email} ${language.required}`}), email({msg: `${language.email} ${language.notValid}`})]}
         />
@@ -30,7 +32,7 @@ class SignInForm extends React.Component {
           component={InputBox} 
           placeholder={language.password}
           secureTextEntry={true}
-          icon='lock'
+          icon={<Svgicon name='password' width='20' color={Colors.white} style={appStyles.inputIcon} />}
           iconStyle={{top:5,paddingLeft:15}}
           validate={[required({msg: `${language.password} ${language.required}`})]}
         />

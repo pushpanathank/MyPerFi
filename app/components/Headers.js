@@ -31,7 +31,7 @@ class Headers extends React.Component {
         <Header transparent>
           <Left style={appStyles.row}>
             <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
-              <Svgicon color={Colors.white} name="menu" />
+              <Svgicon color={Colors.white} name="menu" width="30" />
             </Button>
           </Left>
           <Body style={appStyles.rowXcenter}>
