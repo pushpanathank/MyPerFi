@@ -28,7 +28,7 @@ class Logo extends React.Component {
             iterationCount={this.props.iterationCount||1}
             {...this.props} 
             style={[appStyles.rowXYcenter,appStyles.logo, this.props.style]}
-            source={imgs.logoonly}
+            source={imgs.logo}
             resizeMode="contain"
           />
       );

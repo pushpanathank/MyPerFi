@@ -5,7 +5,7 @@ import { Layout, Colors, Screens, Strings } from '../../constants';
 import { Logo, Svgicon, Headers, IconList } from '../../components';
 import imgs from '../../assets/images';
 import {
-  Container, Content, Icon, Spinner, Button, Text,
+  Container, Content, Icon, Spinner, Button, Text, Tabs, Tab,
   Header, Left, Body, Title, Right
 } from 'native-base';
 import { connect } from "react-redux";
@@ -33,7 +33,18 @@ class Accounts extends React.Component {
             <Text style={appStyles.subheadingText}>{language.accountsSub}</Text>
           </View>
           <Content enableOnAndroid style={appStyles.content}>
-            <View style={appStyles.contentBg}>
+            <View style={appStyles.contentBgAccount}>
+              <Tabs>
+                <Tab heading="Tab1">
+                  <Text>Tab 1111</Text>
+                </Tab>
+                <Tab heading="Tab2">
+                  <Text>Tab 2222</Text>
+                </Tab>
+                <Tab heading="Tab3">
+                  <Text>Tab 3333</Text>
+                </Tab>
+              </Tabs>
             </View>
           </Content>
          </ImageBackground>

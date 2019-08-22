@@ -22,7 +22,7 @@ export default {
   },
   Accounts : {
     route: 'Accounts',
-    icon:'inbox',
+    icon:'accounts',
     label: Strings.accounts,
   },
   Settings : {

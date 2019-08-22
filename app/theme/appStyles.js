@@ -47,6 +47,11 @@ export default StyleSheet.create({
     flex:1,
     height: Layout.window.height-145,
   },
+  contentBgAccount:{
+    backgroundColor: Colors.white,
+    flex:1,
+    height: Layout.window.height-145,
+  },
   heading:{
     height:40,
     paddingLeft: Layout.indent,
@@ -196,15 +201,15 @@ export default StyleSheet.create({
   },
   loaderLogo: {
     height: 68, 
-    // width: 220
-    width: 70
+    width: 220
+    // width: 70
   },
   loginLogo: {
-    // marginTop: Layout.sixIndent,
-    // width: 220
+    marginTop: Layout.sixIndent,
+    width: 220,
     height: 68, 
-    marginTop: Layout.fourIndent,
-    width: 80
+    // marginTop: Layout.fourIndent,
+    // width: 80
   },
 
   loginMidText:{
