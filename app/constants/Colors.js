@@ -12,6 +12,7 @@ export default {
   lightWhite:'#dfdfdf',
   black:'#000000',
   lightBlack:'#333333',
+  lightBlack1:'#666666',
   red:'#ee0701',
 
   icon: '#000000',

@@ -21,6 +21,8 @@ export default[
 		accounts: 'Accounts',
 		accountsSub: 'Manage your accounts',
 		settings: 'Settings',
+		bankacc: 'Bank Accounts',
+		wallets: 'Wallets',
 
 		// App intro sliders
 		slide1Title: 'TRACK YOUR MONEY',
@@ -58,6 +60,8 @@ export default[
 		accounts: 'கணக்குகள்',
 		accountsSub: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
 		settings: 'அமைப்புகள்',
+		bankacc: 'வங்கி கணக்குகள்',
+		wallets: 'பணப்பைகள்',
 
 		// App intro sliders
 		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',

@@ -35,30 +35,46 @@ export default StyleSheet.create({
     backgroundColor: Colors.secondary,
     fontFamily: 'Font-Regular',
   },
+  myText:{
+    fontFamily: 'Font-Regular',
+  },
+
+
   content:{
     // marginTop: Layout.indent,
-    paddingLeft: Layout.indent,
-    paddingRight: Layout.indent,
+    // paddingLeft: Layout.indent,
+    // paddingRight: Layout.indent,
     flex:1
   },
   contentBg:{
     backgroundColor: Colors.white,
     padding: Layout.indent,
     flex:1,
-    height: Layout.window.height-145,
+    height: Layout.window.height-130,
+  },
+  contentBg60:{
+    height: Layout.window.height-110,
+  },
+  contentBg150:{
+    height: Layout.window.height-240,
   },
   contentBgAccount:{
     backgroundColor: Colors.white,
     flex:1,
-    height: Layout.window.height-145,
+    height: Layout.window.height-240,
   },
-  heading:{
-    height:40,
+  heading50:{
+    height:Layout.moderateScale(50),
     paddingLeft: Layout.indent,
     paddingRight: Layout.indent,
   },
-  headingWithSub:{
-    height:60,
+  heading60:{
+    height:Layout.moderateScale(60),
+    paddingLeft: Layout.indent,
+    paddingRight: Layout.indent,
+  },
+  heading150:{
+    height:Layout.moderateScale(150),
     paddingLeft: Layout.indent,
     paddingRight: Layout.indent,
   },
@@ -189,6 +205,20 @@ export default StyleSheet.create({
     marginTop:-Layout.halfIndent,
     fontFamily:'Font-Regular',
     color: Colors.lightBlack
+  },
+
+  // Account
+  tabBarUnderlineStyle:{
+    backgroundColor: Colors.secondary
+  },
+  tabsAcc:{
+    backgroundColor: Colors.primary,
+  },
+  tabStyleAcc:{
+    width:'50%'
+  },
+  accList:{
+    backgroundColor: 'transparent'
   },
 
 
