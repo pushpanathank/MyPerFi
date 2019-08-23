@@ -24,6 +24,10 @@ export default[
 		bankacc: 'Bank Accounts',
 		wallets: 'Wallets',
 
+		// Settings page
+		chooseLang: 'Choose Language',
+		chooseCurr: 'Choose Currency',
+
 		// App intro sliders
 		slide1Title: 'TRACK YOUR MONEY',
 		slide1Text: 'It helps you to track your\nexpenses quickly and easily.',
@@ -62,6 +66,10 @@ export default[
 		settings: 'அமைப்புகள்',
 		bankacc: 'வங்கி கணக்குகள்',
 		wallets: 'பணப்பைகள்',
+
+		// Settings page
+		chooseLang: 'Choose Language',
+		chooseCurr: 'Choose Currency',
 
 		// App intro sliders
 		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',

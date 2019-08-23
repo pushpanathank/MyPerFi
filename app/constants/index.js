@@ -5,4 +5,6 @@ import Screens from "./Screens";
 import Strings from "./Strings";
 import IconList from "./IconList";
 
-export { Colors, Layout, ActionTypes, Screens, Strings, IconList };
+import * as theme from './Theme';
+
+export { theme, Colors, Layout, ActionTypes, Screens, Strings, IconList };

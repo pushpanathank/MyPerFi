@@ -38,6 +38,9 @@ export default StyleSheet.create({
   myText:{
     fontFamily: 'Font-Regular',
   },
+  padding:{
+    padding: Layout.indent,
+  },
 
 
   content:{
@@ -48,7 +51,6 @@ export default StyleSheet.create({
   },
   contentBg:{
     backgroundColor: Colors.white,
-    padding: Layout.indent,
     flex:1,
     height: Layout.window.height-130,
   },
