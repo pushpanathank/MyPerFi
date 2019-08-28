@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 
 import Block from './Block';
-import { theme } from '../constants';
+import { Theme } from '../constants';
 
 export default class Card extends Component {
   render() {
@@ -13,7 +13,7 @@ export default class Card extends Component {
     ];
 
     return (
-      <Block color={color || theme.colors.white} style={cardStyles} {...props}>
+      <Block color={color || Theme.colors.white} style={cardStyles} {...props}>
         {children}
       </Block>
     )
@@ -22,8 +22,8 @@ export default class Card extends Component {
 
 export const styles = StyleSheet.create({
   card: {
-    borderRadius: theme.sizes.radius,
-    padding: theme.sizes.base + 4,
-    marginBottom: theme.sizes.base,
+    borderRadius: Theme.sizes.radius,
+    padding: Theme.sizes.base + 4,
+    marginBottom: Theme.sizes.base,
   },
 })

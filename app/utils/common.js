@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toast, Icon } from 'native-base';
-import { Strings } from '../constants';
+import { Strings, Account } from '../constants';
 
 const showToast = (msg,type) => {
 	if(msg=='') return;
@@ -31,8 +31,13 @@ const getLanguage = (code) =>{
 	return Strings[code||0];
 }
 
+const getCurrencySymbol = (code) =>{
+	return Account.currencies[code||'inr'];
+}
+
 export {
 	getLanguage,
+	getCurrencySymbol,
 	showToast,
 	getCurrentRoute,
 	getFontIcon

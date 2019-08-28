@@ -8,14 +8,7 @@ const auth = (state = initialState.auth, action) => {
     case ActionTypes.RESETSTATE: {
       return initialState.auth
     }
-    case ActionTypes.LANGUAGECODE: {
-      return {
-        ...state,
-        language: action.language,
-        languageId: action.languageId,
-        languageSet: action.languageSet,
-      }
-    }
+  
     case ActionTypes.SHOWINTRO: {
       return {
         ...state,

@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import Modal from 'react-native-modal';
 
 import { ActionTypes, Strings, Colors } from '../constants';
-import * as userActions from "../actions/user";
+import { settingActions } from "../actions";
 import appStyles from '../theme/appStyles';
 
 class SetLanguage extends React.Component {
@@ -53,13 +53,13 @@ class SetLanguage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    languageId: state.auth.languageId || 0,
+    languageId: state.settings.languageId || 0,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      setLanguage: (value) => dispatch(userActions.setLanguage({id:value,set:1})),
+      setLanguage: (value) => dispatch(settingActions.setLanguage({id:value,set:1})),
     };
 };
 

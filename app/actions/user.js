@@ -53,7 +53,3 @@ export const forgotpassword = payloads => dispatch => {
     })  
 }
 
-export const setLanguage = payloads => dispatch => {
-  dispatch({ type: ActionTypes.SHOWMODAL, showModal: false });
-  return dispatch({ type: ActionTypes.LANGUAGECODE, language: getLanguage(payloads.id), languageId: payloads.id ,languageSet: payloads.set });
-}

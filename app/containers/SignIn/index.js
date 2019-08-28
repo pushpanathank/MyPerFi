@@ -21,7 +21,7 @@ import * as Animatable from 'react-native-animatable';
 import { Layout, Colors, Screens, ActionTypes } from '../../constants';
 import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro } from '../../components';
 import imgs from '../../assets/images';
-import * as userActions from "../../actions/user";
+import { userActions, settingActions } from "../../actions";
 import { showToast } from '../../utils/common';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
@@ -171,8 +171,8 @@ const mapStateToProps = (state) => {
     showIntro: state.auth.showIntro,
     isLoading: state.common.isLoading,
     user: state.auth.user,
-    language: state.auth.language,
-    languageSet: state.auth.languageSet || 0,
+    language: state.settings.language,
+    languageSet: state.settings.languageSet || 0,
   };
 };
 
@@ -181,9 +181,12 @@ const mapDispatchToProps = (dispatch) => {
   // Action
     return {
       pressSignin: () => dispatch(submit('signinForm')),
-      setLanguage: () => dispatch(userActions.setLanguage({id:1,set:1})),
+      setLanguage: () => dispatch(settingActions.setLanguage({id:1,set:1})),
       showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true }),
-      resetState: () => dispatch({ type: ActionTypes.RESETSTATE })
+      resetState: () => {
+        dispatch(settingActions.setLanguage({id:0,set:0}))
+        dispatch({ type: ActionTypes.RESETSTATE })
+      }
    };
 };
 

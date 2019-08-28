@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
 
-import { theme } from '../constants';
+import { Theme } from '../constants';
 
 export default class Block extends Component {
   handleMargins() {
@@ -170,7 +170,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   card: {
-    borderRadius: theme.sizes.radius,
+    borderRadius: Theme.sizes.radius,
   },
   center: {
     alignItems: 'center',
@@ -183,6 +183,7 @@ export const styles = StyleSheet.create({
   },
   right: {
     justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   top: {
     justifyContent: 'flex-start',
@@ -191,18 +192,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   shadow: {
-    shadowColor: theme.colors.black,
+    shadowColor: Theme.colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 13,
     elevation: 2,
   },
-  accent: { backgroundColor: theme.colors.accent, },
-  primary: { backgroundColor: theme.colors.primary, },
-  secondary: { backgroundColor: theme.colors.secondary, },
-  tertiary: { backgroundColor: theme.colors.tertiary, },
-  black: { backgroundColor: theme.colors.black, },
-  white: { backgroundColor: theme.colors.white, },
-  gray: { backgroundColor: theme.colors.gray, },
-  gray2: { backgroundColor: theme.colors.gray2, },
+  accent: { backgroundColor: Theme.colors.accent, },
+  primary: { backgroundColor: Theme.colors.primary, },
+  secondary: { backgroundColor: Theme.colors.secondary, },
+  tertiary: { backgroundColor: Theme.colors.tertiary, },
+  black: { backgroundColor: Theme.colors.black, },
+  white: { backgroundColor: Theme.colors.white, },
+  gray: { backgroundColor: Theme.colors.gray, },
+  gray2: { backgroundColor: Theme.colors.gray2, },
 })

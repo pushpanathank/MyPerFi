@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Layout } from '../constants/';
+import { Colors, Layout, Theme } from '../constants/';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.colors.primary,
   },
   statusBar:{
     flex: 1,
-    height:Layout.statusBarHeight
+    height:Theme.sizes.statusBarHeight
   },
   row: {
     flex: 1,
@@ -32,64 +32,67 @@ export default StyleSheet.create({
     fontFamily: 'Font-Regular',
   },
   btnSecontary:{
-    backgroundColor: Colors.secondary,
+    backgroundColor: Theme.colors.secondary,
     fontFamily: 'Font-Regular',
   },
   myText:{
     fontFamily: 'Font-Regular',
   },
   padding:{
-    padding: Layout.indent,
+    padding: Theme.sizes.indent,
   },
 
 
   content:{
-    // marginTop: Layout.indent,
-    // paddingLeft: Layout.indent,
-    // paddingRight: Layout.indent,
+    // marginTop: Theme.sizes.indent,
+    // paddingLeft: Theme.sizes.indent,
+    // paddingRight: Theme.sizes.indent,
     flex:1
   },
   contentBg:{
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.colors.white,
     flex:1,
-    height: Layout.window.height-130,
+    height: Theme.sizes.window.height-130,
   },
   contentBg60:{
-    height: Layout.window.height-110,
+    height: Theme.sizes.window.height-110,
+  },
+  contentBg100:{
+    height: Theme.sizes.window.height-190,
   },
   contentBg150:{
-    height: Layout.window.height-240,
-  },
-  contentBgAccount:{
-    backgroundColor: Colors.white,
-    flex:1,
-    height: Layout.window.height-240,
+    height: Theme.sizes.window.height-240,
   },
   heading50:{
-    height:Layout.moderateScale(50),
-    paddingLeft: Layout.indent,
-    paddingRight: Layout.indent,
+    height:Theme.sizes.moderateScale(50),
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
   },
   heading60:{
-    height:Layout.moderateScale(60),
-    paddingLeft: Layout.indent,
-    paddingRight: Layout.indent,
+    height:Theme.sizes.moderateScale(60),
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
+  },
+  heading100:{
+    height:Theme.sizes.moderateScale(100),
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
   },
   heading150:{
-    height:Layout.moderateScale(150),
-    paddingLeft: Layout.indent,
-    paddingRight: Layout.indent,
+    height:Theme.sizes.moderateScale(150),
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
   },
   headingText:{
-    color: Colors.white,
-    fontSize: Layout.moderateScale(25),
+    color: Theme.colors.white,
+    fontSize: Theme.sizes.moderateScale(25),
     fontFamily: 'Font-Light',
   },
   subheadingText:{
-    color: Colors.white,
-    fontSize: Layout.moderateScale(14),
+    color: Theme.colors.white,
+    fontSize: Theme.sizes.moderateScale(14),
     fontFamily: 'Font-Light',
-    color: Colors.lightWhite
+    color: Theme.colors.lightWhite
   },
 
   setLanguage: {
@@ -114,24 +117,24 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.5)',
     width: '50%',
     marginLeft: '25%',
-    marginBottom: Layout.halfIndent,
+    marginBottom: Theme.sizes.indenthalf,
   },
   introLangBtnActive:{
-    backgroundColor: Colors.secondary,
+    backgroundColor: Theme.colors.secondary,
   },
   // Slider
   slide:{
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.colors.primary,
     flex:1
   },
   slideTitle:{
-    color: Colors.white,
+    color: Theme.colors.white,
     fontSize: 30,
     textAlign:'center',
   },
   slideText:{
     textAlign:'center',
-    color: Colors.lightWhite
+    color: Theme.colors.lightWhite
   },
   slideImage: {
     width: 300,
@@ -139,23 +142,23 @@ export default StyleSheet.create({
   },
   slideIcon: {
     backgroundColor: 'transparent', 
-    color: Colors.white
+    color: Theme.colors.white
   },
   buttonCircle: {
     width: 40,
     height: 40,
-    color: Colors.white,
+    color: Theme.colors.white,
     backgroundColor: 'rgba(0, 0, 0, .2)',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   activeDotStyle:{
-    backgroundColor: Colors.secondary
+    backgroundColor: Theme.colors.secondary
   },
 
   menuBtn:{
-    padding: Layout.indent
+    padding: Theme.sizes.indent
   },
   drawerList:{
     margin:0,
@@ -166,36 +169,36 @@ export default StyleSheet.create({
     padding:0
   },
   drawerIcon:{
-    paddingRight: Layout.indent,
+    paddingRight: Theme.sizes.indent,
   },
   drawerText:{
     fontSize: 14, 
-    color: Colors.black,
-    paddingLeft: Layout.indent,
+    color: Theme.colors.black,
+    paddingLeft: Theme.sizes.indent,
     fontFamily: 'Font-Regular',
-    color: Colors.lightBlack
+    color: Theme.colors.lightBlack
   },
   profileName:{
-    color: Colors.white,
+    color: Theme.colors.white,
     fontSize: 22
   },
   profileEmail:{
-    color: Colors.lightWhite,
+    color: Theme.colors.lightWhite,
     fontSize: 14
   },
   activeDrawerItem:{
-    // backgroundColor: Colors.primaryLight
+    // backgroundColor: Theme.colors.primaryLight
   },
 
   iconList:{
     justifyContent: 'space-around',
   },
   iconListItem:{
-    width: Layout.bigIconSize,
-    height:Layout.bigIconSize,
+    width: Theme.sizes.bigIconSize,
+    height:Theme.sizes.bigIconSize,
     borderRadius:25,
     padding:0,
-    margin:Layout.indent, 
+    margin:Theme.sizes.indent, 
     justifyContent:'center',
   },
   iconListSingle:{
@@ -204,17 +207,17 @@ export default StyleSheet.create({
   iconListText:{
     textAlign:'center',
     fontSize:10,
-    marginTop:-Layout.halfIndent,
+    marginTop:-Theme.sizes.indenthalf,
     fontFamily:'Font-Regular',
-    color: Colors.lightBlack
+    color: Theme.colors.lightBlack
   },
 
   // Account
   tabBarUnderlineStyle:{
-    backgroundColor: Colors.secondary
+    backgroundColor: Theme.colors.secondary
   },
   tabsAcc:{
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.colors.primary,
   },
   tabStyleAcc:{
     width:'50%'
@@ -237,10 +240,10 @@ export default StyleSheet.create({
     // width: 70
   },
   loginLogo: {
-    marginTop: Layout.sixIndent,
+    marginTop: Theme.sizes.indent6x,
     width: 220,
     height: 68, 
-    // marginTop: Layout.fourIndent,
+    // marginTop: Theme.sizes.fourIndent,
     // width: 80
   },
 
@@ -249,22 +252,22 @@ export default StyleSheet.create({
     fontFamily: 'Font-Light',
     marginLeft: 40,
     marginRight: 40,
-    marginTop: -Layout.doubleIndent,
-    color:Colors.lightWhite
+    marginTop: -Theme.sizes.indent2x,
+    color:Theme.colors.lightWhite
   },
   loginTitle:{
     fontSize: 30,
-    color:Colors.white,
-    marginLeft: Layout.indent,
+    color:Theme.colors.white,
+    marginLeft: Theme.sizes.indent,
     textAlign:'center',
     fontFamily: 'Font-Regular',
   },
   loginBack:{
-    marginTop:Layout.doubleIndent,
+    marginTop:Theme.sizes.indent2x,
     justifyContent:'flex-start',
   },
   loginBackIcon:{
-    color: Colors.white
+    color: Theme.colors.white
   },
 
   // Input
@@ -273,19 +276,19 @@ export default StyleSheet.create({
   },
   textbox:{
     marginTop:15,
-    color: Colors.white,
+    color: Theme.colors.white,
     width:100,
-    paddingLeft:Layout.indent,
-    paddingRight:Layout.indent,
+    paddingLeft:Theme.sizes.indent,
+    paddingRight:Theme.sizes.indent,
     fontFamily: 'Font-Regular',
     fontSize:14
   },
   inputIcon:{
-    marginTop: Layout.indent,
-    marginLeft: Layout.indent,
+    marginTop: Theme.sizes.indent,
+    marginLeft: Theme.sizes.indent,
   },
   inputError:{
-    color: Colors.red,
+    color: Theme.colors.red,
     top:20,
     fontSize:12
   }

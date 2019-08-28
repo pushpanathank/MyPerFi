@@ -56,6 +56,7 @@ export default class App extends React.Component {
       'Font-Regular': require('./app/assets/fonts/Montserrat-Regular.ttf'),
       'Font-Semibold': require('./app/assets/fonts/Montserrat-SemiBold.ttf'),
       'Font-Bold': require('./app/assets/fonts/Montserrat-Bold.ttf'),
+      'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
     });
     this.setState({isReady: true});
   }

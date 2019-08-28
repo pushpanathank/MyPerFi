@@ -1,9 +1,12 @@
-import {Colors,Layout} from '../../constants/';
+import { Theme } from '../../constants/';
 export default {
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: Theme.sizes.indent
   },
+  picker:{
+  	height: 25, width: 100
+  },
+  pickerItem:{
+  	height: 25,
+  }
 };

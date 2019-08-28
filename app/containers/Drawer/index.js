@@ -103,7 +103,7 @@ const mapStateToProps = (state) => {
   return {
     state: state,
     user: state.auth.user,
-    language: state.auth.language,
+    language: state.settings.language,
   };
 };
 

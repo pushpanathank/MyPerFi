@@ -112,7 +112,7 @@ class SignUp extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoading: state.common.isLoading,
-    language: state.auth.language,
+    language: state.settings.language,
   };
 };
 

@@ -94,7 +94,7 @@ class AppIntro extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    language: state.auth.language,
+    language: state.settings.language,
     showIntro: state.auth.showIntro
   };
 };

@@ -15,18 +15,22 @@ export default[
 		signup: 'Sign Up',
 		reset: 'Reset',
 		logout: 'Logout',
+		current: 'Current',
 
 		home: 'Home',
 		categories: 'Categories',
-		accounts: 'Accounts',
-		accountsSub: 'Manage your accounts',
-		settings: 'Settings',
 		bankacc: 'Bank Accounts',
 		wallets: 'Wallets',
 
 		// Settings page
+		settings: 'Settings',
 		chooseLang: 'Choose Language',
 		chooseCurr: 'Choose Currency',
+
+		// Accounts page
+		accounts: 'Accounts',
+		accountsSub: 'Manage your accounts',
+		totalBalance: 'Total Balance',
 
 		// App intro sliders
 		slide1Title: 'TRACK YOUR MONEY',
@@ -41,6 +45,11 @@ export default[
 		notValid: 'is not valid',
 		tooShort: 'Minimum {count, number} chars required',
 		doesntMatch: 'doesn\'t match',
+
+		// Currency
+		inr: 'Rupees',
+		usd: 'Dollar',
+		euro: 'Euro'
 	},
 	{
 		id: 1,
@@ -58,18 +67,22 @@ export default[
 		signup: 'பதிவு செய்',
 		reset: 'மீட்டமை',
 		logout: 'வெளியேறு',
+		current: 'தற்போதைய',
 
 		home: 'முகப்பு',
 		categories: 'வகைகள்',
-		accounts: 'கணக்குகள்',
-		accountsSub: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
-		settings: 'அமைப்புகள்',
 		bankacc: 'வங்கி கணக்குகள்',
 		wallets: 'பணப்பைகள்',
 
 		// Settings page
-		chooseLang: 'Choose Language',
-		chooseCurr: 'Choose Currency',
+		settings: 'அமைப்புகள்',
+		chooseLang: 'மொழியைத் தேர்வுசெய்க',
+		chooseCurr: 'நாணயத்தைத் தேர்வுசெய்க',
+
+		// Accounts page
+		accounts: 'கணக்குகள்',
+		accountsSub: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
+		totalBalance: 'மொத்த இருப்பு',
 
 		// App intro sliders
 		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',
@@ -84,5 +97,10 @@ export default[
 		notValid: 'சரியானது அல்ல',
 		tooShort: 'குறைந்தபட்சம் {count, number} எழுத்துகள் தேவை',
 		doesntMatch: 'பொருந்தவில்லை',
+
+		// Currency
+		inr: 'ரூபாய்',
+		usd: 'டாலர்',
+		euro: 'யூரோ'
 	}
 ];

@@ -5,7 +5,7 @@ import { Icon } from 'expo';
 import Text from './Text';
 import Block from './Block';
 import Button from './Button';
-import { theme } from '../constants';
+import { Theme } from '../constants';
 
 export default class Input extends Component {
   state = {
@@ -36,8 +36,8 @@ export default class Input extends Component {
         {
           rightLabel ? rightLabel :
             <Icon.Ionicons
-              color={theme.colors.gray}
-              size={theme.sizes.font * 1.35}
+              color={Theme.colors.gray}
+              size={Theme.sizes.font * 1.35}
               name={!toggleSecure ? "md-eye" : "md-eye-off"}
           />
         }
@@ -76,7 +76,7 @@ export default class Input extends Component {
 
     const inputStyles = [
       styles.input,
-      error && { borderColor: theme.colors.accent },
+      error && { borderColor: Theme.colors.accent },
       style,
     ];
 
@@ -86,7 +86,7 @@ export default class Input extends Component {
       ? 'phone-pad' : 'default';
 
     return (
-      <Block flex={false} margin={[theme.sizes.base, 0]}>
+      <Block flex={false} margin={[Theme.sizes.base, 0]}>
         {this.renderLabel()}
         <TextInput
           style={inputStyles}
@@ -107,19 +107,19 @@ export default class Input extends Component {
 const styles = StyleSheet.create({
   input: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.black,
-    borderRadius: theme.sizes.radius,
-    fontSize: theme.sizes.font,
+    borderColor: Theme.colors.black,
+    borderRadius: Theme.sizes.radius,
+    fontSize: Theme.sizes.font,
     fontWeight: '500',
-    color: theme.colors.black,
-    height: theme.sizes.base * 3,
+    color: Theme.colors.black,
+    height: Theme.sizes.base * 3,
   },
   toggle: {
     position: 'absolute',
     alignItems: 'flex-end',
-    width: theme.sizes.base * 2,
-    height: theme.sizes.base * 2,
-    top: theme.sizes.base,
+    width: Theme.sizes.base * 2,
+    height: Theme.sizes.base * 2,
+    top: Theme.sizes.base,
     right: 0,
   }
 });

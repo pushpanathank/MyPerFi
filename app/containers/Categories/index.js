@@ -51,7 +51,7 @@ class Categories extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    language: state.auth.language,
+    language: state.settings.language,
   };
 };
 

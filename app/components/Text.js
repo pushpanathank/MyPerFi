@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Text, StyleSheet } from "react-native";
 
-import { theme } from "../constants";
+import { Theme } from "../constants";
 
 export default class Typography extends Component {
   render() {
@@ -10,6 +10,8 @@ export default class Typography extends Component {
       h1,
       h2,
       h3,
+      h4,
+      h5,
       title,
       body,
       caption,
@@ -48,6 +50,8 @@ export default class Typography extends Component {
       h1 && styles.h1,
       h2 && styles.h2,
       h3 && styles.h3,
+      h4 && styles.h4,
+      h5 && styles.h5,
       title && styles.title,
       body && styles.body,
       caption && styles.caption,
@@ -90,43 +94,46 @@ export default class Typography extends Component {
 const styles = StyleSheet.create({
   // default style
   text: {
-    fontSize: theme.sizes.font,
-    color: theme.colors.black
+    fontFamily: 'Font-Regular',
+    fontSize: Theme.sizes.font,
+    color: Theme.colors.black
   },
   // variations
   regular: {
-    fontWeight: "normal",
+    fontFamily: 'Font-Regular',
   },
   bold: {
-    fontWeight: "bold",
+    fontFamily: 'Font-Bold',
   },
   semibold: {
-    fontWeight: "500",
+    fontFamily: 'Font-Semibold',
   },
   medium: {
-    fontWeight: "500",
+    fontFamily: 'Font-Regular',
   },
   light: {
-    fontWeight: "200",
+    fontFamily: 'Font-Light',
   },
   // position
   center: { textAlign: "center" },
   right: { textAlign: "right" },
   // colors
-  accent: { color: theme.colors.accent },
-  primary: { color: theme.colors.primary },
-  secondary: { color: theme.colors.secondary },
-  tertiary: { color: theme.colors.tertiary },
-  black: { color: theme.colors.black },
-  white: { color: theme.colors.white },
-  gray: { color: theme.colors.gray },
-  gray2: { color: theme.colors.gray2 },
+  accent: { color: Theme.colors.accent },
+  primary: { color: Theme.colors.primary },
+  secondary: { color: Theme.colors.secondary },
+  tertiary: { color: Theme.colors.tertiary },
+  black: { color: Theme.colors.black },
+  white: { color: Theme.colors.white },
+  gray: { color: Theme.colors.gray },
+  gray2: { color: Theme.colors.gray2 },
   // fonts
-  h1: theme.fonts.h1,
-  h2: theme.fonts.h2,
-  h3: theme.fonts.h3,
-  title: theme.fonts.title,
-  body: theme.fonts.body,
-  caption: theme.fonts.caption,
-  small: theme.fonts.small
+  h1: Theme.fonts.h1,
+  h2: Theme.fonts.h2,
+  h3: Theme.fonts.h3,
+  h4: Theme.fonts.h4,
+  h5: Theme.fonts.h5,
+  title: Theme.fonts.title,
+  body: Theme.fonts.body,
+  caption: Theme.fonts.caption,
+  small: Theme.fonts.small
 });

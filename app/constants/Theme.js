@@ -1,3 +1,18 @@
+import { Platform, Dimensions, StatusBar } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+const guidelineBaseWidth = 350;
+const guidelineBaseHeight = 680;
+const baseSize = 16;
+
+const scale = size => Math.round(width / guidelineBaseWidth * size);
+const verticalScale = size => Math.round(height / guidelineBaseHeight * size);
+const moderateScale = (size, factor = 0.5) =>
+  Math.round(size + (scale(size) - size) * factor);
+
+const indent = moderateScale(baseSize);
+
 const colors = {
 
   primary: '#7f71e7',
@@ -23,19 +38,46 @@ const colors = {
 
 const sizes = {
   // global sizes
-  base: 16,
+  base: baseSize,
   font: 14,
   radius: 0,
   padding: 25,
 
   // font sizes
-  h1: 26,
-  h2: 20,
-  h3: 18,
+  h1: 36,
+  h2: 31,
+  h3: 26,
+  h4: 20,
+  h5: 18,
   title: 18,
   header: 16,
   body: 14,
   caption: 12,
+
+  // General
+  window: {
+    width,
+    height,
+  },
+  statusBarHeight:Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+  scale,
+  verticalScale,
+  moderateScale,
+  indent,
+  indenthalf:moderateScale(indent / 2),
+  indent2x:moderateScale(indent * 2),
+  indent3x:moderateScale(indent * 3),
+  indent4x:moderateScale(indent * 4),
+  indent5x:moderateScale(indent * 5),
+  indent6x:moderateScale(indent * 6),
+  indentY:verticalScale(indent),
+  indentYhalf:verticalScale(indent / 2),
+  indentY2x:verticalScale(indent * 2),
+  indentY3x:verticalScale(indent * 3),
+  indentY4x:verticalScale(indent * 4),
+  iconSize:moderateScale(baseSize,2),
+  bigIconSize:moderateScale(baseSize,3),
+  isSmallDevice: width < 375,
 };
 
 const fonts = {
@@ -61,5 +103,6 @@ const fonts = {
     fontSize: sizes.caption
   },
 };
+
 
 export { colors, sizes, fonts };

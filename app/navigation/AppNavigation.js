@@ -50,7 +50,7 @@ const DrawerStack = createDrawerNavigator({
     screen: Settings 
   },
 }, {
-  initialRouteName: Screens.Settings.route,
+  initialRouteName: Screens.Accounts.route,
   gesturesEnabled: true,
   // drawerBackgroundColor: 'rgba(255,255,255,.9)',
   drawerType: 'front',

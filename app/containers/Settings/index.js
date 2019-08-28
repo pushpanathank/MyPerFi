@@ -1,15 +1,15 @@
 import React from 'react'
-import { ActivityIndicator, StyleSheet, View, ImageBackground, FlatList} from 'react-native'
+import { ActivityIndicator, StyleSheet, View, ImageBackground, FlatList, ScrollView, Picker} from 'react-native'
 import _ from 'lodash'; 
-import { Layout, Colors, Screens, Strings } from '../../constants';
+import { Layout, Colors, Screens, Strings, Account } from '../../constants';
 import { Logo, Svgicon, Headers, IconList, MyText, Button, Block, Input, Text } from '../../components';
 import imgs from '../../assets/images';
 import {
   Container, Content, Icon, Spinner,
-  Header, Left, Body, Title, Right, List, ListItem, Item, Picker
+  Header, Left, Body, Title, Right, List, ListItem, Item
 } from 'native-base';
 import { connect } from "react-redux";
-import * as userActions from "../../actions/user";
+import { userActions, settingActions } from "../../actions";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -29,6 +29,7 @@ class Settings extends React.Component {
   
   render(){
     const {language} = this.props;
+    console.log("language", language);
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
@@ -38,54 +39,56 @@ class Settings extends React.Component {
           <View style={[appStyles.heading50]}>
             <Text style={appStyles.headingText}>{language.settings}</Text>
           </View>
-          <Content enableOnAndroid style={[appStyles.contentBg]}>
-            <List>
-              <ListItem transparent noIndent 
-                  onPress={() => this.props.selectedColor()}>                                
-                  <Body>
-                    <MyText text={language.chooseLang} />
-                  </Body>
-                  <Right>
-                    <MyText text={'Estimated Bal'} size={11} color={Colors.lightBlack1}/>
-                  </Right>
-              </ListItem>
-              <ListItem transparent noIndent 
-                  onPress={() => this.props.selectedColor()}>                                
-                  <Body>
-                    <MyText text={language.chooseCurr} />
-                  </Body>
-                  <Right>
-                    <MyText text={'Estimated Bal'} size={11} color={Colors.lightBlack1}/>
-                  </Right>
-              </ListItem>
-
-              <ListItem>
-                <Item picker>
-                  <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="arrow-down" />}
-                    style={{ width: undefined }}
-                    placeholder="Select your SIM"
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                    selectedValue={this.state.selected2}
-                    onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    <Picker.Item label="Wallet" value="key0" />
-                    <Picker.Item label="ATM Card" value="key1" />
-                    <Picker.Item label="Debit Card" value="key2" />
-                    <Picker.Item label="Credit Card" value="key3" />
-                    <Picker.Item label="Net Banking" value="key4" />
-                  </Picker>
-                </Item>
-              </ListItem>
-            </List>
-
-            <Button onPress={() => this.handleLogin()} color="secondary">
-              <Text bold white center>Login</Text>
-            </Button>
-
-          </Content>
+            <ScrollView showsVerticalScrollIndicator={false} style={[appStyles.contentBg,styles.container]}>
+              <Block style={styles.inputs}>
+                <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
+                  <Block>
+                    <Text style={{ marginBottom: 10 }}>{language.chooseLang}</Text>
+                  </Block>
+                  <Block right>
+                    <Picker
+                      selectedValue={this.props.languageId}
+                      style={styles.picker}
+                      itemStyle={styles.pickerItem}
+                      onValueChange={(itemValue, itemIndex) =>{
+                        this.props.setLanguage(itemValue)
+                      }
+                      }>
+                      {
+                        Strings.map((value, index) => {
+                          return (
+                            <Picker.Item key={index} label={value.lang} value={index} />
+                            );
+                        })
+                      }
+                    </Picker>
+                  </Block>
+                </Block>
+                <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
+                  <Block>
+                    <Text style={{ marginBottom: 10 }}>{language.chooseCurr}</Text>
+                  </Block>
+                  <Block right>
+                    <Picker
+                      selectedValue={this.props.currency}
+                      style={styles.picker}
+                      itemStyle={styles.pickerItem}
+                      onValueChange={(itemValue, itemIndex) =>{
+                        this.props.setCurrency(itemValue)
+                      }
+                      }>
+                      {
+                        Object.keys(Account.currencies).map((key) => {
+                          return (
+                            <Picker.Item key={key} label={`${Account.currencies[key]} - ${language[key]}`} value={key} />
+                            );
+                        })
+                      }
+                    </Picker>
+                  </Block>
+                </Block>
+              </Block>
+            </ScrollView>
          </ImageBackground>
       </Container>
      
@@ -93,14 +96,19 @@ class Settings extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+    console.log("state.settings.language", state.settings.language);
   return {
     user: state.auth.user,
-    language: state.auth.language,
+    currency: state.settings.currency,
+    language: state.settings.language,
+    languageId: state.settings.languageId || 0,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+      setLanguage: (value) => dispatch(settingActions.setLanguage({id:value,set:1})),
+      setCurrency: (value) => dispatch(settingActions.setCurrency(value)),
       logout: () => dispatch(userActions.logoutUser()),
    };
 };

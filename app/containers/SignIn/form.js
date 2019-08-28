@@ -48,7 +48,7 @@ const signinform = reduxForm({
 
 const mapStateToProps = (state) => {
   return {
-    language: state.auth.language,
+    language: state.settings.language,
   };
 };
 

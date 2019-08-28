@@ -21,6 +21,7 @@ import Text from "./Text";
 import Progress from "./Progress";
 import Divider from "./Divider";
 import Switch from "./Switch";
+import CurrencySymbol from "./CurrencySymbol";
 
 export { 
 	Loader, 
@@ -37,5 +38,6 @@ export {
 	IconList, 
 	MyText, 
 
-	Block, Badge, Button, Card, Input, Text, Progress, Divider, Switch
+	Block, Badge, Button, Card, Input, Text, Progress, Divider, Switch,
+	CurrencySymbol
 };
