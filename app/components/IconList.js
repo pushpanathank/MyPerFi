@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
@@ -10,8 +10,9 @@ import {
 } from 'native-base';
 
 import appStyles from '../theme/appStyles';
-import { Colors, Layout, ActionTypes, IconList as iconList } from '../constants';
+import { Colors, Layout, ActionTypes, IconList as iconList, Theme } from '../constants';
 import Svgicon from './Svgicon';
+import Block from './Block';
 
 class IconList extends React.Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class IconList extends React.Component {
     };
   }
   searchFilterFunction = text => {
-    console.log("text", text);
     this.setState({
       value: text,
     });
@@ -36,43 +36,50 @@ class IconList extends React.Component {
       data: newData,
     });
   };
+  clear = ()=>{
+    this.setState({
+      value: '',
+    });
+  }
   render() {
     return (
-        <View>
-          <Item>
-            <Svgicon name='search' color={Colors.lightBlack} width={20} height={20}/>
-            <Input 
-              placeholder="Search"
-              onChangeText={text => this.searchFilterFunction(text)}
-              style={{paddingLeft:Layout.indent, paddingRight:Layout.indent}}
-            />
-            <Svgicon name='close' color={Colors.lightBlack} width={30} height={30}/>
-          </Item>
-          <List
-              dataArray={this.state.data}
-              keyExtractor={(item, index) => index.toString()} 
-              contentContainerStyle={appStyles.iconList}
-              horizontal={false}
-              numColumns={4}
-              renderRow={(data) => {
-                return (
+        <Block block padding={Theme.sizes.indent}>
+            <Item>
+              <Svgicon name='search' color={Colors.lightBlack} width={20} height={20}/>
+              <Input 
+                placeholder="Search"
+                onChangeText={text => this.searchFilterFunction(text)}
+                style={{paddingLeft:Layout.indent, paddingRight:Layout.indent}}
+              />
+              <TouchableWithoutFeedback onPress={this.clear}>
+                <Svgicon name='close' color={Colors.lightBlack} width={30} height={30}/>
+              </TouchableWithoutFeedback>
+            </Item>
+            <ScrollView showsVerticalScrollIndicator={false} style={[appStyles.contentBg]}>
+              <Block>
+                <FlatList
+                data={this.state.data}
+                numColumns={4}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
                   <View style={{width:'25%'}}>
-                    <Button 
-                    style={[appStyles.iconListItem,{backgroundColor:data.color}]}
-                    onPress={() => this.props.selectedColor(data)}>
-                        <Svgicon 
-                          style={appStyles.iconListSingle} 
-                          color={Colors.white} 
-                          name={data.icon} 
-                          width={22} 
-                          height={22} />
-                    </Button>
-                    <Text style={appStyles.iconListText}>{data.label}</Text>
-                  </View>
-                );
-              }}
-            />
-        </View>
+                          <Button 
+                          style={[appStyles.iconListItem,{backgroundColor:item.color}]}
+                          onPress={() => this.props.selectedColor(item)}>
+                              <Svgicon 
+                                style={appStyles.iconListSingle} 
+                                color={Colors.white} 
+                                name={item.icon} 
+                                width={22} 
+                                height={22} />
+                          </Button>
+                          <Text style={appStyles.iconListText}>{item.label}</Text>
+                        </View>
+                )}
+              />
+            </Block>
+            </ScrollView>
+        </Block>
     );
   }
 }

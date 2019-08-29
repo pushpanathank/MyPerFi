@@ -16,9 +16,10 @@ export default[
 		reset: 'Reset',
 		logout: 'Logout',
 		current: 'Current',
+		income: 'Income',
+		expense: 'Expense',
 
 		home: 'Home',
-		categories: 'Categories',
 		bankacc: 'Bank Accounts',
 		wallets: 'Wallets',
 
@@ -29,8 +30,12 @@ export default[
 
 		// Accounts page
 		accounts: 'Accounts',
-		accountsSub: 'Manage your accounts',
+		manageAcc: 'Manage your accounts',
 		totalBalance: 'Total Balance',
+
+		// Categories page
+		categories: 'Categories',
+		manageCat: 'Manage your categories',
 
 		// App intro sliders
 		slide1Title: 'TRACK YOUR MONEY',
@@ -68,9 +73,10 @@ export default[
 		reset: 'மீட்டமை',
 		logout: 'வெளியேறு',
 		current: 'தற்போதைய',
+		income: 'வருவாய்',
+		expense: 'செலவு',
 
 		home: 'முகப்பு',
-		categories: 'வகைகள்',
 		bankacc: 'வங்கி கணக்குகள்',
 		wallets: 'பணப்பைகள்',
 
@@ -81,8 +87,12 @@ export default[
 
 		// Accounts page
 		accounts: 'கணக்குகள்',
-		accountsSub: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
+		manageAcc: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
 		totalBalance: 'மொத்த இருப்பு',
+
+		// Categories page
+		categories: 'வகைகள்',
+		manageCat: 'உங்கள் வகைகளை நிர்வகிக்கவும்',
 
 		// App intro sliders
 		slide1Title: 'உங்கள் பணத்தை கண்காணிக்கவும்',
