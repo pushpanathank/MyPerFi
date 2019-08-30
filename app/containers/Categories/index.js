@@ -1,14 +1,14 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, Image} from 'react-native'
 import _ from 'lodash'; 
-import { Layout, Colors, Screens } from '../../constants';
-import { Logo, Svgicon, Headers, IconList, Block } from '../../components';
+import { Layout, Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
+import { Logo, Svgicon, Headers, IconList, Block, ModalBox } from '../../components';
 import imgs from '../../assets/images';
 import {
   Container,
   Content,
-  Button,
-  Text, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem, 
+  Button, Icon,
+  Text, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem, Fab,
   Header,
 } from 'native-base';
 import { connect } from "react-redux";
@@ -19,6 +19,9 @@ import styles from './styles';
 class Categories extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visibleIconModal: false
+    }
   }
   setColor(color){
     console.log("color", color);
@@ -29,7 +32,7 @@ class Categories extends React.Component {
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
-            style={ { width: Layout.window.width, height: Layout.window.height }}>
+            style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <Headers {...this.props} />
           <View style={[appStyles.heading60]}>
             <Text style={appStyles.headingText}>{language.categories}</Text>
@@ -47,22 +50,27 @@ class Categories extends React.Component {
                           <Text color='white'>{language.income}</Text>
                       </TabHeading>}>
                         <List
-                        dataArray={[{ key: 'a', value: 'Citibank' }, { key: 'b', value: 'SBI Bank' }, { key: 'c', value: 'IOB' }, { key: 'd', value: 'South Indian Bank' }, { key: 'e', value: 'Pallavan bank' }]}
+                        dataArray={Account.incomeCat}
                         contentContainerStyle={appStyles.accList}
                         keyExtractor={(item, index) => index.toString()} 
                         horizontal={false}
                         renderRow={(data) => {
                           return (
                             <ListItem transparent
-                                onPress={() => this.props.selectedColor(data)}>
-                                <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-                                  <Block>
-                                    <Text>{data.value}</Text>
-                                    <Text caption color='gray2'>x8477</Text>
+                            >
+                                <Block row style={styles.inputRow}>
+                                  <Block style={{flex:1}}>
+                                    <Block middle center style={[appStyles.iconListItem,{backgroundColor:iconList[data].color,margin:0}]}>
+                                      <Svgicon 
+                                        style={appStyles.iconListSingle} 
+                                        color={Theme.colors.white} 
+                                        name={data} 
+                                        width={18} 
+                                        height={18} />
+                                      </Block>
                                   </Block>
-                                  <Block right>
-                                    <Text> 10,000</Text>
-                                    <Text caption color='gray2'>Estimated Bal</Text>
+                                  <Block row left style={{flex:4}}>
+                                    <Text>{language[data]}</Text>
                                   </Block>
                                 </Block>
                             </ListItem>
@@ -77,7 +85,7 @@ class Categories extends React.Component {
                       <Text color='white'>{language.expense}</Text>
                     </TabHeading>}>
                     <List
-                        dataArray={[{ key: 'a', value: 'PayTm' }, { key: 'b', value: 'FreeCharge' }, { key: 'c', value: 'Airtel Money' }, { key: 'd', value: 'MobiKiwik' }]}
+                        dataArray={Account.expenseCat}
                         contentContainerStyle={appStyles.accList}
                         keyExtractor={(item, index) => index.toString()} 
                         horizontal={false}
@@ -85,14 +93,19 @@ class Categories extends React.Component {
                           return (
                             <ListItem transparent
                                 onPress={() => this.props.selectedColor(data)}>
-                                <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-                                  <Block>
-                                    <Text>{data.value}</Text>
-                                    <Text caption color='gray2'>x8477</Text>
+                                <Block row style={styles.inputRow}>
+                                  <Block style={{flex:1}}>
+                                    <Block middle center style={[appStyles.iconListItem,{backgroundColor:iconList[data].color,margin:0}]}>
+                                      <Svgicon 
+                                        style={appStyles.iconListSingle} 
+                                        color={Theme.colors.white} 
+                                        name={data} 
+                                        width={18} 
+                                        height={18} />
+                                      </Block>
                                   </Block>
-                                  <Block right>
-                                    <Text> 10,000</Text>
-                                    <Text caption color='gray2'>Estimated Bal</Text>
+                                  <Block row left style={{flex:4}}>
+                                    <Text>{language[data]}</Text>
                                   </Block>
                                 </Block>
                             </ListItem>
@@ -102,6 +115,23 @@ class Categories extends React.Component {
                   </Tab>
               </Tabs> 
             </View>
+            <Fab
+              active={this.state.visibleIconModal}
+              direction="up"
+              containerStyle={{ }}
+              style={{ backgroundColor: Theme.colors.secondary }}
+              position="bottomRight"
+              onPress={() => this.state.visibleIconModal = true}>
+                <Svgicon 
+                  color={Theme.colors.white} 
+                  name='plus' 
+                  width={18} 
+                  height={18} />
+            </Fab>
+            <ModalBox 
+                visibleModal={this.state.visibleIconModal}
+                content={<IconList />} 
+                />
          </ImageBackground>
       </Container>
      
@@ -118,6 +148,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
       logout: () => dispatch(userActions.logoutUser()),
+      // showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true }),
    };
 };
 

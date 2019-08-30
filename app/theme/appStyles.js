@@ -194,11 +194,17 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   iconListItem:{
+    width: Theme.sizes.iconSize,
+    height:Theme.sizes.iconSize,
+    borderRadius:25,
+    padding:0,
+    justifyContent:'center',
+  },
+  iconListItemBig:{
     width: Theme.sizes.bigIconSize,
     height:Theme.sizes.bigIconSize,
     borderRadius:25,
     padding:0,
-    margin:Theme.sizes.indent, 
     justifyContent:'center',
   },
   iconListSingle:{
