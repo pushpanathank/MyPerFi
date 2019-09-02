@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import { Item, Input, Text, Icon } from 'native-base';
-import { Layout, Colors } from '../constants';
+import * as Animatable from 'react-native-animatable';
+import { Theme } from '../constants';
 import { getFontIcon } from '../utils/common';
 
 import appStyles from '../theme/appStyles';
@@ -11,7 +12,8 @@ const InputBox = ({
   meta:{ touched, error, warning },
   disabled = false,
   placeholder="Please Enter",
-  placeholderTextColor= Colors.white,
+  placeholderTextColor= Theme.colors.gray2,
+  textColor='',
   keyboardType='default',
   autoCapitalize="none",
   maxLength=100,
@@ -25,6 +27,9 @@ const InputBox = ({
   iconStyle={},
 }) => {
   let hasError= false;
+  if(textColor){
+    style['color'] = textColor;
+  }
   // let iconImg = getFontIcon(icon,iconStyle)||<Icon/>;
   if(touched && error){
     hasError= true;
@@ -35,7 +40,7 @@ const InputBox = ({
     return(
       <Item style= {appStyles.itemInput} error= {hasError}>
       {/*iconImg*/}
-      {icon}
+      {icon!=''? icon : <Text />}
         <Input 
           {...input}
           placeholder={placeholder}
@@ -50,7 +55,7 @@ const InputBox = ({
           secureTextEntry={secureTextEntry}
           value={input.value}
         />
-        {hasError ? <Text style={appStyles.inputError}>{error}</Text> : <Text />}
+        {hasError ? <Animatable.Text animation="wobble" duration={500} useNativeDriver style={appStyles.inputError}>{error}</Animatable.Text> : <Text />}
       </Item>
       )
   }

@@ -11,8 +11,13 @@ export const initialState = {
 	settings:{
 		currency: 'inr',
 		currSymbol: getCurrencySymbol('inr'),
-		language:getLanguage(0),
 		languageId:0,
 		languageSet:0
+	},
+	accounts:{
+		bankAcc: {},
+		bankAccSum: 0,
+		walletAcc: {},
+		walletAccSum: 0,
 	}
 };

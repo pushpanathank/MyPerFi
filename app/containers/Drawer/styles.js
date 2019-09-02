@@ -1,7 +1,7 @@
 import {Colors,Layout} from '../../constants/';
 export default {
   header: {
-    height: 140,
+    height: 160,
     paddingTop: Layout.doubleIndent,
     backgroundColor: Colors.primary
   },

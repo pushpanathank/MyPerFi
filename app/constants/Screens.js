@@ -15,6 +15,9 @@ export default {
     icon:'home',
     label: Strings.home,
   },
+  TransactionAdd : {
+    route: 'TransactionAdd',
+  },
   Categories : {
     route: 'Categories',
     icon:'inbox',
@@ -24,6 +27,9 @@ export default {
     route: 'Accounts',
     icon:'accounts',
     label: Strings.accounts,
+  },
+  AccountsManage : {
+    route: 'AccountsManage',
   },
   Settings : {
     route: 'Settings',

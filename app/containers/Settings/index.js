@@ -1,8 +1,9 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet, View, ImageBackground, FlatList, ScrollView, Picker} from 'react-native'
 import _ from 'lodash'; 
-import { Layout, Colors, Screens, Strings, Account } from '../../constants';
-import { Logo, Svgicon, Headers, IconList, MyText, Button, Block, Input, Text } from '../../components';
+import { Theme, Screens, Strings, Account } from '../../constants';
+import { HeadersWithTitle, IconList, Button, Block, Input, Text } from '../../components';
+import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
   Container, Content, Icon, Spinner,
@@ -29,13 +30,12 @@ class Settings extends React.Component {
   
   render(){
     const {language} = this.props;
-    console.log("language", language);
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
-            style={ { width: Layout.window.width, height: Layout.window.height }}>
-          <Headers {...this.props} />
+            style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
+          <HeadersWithTitle {...this.props} title={''}/>
           <View style={[appStyles.heading50]}>
             <Text style={appStyles.headingText}>{language.settings}</Text>
           </View>
@@ -96,11 +96,10 @@ class Settings extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-    console.log("state.settings.language", state.settings.language);
   return {
     user: state.auth.user,
     currency: state.settings.currency,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
     languageId: state.settings.languageId || 0,
   };
 };

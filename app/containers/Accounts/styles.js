@@ -4,4 +4,9 @@ export default {
     backgroundColor: Theme.colors.white,
     flex:2,
   },
+  inputRow:{
+  	paddingHorizontal: Theme.sizes.indent,
+  	paddingVertical: 0,
+  	marginHorizontal: Theme.sizes.indentsmall,
+  }
 };

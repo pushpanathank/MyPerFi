@@ -22,7 +22,7 @@ import { Layout, Colors, Screens, ActionTypes } from '../../constants';
 import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro } from '../../components';
 import imgs from '../../assets/images';
 import { userActions, settingActions } from "../../actions";
-import { showToast } from '../../utils/common';
+import { showToast, getLanguage } from '../../utils/common';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 import SignInForm from './form';
@@ -171,7 +171,7 @@ const mapStateToProps = (state) => {
     showIntro: state.auth.showIntro,
     isLoading: state.common.isLoading,
     user: state.auth.user,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
     languageSet: state.settings.languageSet || 0,
   };
 };

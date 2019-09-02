@@ -35,10 +35,15 @@ const getCurrencySymbol = (code) =>{
 	return Account.currencies[code||'inr'];
 }
 
+const generateUUID = () =>{
+	return Date.now().toString(36) + Math.random().toString(36).substr(3, 4);
+}
+
 export {
 	getLanguage,
 	getCurrencySymbol,
 	showToast,
 	getCurrentRoute,
-	getFontIcon
+	getFontIcon,
+	generateUUID
 };

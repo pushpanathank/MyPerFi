@@ -7,6 +7,7 @@ class Button extends Component {
   render() {
     const {
       style,
+      block,
       opacity,
       gradient,
       color,
@@ -22,6 +23,7 @@ class Button extends Component {
 
     const buttonStyles = [
       styles.button,
+      block && styles.block,
       shadow && styles.shadow,
       color && styles[color], // predefined styles colors for backgroundColor
       color && !styles[color] && { backgroundColor: color }, // custom backgroundColor
@@ -73,6 +75,9 @@ Button.defaultProps = {
 export default Button;
 
 const styles = StyleSheet.create({
+  block: {
+    flex: 1,
+  },
   button: {
     borderRadius: Theme.sizes.radius,
     height: Theme.sizes.base * 3,

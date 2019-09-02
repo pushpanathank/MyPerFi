@@ -43,9 +43,7 @@ class Loader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    language: state.settings.language,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

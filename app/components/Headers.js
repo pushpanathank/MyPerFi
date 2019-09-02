@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View } from 'react-native';
 import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
@@ -10,14 +10,9 @@ import {
 } from 'native-base';
 
 import appStyles from '../theme/appStyles';
-import { Colors, Layout, ActionTypes } from '../constants';
+import { Theme, ActionTypes } from '../constants';
 import Logo from './Logo';
 import Svgicon from './Svgicon';
-
-
-import ModalBox from './ModalBox';
-import SetLanguage from './SetLanguage';
-
 
 class Headers extends React.Component {
   constructor(props) {
@@ -31,28 +26,20 @@ class Headers extends React.Component {
         <Header transparent>
           <Left style={appStyles.row}>
             <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
-              <Svgicon color={Colors.white} name="menu" width="30" />
+              <Svgicon color={Theme.colors.white} name="menu" width={30} />
             </Button>
           </Left>
           <Body style={appStyles.rowXcenter}>
-            <TouchableWithoutFeedback onPress={() => this.props.showModal()}>
-              <Logo header={true} />
-            </TouchableWithoutFeedback>
+            <Logo header={true} />
           </Body>
           <Right style={appStyles.row}>
             <Button transparent>
-              <Svgicon color={Colors.white} name="bell" width={27} />
-              <Badge style={{ position: 'absolute', right:5, top:5, width:23, height:23 }}>
-                <Text style={{ fontSize: 10, color: "#fff", lineHeight: 23 }}>2</Text>
-              </Badge>
+              <Svgicon color={Theme.colors.white} name="bell" width={23} />
+              <View style={{ position: 'absolute', right:5, top:5, width:20, height:20, padding:0, margin:0, backgroundColor: Theme.colors.accent, borderRadius:10 }}>
+                <Text style={{ fontSize: 11, color: "#fff", position: 'absolute',right:10, top:4,}}>2</Text>
+              </View>
             </Button>
           </Right>
-          <ModalBox 
-                  visibleModal={this.state.visibleModal}
-                  content={<SetLanguage />} 
-                  style={appStyles.bottomModal}
-                  contentStyle={appStyles.setLanguage}
-                  />
         </Header>
     );
   }
@@ -63,11 +50,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-      showModal: () => {
-        dispatch({ type: ActionTypes.SHOWMODAL, showModal: true })
-      },
-    };
+    return {};
 };
 
 // Exports

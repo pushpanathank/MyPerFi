@@ -9,6 +9,7 @@ import SetLanguage from "./SetLanguage";
 import SelectLanguage from "./SelectLanguage";
 import Svgicon from "./Svgicon";
 import Headers from "./Headers";
+import HeadersWithTitle from "./HeadersWithTitle";
 import IconList from "./IconList";
 import MyText from "./MyText";
 
@@ -16,12 +17,12 @@ import Block from "./Block";
 import Badge from "./Badge";
 import Button from "./Button";
 import Card from "./Card";
-import Input from "./Input";
 import Text from "./Text";
 import Progress from "./Progress";
 import Divider from "./Divider";
 import Switch from "./Switch";
 import CurrencySymbol from "./CurrencySymbol";
+import withPreventDoubleClick from "./withPreventDoubleClick";
 
 export { 
 	Loader, 
@@ -35,9 +36,11 @@ export {
 	SelectLanguage, 
 	Svgicon, 
 	Headers, 
+	HeadersWithTitle, 
 	IconList, 
 	MyText, 
 
-	Block, Badge, Button, Card, Input, Text, Progress, Divider, Switch,
-	CurrencySymbol
+	Block, Badge, Button, Card, Text, Progress, Divider, Switch,
+	CurrencySymbol,
+	withPreventDoubleClick
 };

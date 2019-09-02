@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Layout, Theme } from '../constants/';
+import { Theme } from '../constants/';
 
 export default StyleSheet.create({
   container: {
@@ -47,7 +47,8 @@ export default StyleSheet.create({
     // marginTop: Theme.sizes.indent,
     // paddingLeft: Theme.sizes.indent,
     // paddingRight: Theme.sizes.indent,
-    flex:1
+    flex:1,
+    backgroundColor: Theme.colors.white,
   },
   contentBg:{
     backgroundColor: Theme.colors.white,
@@ -62,6 +63,12 @@ export default StyleSheet.create({
   },
   contentBg150:{
     height: Theme.sizes.window.height-240,
+  },
+  heading40:{
+    height:Theme.sizes.moderateScale(40),
+    paddingTop: Theme.sizes.indenthalf,
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
   },
   heading50:{
     height:Theme.sizes.moderateScale(50),
@@ -101,7 +108,7 @@ export default StyleSheet.create({
     borderRadius:0
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: Theme.colors.white,
     padding: 22,
     justifyContent: 'center',
     alignItems: 'center',
@@ -111,6 +118,36 @@ export default StyleSheet.create({
   bottomModal: {
     justifyContent: 'flex-end',
     margin: 0,
+  },
+  fabContentModal: {
+    flex:0,
+    backgroundColor: Theme.colors.white,
+    padding: Theme.sizes.indent,
+    borderRadius: 0,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: Theme.sizes.indent2x,
+    shadowColor: Theme.colors.black,
+      shadowOffset: { width: 1, height: 5 },
+      shadowOpacity: 0.5,
+      shadowRadius: 10,
+      elevation: 4,
+  },
+  fabAddTransContent:{
+    height: Theme.sizes.indent3x*3.5,
+    width: Theme.sizes.indent3x*3.5,
+  },
+  fabAddTransBtn:{
+    flex:0,
+    height: Theme.sizes.indent*1.5,
+    paddingVertical: Theme.sizes.indenthalf
+  },
+  bottomFabRightModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+    alignItems: 'flex-end',
   },
 
   introLangBtn:{
@@ -218,6 +255,26 @@ export default StyleSheet.create({
     color: Theme.colors.lightBlack
   },
 
+  // Fab
+  fabBottomRight:{
+     borderWidth:0,
+     zIndex: 999,
+     alignItems:'center',
+     justifyContent:'center',
+     width:Theme.sizes.indent3x,
+     position: 'absolute',
+     bottom: Theme.sizes.indenthalf,
+     right: Theme.sizes.indent,
+     height:Theme.sizes.indent3x,
+     backgroundColor: Theme.colors.secondary,
+     borderRadius:100,
+     shadowColor: Theme.colors.black,
+      shadowOffset: { width: 1, height: 5 },
+      shadowOpacity: 0.5,
+      shadowRadius: 10,
+      elevation: 4,
+   },
+
   // Account
   tabBarUnderlineStyle:{
     backgroundColor: Theme.colors.secondary
@@ -280,9 +337,12 @@ export default StyleSheet.create({
   itemInput:{
 
   },
+  textWhite:{
+    color: Theme.colors.white
+  },
   textbox:{
     marginTop:15,
-    color: Theme.colors.white,
+    color: Theme.colors.black,
     width:100,
     paddingLeft:Theme.sizes.indent,
     paddingRight:Theme.sizes.indent,
@@ -295,7 +355,9 @@ export default StyleSheet.create({
   },
   inputError:{
     color: Theme.colors.red,
-    top:20,
+    bottom:5,
+    right:0,
+    position:'absolute',
     fontSize:12
   }
 });

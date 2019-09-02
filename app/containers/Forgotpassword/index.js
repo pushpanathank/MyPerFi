@@ -20,6 +20,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { Layout, Colors, Screens } from '../../constants';
 import { Logo, Statusbar, LoginBackIcon } from '../../components';
+import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
@@ -105,7 +106,7 @@ class Forgotpassword extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoading: state.common.isLoading,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
   };
 };
 

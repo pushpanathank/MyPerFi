@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Image} from 'react-native'
-import _ from 'lodash'; 
-import { Layout, Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
-import { Logo, Svgicon, Headers, IconList, Block, ModalBox } from '../../components';
+import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
+import Modal from 'react-native-modal';
+import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
+import { Logo, Svgicon, HeadersWithTitle, IconList, Block, ModalBox } from '../../components';
+import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
   Container,
@@ -26,6 +27,11 @@ class Categories extends React.Component {
   setColor(color){
     console.log("color", color);
   }
+
+  toggleIconModal = () => {
+    this.setState({visibleIconModal: !this.state.visibleIconModal});
+  }
+
   render(){
     const {language} = this.props;
     return (
@@ -33,7 +39,7 @@ class Categories extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <Headers {...this.props} />
+          <HeadersWithTitle {...this.props} title={''}/>
           <View style={[appStyles.heading60]}>
             <Text style={appStyles.headingText}>{language.categories}</Text>
             <Text style={appStyles.subheadingText}>{language.manageCat}</Text>
@@ -115,23 +121,34 @@ class Categories extends React.Component {
                   </Tab>
               </Tabs> 
             </View>
-            <Fab
-              active={this.state.visibleIconModal}
-              direction="up"
-              containerStyle={{ }}
-              style={{ backgroundColor: Theme.colors.secondary }}
-              position="bottomRight"
-              onPress={() => this.state.visibleIconModal = true}>
-                <Svgicon 
-                  color={Theme.colors.white} 
-                  name='plus' 
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => { this.toggleIconModal(); }}
+             style={appStyles.fabBottomRight}
+            >
+             <Svgicon 
+                color={Theme.colors.white}
+                  name={'plus'} 
                   width={18} 
                   height={18} />
-            </Fab>
-            <ModalBox 
-                visibleModal={this.state.visibleIconModal}
-                content={<IconList />} 
-                />
+            </TouchableOpacity>
+            
+            
+            <Modal
+              isVisible={this.state.visibleIconModal}
+              backdropOpacity={ 0.5 }
+              animationIn={ 'slideInUp' }
+              animationOut={ 'slideOutDown' }
+              onBackdropPress={ () => { this.toggleIconModal(); } }
+              onBackButtonPress={ () => { this.toggleIconModal(); } }
+              style={{}}
+              useNativeDriver
+            > 
+              <Block row style={[styles.modalContent]}>
+                <IconList />
+              </Block>
+            </Modal>
          </ImageBackground>
       </Container>
      
@@ -141,7 +158,7 @@ class Categories extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
   };
 };
 

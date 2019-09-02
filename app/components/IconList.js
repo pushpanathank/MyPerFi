@@ -18,7 +18,7 @@ class IconList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: iconList,
+      data: Object.values(iconList),
     };
   }
   searchFilterFunction = text => {
@@ -26,7 +26,7 @@ class IconList extends React.Component {
       value: text,
     });
 
-    const newData = iconList.filter(item => {
+    const newData = Object.values(iconList).filter(item => {
       const itemData = `${item.label.toUpperCase()} ${item.icon.toUpperCase()}`;
       const textData = text.toUpperCase();
 
@@ -56,15 +56,15 @@ class IconList extends React.Component {
               </TouchableWithoutFeedback>
             </Item>
             <ScrollView showsVerticalScrollIndicator={false} style={[appStyles.contentBg]}>
-              <Block>
+              <Block margin={[Theme.sizes.indent,0,0,0]}>
                 <FlatList
                 data={this.state.data}
                 numColumns={4}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <View style={{width:'25%'}}>
+                  <Block center middle>
                           <Button 
-                          style={[appStyles.iconListItem,{backgroundColor:item.color}]}
+                          style={[appStyles.iconListItemBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
                           onPress={() => this.props.selectedColor(item)}>
                               <Svgicon 
                                 style={appStyles.iconListSingle} 
@@ -73,8 +73,7 @@ class IconList extends React.Component {
                                 width={22} 
                                 height={22} />
                           </Button>
-                          <Text style={appStyles.iconListText}>{item.label}</Text>
-                        </View>
+                  </Block>
                 )}
               />
             </Block>

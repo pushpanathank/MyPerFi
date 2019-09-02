@@ -3,7 +3,6 @@ import { AppRegistry, Image, StatusBar, ImageBackground, TouchableOpacity } from
 import { NavigationActions, DrawerItems } from 'react-navigation'
 import {
   Button, View,
-  Text,
   Container,
   List,
   ListItem,
@@ -20,10 +19,10 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user";
 import imgs from '../../assets/images';
 import appStyles from '../../theme/appStyles';
-import { Screens, Colors, Layout } from '../../constants';
+import { Screens, Theme } from '../../constants';
 import styles from './styles';
-import { getCurrentRoute } from '../../utils/common';
-import { Svgicon } from '../../components';
+import { getCurrentRoute, getLanguage } from '../../utils/common';
+import { Svgicon, Logo, Block, Text } from '../../components';
 
 
 class Drawer extends React.Component {
@@ -44,21 +43,14 @@ class Drawer extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <View style={[appStyles.row, {paddingTop: Layout.halfIndent}]}>
-            <List>
-              <ListItem avatar noBorder>
-                <Left>
-                  <Svgicon name="useravatar" 
-                    color={Colors.white} 
-                    width={Layout.bigIconSize} 
-                    height={Layout.bigIconSize} />
-                </Left>
-                <Body>
-                  <Text style={appStyles.profileName} >{userName}</Text>
-                  <Text style={appStyles.profileEmail}>{userEmail}</Text>
-                </Body>
-              </ListItem>
-            </List>
+          <View style={[appStyles.row]}>
+            <Block row center middle bottom>
+              <Logo header={true} style={{height: 50,width: 140}}/>
+            </Block>
+            <Block padding={[0,Theme.sizes.indent]} center>
+              <Text h5 white>{userName}</Text>
+              <Text gray2>{userEmail}</Text>
+            </Block>
           </View>
         </Header>
         <Content>
@@ -75,7 +67,7 @@ class Drawer extends React.Component {
                   onPress={() => this.props.navigation.navigate(data.route)}>
                       <Svgicon 
                         style={appStyles.drawerIcon} 
-                        color={(data.route==currentRoute) ? Colors.secondary:Colors.black} 
+                        color={(data.route==currentRoute) ? Theme.colors.secondary:Theme.colors.black} 
                         name={data.icon} 
                         width={20} 
                         height={20} />
@@ -103,7 +95,7 @@ const mapStateToProps = (state) => {
   return {
     state: state,
     user: state.auth.user,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
   };
 };
 

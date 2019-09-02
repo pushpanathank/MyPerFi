@@ -22,7 +22,7 @@ import { Layout, Colors, Screens } from '../../constants';
 import { Logo, Statusbar, LoginBackIcon } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
-import {showToast} from '../../utils/common';
+import {showToast, getLanguage} from '../../utils/common';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 import SignUpForm from './form';
@@ -112,7 +112,7 @@ class SignUp extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isLoading: state.common.isLoading,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
   };
 };
 

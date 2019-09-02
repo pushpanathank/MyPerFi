@@ -1,111 +1,128 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
-import _ from 'lodash'; 
-import { Layout, Colors, Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, Headers, IconList, MyText, Text, Block, CurrencySymbol } from '../../components';
+import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
+import { Screens, Strings, Theme } from '../../constants';
+import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider } from '../../components';
+import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
-  Container, Content, Icon, Spinner, Button, Tabs, Tab, ScrollableTab, TabHeading,
-  Header, Left, Body, Title, Right, List, ListItem
+  Container, Content, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem
 } from 'native-base';
 import { connect } from "react-redux";
 import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
+let activeTab = 0;
+
 class Accounts extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = { data: [{ key: 'a' }, { key: 'b' }] }
-    this.component = [];
-    this.selectedRow;
-
+    this.state = {
+      activeTab: activeTab,
+    }
+    this.onChangeTab = this.onChangeTab.bind(this);
   }
-  setColor(color){
-    console.log("color", color);
+
+  itemSeparator = () => {
+    return (
+      <Divider style={{margin:Theme.sizes.indentsmall}}/>
+    );
+  };
+
+  onChangeTab(obj){
+    activeTab = obj.i;
+    this.setState({activeTab: activeTab});
   }
+
   render(){
     const {language} = this.props;
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
-            style={ { width: Layout.window.width, height: Layout.window.height }}>
-          <Headers {...this.props} />
+            style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
+          <HeadersWithTitle {...this.props} title={''}/>
           <Block block>
-          <Block center middle style={{flex: 1}}>
-            <Text color='white'>{language.current} {language.totalBalance}</Text>
-            <Text color='secondary' style={{marginBottom: 15}}>2 {language.accounts}</Text>
-            <Text h1 color='white'><CurrencySymbol size='h1'/> 10,000</Text>
-          </Block>
-          <Block style={styles.contentBgAccount}>
-            <Tabs transparent 
-            tabBarUnderlineStyle={appStyles.tabBarUnderlineStyle}
-            renderTabBar={()=> <ScrollableTab style={appStyles.tabsAcc} />}>                  
-                <Tab 
-                tabStyle={appStyles.tabStyleAcc}
-                heading={ 
+            <Block center middle style={{flex: 1}}>
+              <Text color='white'>{language.current} {language.totalBalance}</Text>
+              <Text color='secondary' style={{marginBottom: 15}}>{this.state.activeTab ? this.props.walletAcc.length : this.props.bankAcc.length  } {language.accounts}</Text>
+              <Text h1 color='white'><CurrencySymbol size='h1'/> {this.state.activeTab ? this.props.walletAccSum : this.props.bankAccSum }</Text>
+            </Block>
+            <Block style={styles.contentBgAccount}>
+              <Tabs transparent 
+              tabBarUnderlineStyle={appStyles.tabBarUnderlineStyle}
+              onChangeTab={this.onChangeTab}
+              renderTabBar={()=> <ScrollableTab style={appStyles.tabsAcc} />}>                  
+                  <Tab 
+                  tabStyle={appStyles.tabStyleAcc}
+                  heading={ 
+                      <TabHeading style={{ backgroundColor: "transparent" }}>
+                          <Text color='white'>{language.bankacc}</Text>
+                      </TabHeading>}>
+                      <FlatList
+                        data={this.props.bankAcc}
+                        ItemSeparatorComponent={this.itemSeparator}
+                        renderItem={({ item }) => (
+                          <Button
+                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
+                            >
+                            <Block row space="between" style={styles.inputRow}>
+                              <Block middle>
+                                <Text>{item.name}</Text>
+                                <Text caption color='gray2'>{item.no!=''? `x${item.no}`:''}</Text>
+                              </Block>
+                              <Block middle right>
+                                <Text><CurrencySymbol /> {item.bal}</Text>
+                                <Text caption color='gray2'>Estimated Bal</Text>
+                              </Block>
+                            </Block>
+                          </Button>
+                          )}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
+                        
+                  </Tab>
+                  <Tab 
+                  tabStyle={appStyles.tabStyleAcc}
+                  heading={ 
                     <TabHeading style={{ backgroundColor: "transparent" }}>
-                        <Text color='white'>{language.bankacc}</Text>
+                      <Text color='white'>{language.wallets}</Text>
                     </TabHeading>}>
-                      <List
-                      dataArray={[{ key: 'a', value: 'Citibank' }, { key: 'b', value: 'SBI Bank' }, { key: 'c', value: 'IOB' }, { key: 'd', value: 'South Indian Bank' }, { key: 'e', value: 'Pallavan bank' }]}
-                      contentContainerStyle={appStyles.accList}
-                      keyExtractor={(item, index) => index.toString()} 
-                      horizontal={false}
-                      renderRow={(data) => {
-                        return (
-                          <ListItem transparent
-                              onPress={() => this.props.selectedColor(data)}>
-                              <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-                                <Block>
-                                  <Text>{data.value}</Text>
-                                  <Text caption color='gray2'>x8477</Text>
-                                </Block>
-                                <Block right>
-                                  <Text><CurrencySymbol /> 10,000</Text>
-                                  <Text caption color='gray2'>Estimated Bal</Text>
-                                </Block>
+
+                    <FlatList
+                        data={this.props.walletAcc}
+                        ItemSeparatorComponent={this.itemSeparator}
+                        renderItem={({ item }) => (
+                          <Button
+                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
+                            >
+                            <Block row space="between" style={styles.inputRow}>
+                              <Block middle>
+                                <Text>{item.name}</Text>
                               </Block>
-                          </ListItem>
-                        );
-                      }}
-                    />
-                </Tab>
-                <Tab 
-                tabStyle={appStyles.tabStyleAcc}
-                heading={ 
-                  <TabHeading style={{ backgroundColor: "transparent" }}>
-                    <Text color='white'>{language.wallets}</Text>
-                  </TabHeading>}>
-                  <List
-                      dataArray={[{ key: 'a', value: 'PayTm' }, { key: 'b', value: 'FreeCharge' }, { key: 'c', value: 'Airtel Money' }, { key: 'd', value: 'MobiKiwik' }]}
-                      contentContainerStyle={appStyles.accList}
-                      keyExtractor={(item, index) => index.toString()} 
-                      horizontal={false}
-                      renderRow={(data) => {
-                        return (
-                          <ListItem transparent
-                              onPress={() => this.props.selectedColor(data)}>
-                              <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-                                <Block>
-                                  <Text>{data.value}</Text>
-                                  <Text caption color='gray2'>x8477</Text>
-                                </Block>
-                                <Block right>
-                                  <Text><CurrencySymbol /> 10,000</Text>
-                                  <Text caption color='gray2'>Estimated Bal</Text>
-                                </Block>
+                              <Block middle right>
+                                <Text><CurrencySymbol /> {item.bal}</Text>
+                                <Text caption color='gray2'>Estimated Bal</Text>
                               </Block>
-                          </ListItem>
-                        );
-                      }}
-                    />
-                </Tab>
-            </Tabs> 
+                            </Block>
+                          </Button>
+                          )}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
+                  </Tab>
+              </Tabs> 
+              </Block>
             </Block>
-            </Block>
+            <Button
+              onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:null}) }}
+             style={appStyles.fabBottomRight}
+            >
+             <Svgicon 
+                color={Theme.colors.white}
+                name={'plus'} 
+                width={18} 
+                height={18} />
+            </Button>
          </ImageBackground>
       </Container>
      
@@ -114,9 +131,11 @@ class Accounts extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
-    currSymbol: state.settings.currSymbol,
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
+    bankAcc: Object.values(state.accounts.bankAcc),
+    walletAcc: Object.values(state.accounts.walletAcc),
+    bankAccSum: state.accounts.bankAccSum,
+    walletAccSum: state.accounts.walletAccSum,
   };
 };
 

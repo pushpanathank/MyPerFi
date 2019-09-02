@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, Animated, Easing } from 'react-native'
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 
-import { SignIn, SignUp, Forgotpassword, Home, Drawer, Categories, Accounts, Settings } from "../containers";
+import { SignIn, SignUp, Forgotpassword, Home, Drawer, Categories, Accounts, AccountsManage, Settings, TransactionAdd } from "../containers";
 import { Colors, Screens } from "../constants";
 
 const transitionConfig = () => ({
@@ -35,14 +35,28 @@ const transitionConfig = () => ({
       },
     });
 
+// login stack
+
+const AccountsStack = createStackNavigator({
+  [Screens.Accounts.route]: { screen: Accounts },
+  [Screens.AccountsManage.route]: { screen: AccountsManage },
+}, {
+  headerMode: 'none',
+  initialRouteName: Screens.Accounts.route,
+});
+
+const HomeStack = createStackNavigator({
+  [Screens.Home.route]: { screen: Home },
+  [Screens.TransactionAdd.route]: { screen: TransactionAdd },
+}, {
+  headerMode: 'none',
+  initialRouteName: Screens.Home.route,
+});
+
 // drawer stack
 const DrawerStack = createDrawerNavigator({
-  [Screens.Home.route]: { 
-    screen: Home 
-  },
-  [Screens.Accounts.route]: { 
-    screen: Accounts 
-  },
+  [Screens.Home.route]: HomeStack,
+  [Screens.Accounts.route]: AccountsStack,
   [Screens.Categories.route]: { 
     screen: Categories 
   },
@@ -50,7 +64,7 @@ const DrawerStack = createDrawerNavigator({
     screen: Settings 
   },
 }, {
-  initialRouteName: Screens.Categories.route,
+  initialRouteName: Screens.Home.route,
   gesturesEnabled: true,
   // drawerBackgroundColor: 'rgba(255,255,255,.9)',
   drawerType: 'front',

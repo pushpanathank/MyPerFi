@@ -6,7 +6,7 @@ import SvgIcon from 'react-native-svg-icon';
 
 import appStyles from '../theme/appStyles';
 import svgs from '../assets/svgs';
-import { Colors, Layout } from '../constants';
+import { Colors, Layout, Theme } from '../constants';
 
 class Svgicon extends React.Component {
   constructor(props) {
@@ -15,9 +15,9 @@ class Svgicon extends React.Component {
   render() {
     return (
         <SvgIcon
-          width={this.props.width || Layout.iconSize}
-          height={this.props.height || Layout.iconSize}
-          fill={this.props.color || Colors.icon}
+          width={this.props.width || Theme.sizes.iconSize}
+          height={this.props.height || Theme.sizes.iconSize}
+          fill={this.props.color || Theme.colors.icon}
           name={this.props.name}
           svgs={svgs}
           style={this.props.style ||{}}

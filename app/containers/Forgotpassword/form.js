@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import { Form, Item, Input, Title, Button, Text } from 'native-base';
 import { required, email } from 'redux-form-validators'
 import { InputBox, Svgicon } from '../../components';
-import { Colors } from '../../constants';
+import { getLanguage } from '../../utils/common';
+import { Theme } from '../../constants';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -22,8 +23,9 @@ class ForgotForm extends React.Component {
           name="email" 
           component={InputBox} 
           placeholder={language.email}
+          textColor={Theme.colors.white}
           keyboardType={'email-address'}
-          icon={<Svgicon name='email' width='20' color={Colors.white} style={appStyles.inputIcon} />}
+          icon={<Svgicon name='email' width='20' color={Theme.colors.white} style={appStyles.inputIcon} />}
           iconStyle={{top:5,paddingLeft:15}}
           validate={[required({msg: `${language.email} ${language.required}`}), email({msg: `${language.email} ${language.notValid}`})]}
         />
@@ -39,7 +41,7 @@ const forgotform = reduxForm({
 
 const mapStateToProps = (state) => {
   return {
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
   };
 };
 

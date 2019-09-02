@@ -18,6 +18,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
 import { Layout, Colors, ActionTypes } from '../constants';
+import { getLanguage } from '../utils/common';
 
 
 class AppIntro extends React.Component {
@@ -94,7 +95,7 @@ class AppIntro extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    language: state.settings.language,
+    language: getLanguage(state.settings.languageId),
     showIntro: state.auth.showIntro
   };
 };

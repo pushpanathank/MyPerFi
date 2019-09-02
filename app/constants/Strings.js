@@ -18,6 +18,14 @@ export default[
 		current: 'Current',
 		income: 'Income',
 		expense: 'Expense',
+		delete: 'Delete',
+		confirm: 'Confirm',
+		okay: 'Okay',
+		cancel: 'Cancel',
+
+		latestTrans: 'Latest Transactions',
+		topSpend: 'Top Spend Areas',
+		bills: 'Bills',
 
 		home: 'Home',
 		bankacc: 'Bank Accounts',
@@ -32,6 +40,25 @@ export default[
 		accounts: 'Accounts',
 		manageAcc: 'Manage your accounts',
 		totalBalance: 'Total Balance',
+		addBankacc: 'Add Bank Account',
+		editBankacc: 'Update Bank Account',
+		addWallet: 'Add Wallet Account',
+		editWallet: 'Update Wallet Account',
+		accName: 'Account Name',
+		accNo: 'Account No',
+		last4: 'Last 4 digits',
+		accNoEx: 'Ex - x0000',
+		accBal: 'Account Balance',
+		accAct: 'Account is active',
+		walName: 'Wallet Name',
+		walBal: 'Wallet Balance',
+		walAct: 'Wallet is active',
+		delAccConfirm: 'All the transaction associated with this account will be deleted. Do you want to continue?',
+
+
+		added: 'Added successfully',
+		deleted: 'Deleted successfully',
+		updated: 'Updated successfully',
 
 		// Categories page
 		categories: 'Categories',
@@ -163,6 +190,14 @@ export default[
 		current: 'தற்போதைய',
 		income: 'வருவாய்',
 		expense: 'செலவு',
+		delete: 'நீக்கு',
+		confirm: 'உறுதிப்படுத்தவும்',
+		okay: 'சரி',
+		cancel: 'ரத்துசெய்',
+
+		latestTrans: 'சமீபத்திய பரிவர்த்தனைகள்',
+		topSpend: 'அதிக செலவு பகுதிகள்',
+		bills: 'ரசிதுகள்',
 
 		home: 'முகப்பு',
 		bankacc: 'வங்கி கணக்குகள்',
@@ -177,6 +212,25 @@ export default[
 		accounts: 'கணக்குகள்',
 		manageAcc: 'உங்கள் கணக்குகளை நிர்வகிக்கவும்',
 		totalBalance: 'மொத்த இருப்பு',
+		addBankacc: 'வங்கி கணக்கைச் சேர்க்கவும்',
+		editBankacc: 'வங்கி கணக்கைப் புதுப்பிக்கவும்',
+		addWallet: 'பணப்பை கணக்கைச் சேர்க்கவும்',
+		editWallet: 'பணப்பை கணக்கைப் புதுப்பிக்கவும்',
+		accName: 'கணக்கின் பெயர்',
+		accNo: 'கணக்கு எண்',
+		last4: 'கடைசி 4 இலக்கங்கள்',
+		accNoEx: 'உதாரணம் - x0000',
+		accBal: 'கணக்கு இருப்பு',
+		accAct: 'கணக்கு செயலில் உள்ளது',
+		walName: 'பணப்பை பெயர்',
+		walBal: 'பணப்பை இருப்பு',
+		walAct: 'பணப்பை செயலில் உள்ளது',
+		delAccConfirm: 'இந்த கணக்குடன் தொடர்புடைய அனைத்து பரிவர்த்தனைகளும் நீக்கப்படும். நீங்கள் தொடர விரும்புகிறீர்களா?',
+
+
+		added: 'வெற்றிகரமாக சேர்க்கப்பட்டது',
+		deleted: 'வெற்றிகரமாக நீக்கப்பட்டது',
+		updated: 'வெற்றிகரமாக புதுப்பிக்கப்பட்டது',
 
 		// Categories page
 		categories: 'வகைகள்',
