@@ -14,9 +14,6 @@ export default {
   },
   linkText:{
     textTransform:'capitalize',
-    color: Colors.white,
-    fontSize:16,
-    fontFamily: 'Font-Regular',
   },
   loginForm:{
     marginTop: Layout.doubleIndent,

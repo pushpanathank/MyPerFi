@@ -24,6 +24,8 @@ import Switch from "./Switch";
 import CurrencySymbol from "./CurrencySymbol";
 import withPreventDoubleClick from "./withPreventDoubleClick";
 
+import Ripple from "./Ripple";
+
 export { 
 	Loader, 
 	AppIntro, 
@@ -42,5 +44,7 @@ export {
 
 	Block, Badge, Button, Card, Text, Progress, Divider, Switch,
 	CurrencySymbol,
-	withPreventDoubleClick
+	withPreventDoubleClick,
+	
+	Ripple
 };

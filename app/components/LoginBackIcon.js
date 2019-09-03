@@ -7,6 +7,7 @@ import {
 import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
 
+import { Screens } from '../constants';
 import appStyles from '../theme/appStyles';
 
 class LoginBackIcon extends React.Component {
@@ -27,7 +28,7 @@ class LoginBackIcon extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      goBack: () => dispatch(NavigationActions.back()),
+      goBack: () => dispatch(NavigationActions.navigate({ routeName: Screens.SignIn.route })),
    };
 };
 

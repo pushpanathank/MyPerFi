@@ -5,21 +5,15 @@ import { NavigationActions } from 'react-navigation';
 import {
   Container,
   Content,
-  Icon,
-  Text,
-  Button,
-  Form,
-  Item,
-  Input,
-  Spinner, Row, Col, Toast
+  Spinner
 } from 'native-base';
 import { connect } from "react-redux";
 import { submit } from 'redux-form';
 import { bindActionCreators } from "redux";
 import * as Animatable from 'react-native-animatable';
 
-import { Layout, Colors, Screens } from '../../constants';
-import { Logo, Statusbar, LoginBackIcon } from '../../components';
+import { Theme, Screens } from '../../constants';
+import { LoginBackIcon, Button, Block, Text } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import {showToast, getLanguage} from '../../utils/common';
@@ -66,10 +60,10 @@ class SignUp extends React.Component {
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
-            style={ { width: Layout.window.width, height: Layout.window.height }}>
+            style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <Content enableOnAndroid>
             <View style={{flexDirection: 'column', flex:1}}>
-              <View style={{flex: 0.8,height: Layout.window.height-80,}}>
+              <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
                 <View style={appStyles.row}>
                   <LoginBackIcon props={this.props} /> 
                   <Animatable.Text 
@@ -89,14 +83,12 @@ class SignUp extends React.Component {
                 delay={1000}
                 style={{flex: 0.2,height: 80,}}> 
                 { this.props.isLoading ? 
-                   <Spinner color={Colors.secondary} /> : 
-                    <Button
-                      full
-                      primary
-                      style={appStyles.btnSecontary}
+                   <Spinner color={Theme.colors.secondary} /> : 
+                    <Button ripple
+                      color="secondary"
                       onPress={() => this.props.pressSignup()}
                     >
-                      <Text>{language.signup}</Text>
+                      <Text center white transform="uppercase">{language.signup}</Text>
                     </Button>
                 }
               </Animatable.View>  

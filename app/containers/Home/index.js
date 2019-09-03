@@ -7,7 +7,7 @@ import {
 import Modal from 'react-native-modal';
 
 import { Theme, Screens } from '../../constants';
-import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button } from '../../components';
+import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button, Ripple } from '../../components';
 import { fullMonth } from '../../utils/accounts';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -54,17 +54,17 @@ class Home extends React.Component {
             <View style={[appStyles.fabContentModal]}>
               <View style={appStyles.fabAddTransContent}>
                 <Block block column>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(0); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(0); }}>
                     <Text>Add Account Income</Text>
                   </Button>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(1); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(1); }}>
                     <Text>Add Account Spend</Text>
                   </Button>
                   <Divider style={{flex:0,marginVertical: Theme.sizes.indentsmall}}/>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(2); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(2); }}>
                     <Text>Add Cash Income</Text>
                   </Button>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(3); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(3); }}>
                     <Text>Add Cash Spend</Text>
                   </Button>
                 </Block>
@@ -72,7 +72,7 @@ class Home extends React.Component {
             </View>
           </Modal>
 
-          <Button
+          <Button ripple rippleContainerBorderRadius={Theme.sizes.indent}
             onPress={() => { this.toggleIconModal(); }}
             style={appStyles.fabBottomRight}
             >
@@ -88,7 +88,7 @@ class Home extends React.Component {
 
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
-              <Text h4 light>{language.latestTrans}</Text>
+              <Text h5 light>{language.latestTrans}</Text>
               <Divider />
               <Svgicon name="chart"  width={200}/>
               <Svgicon name="chart"  width={200}/>
@@ -97,7 +97,7 @@ class Home extends React.Component {
               <Svgicon name="chart"  width={200}/>
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
-              <Text h4 light>{language.topSpend}</Text>
+              <Text h5 light>{language.topSpend}</Text>
               <Divider />
               <Svgicon name="chart"  width={200}/>
               <Svgicon name="chart"  width={200}/>
@@ -106,7 +106,7 @@ class Home extends React.Component {
               <Svgicon name="chart"  width={200}/>
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
-              <Text h4 light>{language.bills}</Text>
+              <Text h5 light>{language.bills}</Text>
               <Divider />
               <Svgicon name="chart"  width={200}/>
               <Svgicon name="chart"  width={200}/>

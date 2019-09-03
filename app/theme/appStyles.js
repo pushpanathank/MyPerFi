@@ -31,17 +31,9 @@ export default StyleSheet.create({
   fontRegular:{
     fontFamily: 'Font-Regular',
   },
-  btnSecontary:{
-    backgroundColor: Theme.colors.secondary,
-    fontFamily: 'Font-Regular',
-  },
-  myText:{
-    fontFamily: 'Font-Regular',
-  },
   padding:{
     padding: Theme.sizes.indent,
   },
-
 
   content:{
     // marginTop: Theme.sizes.indent,
@@ -142,6 +134,7 @@ export default StyleSheet.create({
   fabAddTransBtn:{
     flex:0,
     height: Theme.sizes.indent*1.5,
+    margin:0,
     paddingVertical: Theme.sizes.indenthalf
   },
   bottomFabRightModal: {
