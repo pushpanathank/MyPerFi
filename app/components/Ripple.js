@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { StyleSheet , View, Animated, Easing, TouchableWithoutFeedback } from 'react-native';
-
+// https://github.com/n4kz/react-native-material-ripple
 const radius = 10;
 const styles = StyleSheet.create({
   container: {
