@@ -12,7 +12,7 @@ const getAccSum = (accounts) => {
 }
 
 // Date 
-const fullMonth = moment().format('MMMM');
+const fullMonth = moment().format('MMMM').toLocaleLowerCase();
 
 export {
 	getAccSum,

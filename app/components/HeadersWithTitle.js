@@ -27,7 +27,7 @@ class HeadersWithTitle extends React.Component {
     return (
         <Header transparent>
           <Block row left style={{flex:1}}>
-            {
+            { this.props.leftIcon ? (
               this.props.leftIcon == 'back' ?
               <Button transparent style={appStyles.menuBtn} onPress={() => this.props.goBack()}>
                 <Svgicon color={Theme.colors.white} name="back" width={25} />
@@ -36,13 +36,14 @@ class HeadersWithTitle extends React.Component {
               <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
                 <Svgicon color={Theme.colors.white} name="menu" width={30} />
               </Button>
+              ) : <Text/>
             }
           </Block>
           <Block row middle center style={{flex:4}}>
-            <Text h5 white>{this.props.title}</Text>
+            <Text h5 white numberOfLines={1}>{this.props.title}</Text>
           </Block>
           <Block row right style={{flex:1}}>
-            {
+            { this.props.rightIcon ? (
               this.props.rightIcon == 'save' ?
               <ButtonEx transparent onPress={() => this.props.pressSave()}>
                 <Svgicon color={Theme.colors.white} name="tick" width={27} />
@@ -54,6 +55,7 @@ class HeadersWithTitle extends React.Component {
                   <Text style={{ fontSize: 11, color: "#fff", position: 'absolute',right:10, top:4,}}>2</Text>
                 </View>
               </Button>
+              ) : <Text/>
             }
           </Block>
         </Header>

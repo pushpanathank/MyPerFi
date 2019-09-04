@@ -29,17 +29,18 @@ class Home extends React.Component {
 
   addTransaction = (type) =>{
     this.toggleIconModal();
-    this.props.navigation.navigate(Screens.TransactionAdd.route,{activeTab:0, accId:type})
+    this.props.navigation.navigate(Screens.TransactionAdd.route,{type:type})
   }
 
   render(){
-    const {language} = this.props;
+    const {language, languageId} = this.props;
+    const modalWidth = languageId ? {width: Theme.sizes.indent3x*4.5}:{};
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={fullMonth}/>
+          <HeadersWithTitle {...this.props} title={language[fullMonth]} leftIcon rightIcon/>
 
           <Modal
             isVisible={this.state.addTransModal}
@@ -52,20 +53,20 @@ class Home extends React.Component {
             useNativeDriver
           > 
             <View style={[appStyles.fabContentModal]}>
-              <View style={appStyles.fabAddTransContent}>
+              <View style={[appStyles.fabAddTransContent,modalWidth]}>
                 <Block block column>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(0); }}>
-                    <Text>Add Account Income</Text>
+                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction('addAccIn'); }}>
+                    <Text>{language.addAccIn}</Text>
                   </Button>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(1); }}>
-                    <Text>Add Account Spend</Text>
+                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction('addAccSp'); }}>
+                    <Text>{language.addAccSp}</Text>
                   </Button>
                   <Divider style={{flex:0,marginVertical: Theme.sizes.indentsmall}}/>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(2); }}>
-                    <Text>Add Cash Income</Text>
+                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction('addCashIn'); }}>
+                    <Text>{language.addCashIn}</Text>
                   </Button>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction(3); }}>
-                    <Text>Add Cash Spend</Text>
+                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.addTransaction('addCashSp'); }}>
+                    <Text>{language.addCashSp}</Text>
                   </Button>
                 </Block>
               </View>
@@ -124,6 +125,7 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
+    languageId: state.settings.languageId,
     language: getLanguage(state.settings.languageId),
   };
 };

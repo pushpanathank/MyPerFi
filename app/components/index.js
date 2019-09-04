@@ -18,6 +18,7 @@ import Badge from "./Badge";
 import Button from "./Button";
 import Card from "./Card";
 import Text from "./Text";
+import Input from "./Input";
 import Progress from "./Progress";
 import Divider from "./Divider";
 import Switch from "./Switch";
@@ -40,7 +41,7 @@ export {
 	IconList, 
 	MyText, 
 
-	Block, Badge, Button, Card, Text, Progress, Divider, Switch,
+	Block, Badge, Button, Card, Text, Input, Progress, Divider, Switch,
 	CurrencySymbol,
 	withPreventDoubleClick
 };

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Keyboard, Alert} from 'react-native';
+import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Screens, Strings, Theme } from '../../constants';
 import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input } from '../../components';
@@ -14,19 +14,15 @@ import { accountActions } from "../../actions";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 import AccountForm from './accountform';
-import WalletForm from './walletform';
 
 class TransactionAdd extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
-    const activeTab = navigation.getParam('activeTab');
-    const accId = navigation.getParam('accId');
+    const type = navigation.getParam('type');
     this.state = {
-      activeTab:activeTab,
-      accId:accId,
-      walInitialValues: accId ? this.props.walletAcc[accId] : {id:null, name: "",bal: "",act: true},
-      accInitialValues: accId ? this.props.bankAcc[accId] : {id:null, name: "",no: "",bal: "",act: true},
+      type:type,
+      accInitialValues: {id:null, name: "",no: "",bal: "",act: true},
     }
   }
   addAccount(values, dispatch, props){
@@ -69,28 +65,23 @@ class TransactionAdd extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={language.accounts} leftIcon={'back'} rightIcon={'save'}/>
+          <HeadersWithTitle {...this.props} title={language[this.state.type]} leftIcon={'back'}/>
           <View style={[appStyles.heading40]}>
-          { this.state.accId ? 
-            <Text title color='white'>{this.state.activeTab ? language.editWallet : language.editBankacc}</Text> : 
-            <Text title color='white'>{this.state.activeTab ? language.addWallet : language.addBankacc}</Text>
-          }
           </View>
+            <Input
+              label="Email"
+              leftIcon={<Svgicon 
+              color={Theme.colors.white}
+              name={'plus'} 
+              width={18} 
+              height={18} />}
+              error={true}
+              style={[styles.input]}
+              defaultValue={this.state.email}
+              onChangeText={text => this.setState({ email: text })}
+            />
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
-          { this.state.activeTab ? 
-            <WalletForm onSubmit={this.addWallet} initialValues={this.state.walInitialValues}/> :
             <AccountForm onSubmit={this.addAccount} initialValues={this.state.accInitialValues}/>
-          }
-          { this.state.accId ? 
-            <Block center middle row margin={[Theme.sizes.indent,0]}>
-              <Button color="accent" block 
-                onPress={() => { this.removeAcc() }}
-                >
-                <Text white center>{language.delete}</Text>
-              </Button>
-            </Block> :
-            <Text />
-          }
           </Content>
         </ImageBackground>
       </Container>
@@ -101,7 +92,6 @@ class TransactionAdd extends React.Component {
 const mapStateToProps = (state) => {
   return {
     bankAcc: state.accounts.bankAcc,
-    walletAcc: state.accounts.walletAcc,
     language: getLanguage(state.settings.languageId),
   };
 };
@@ -109,18 +99,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch,props) => {
   return {
       pressSave: () => {
-        if(props.navigation.getParam('activeTab')){
-          dispatch(submit('walletForm'))
-        }else{
-          dispatch(submit('accountForm'))
-        }
+        dispatch(submit('accountForm'))
       },
       removeAcc: (state) =>{
-        if(state.activeTab){
-          dispatch(accountActions.removeWalletAcc(state.accId));
-        }else{
-          dispatch(accountActions.removeBankAcc(state.accId));
-        }
+        dispatch(accountActions.removeBankAcc(state.type));
       },
       logout: () => dispatch(userActions.logoutUser()),
    };

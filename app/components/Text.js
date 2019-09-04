@@ -41,6 +41,7 @@ export default class Typography extends Component {
       gray,
       gray2,
       style,
+      numberOfLines,
       children,
       ...props
     } = this.props;
@@ -84,7 +85,7 @@ export default class Typography extends Component {
     ];
 
     return (
-      <Text style={textStyles} {...props}>
+      <Text style={textStyles} {...props} numberOfLines={numberOfLines||null}>
         {children}
       </Text>
     );

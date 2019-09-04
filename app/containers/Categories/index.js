@@ -39,7 +39,7 @@ class Categories extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''}/>
+          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
           <View style={[appStyles.heading60]}>
             <Text style={appStyles.headingText}>{language.categories}</Text>
             <Text style={appStyles.subheadingText}>{language.manageCat}</Text>

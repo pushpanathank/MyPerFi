@@ -41,7 +41,7 @@ class Accounts extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''}/>
+          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
           <Block block>
             <Block center middle style={{flex: 1}}>
               <Text color='white'>{language.current} {language.totalBalance}</Text>

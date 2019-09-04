@@ -35,7 +35,7 @@ class Settings extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''}/>
+          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
           <View style={[appStyles.heading50]}>
             <Text style={appStyles.headingText}>{language.settings}</Text>
           </View>

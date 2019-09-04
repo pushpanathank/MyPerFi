@@ -1,21 +1,19 @@
 import React from "react";
-import { AppRegistry, Image, StatusBar, ImageBackground, TouchableOpacity } from "react-native";
+import { View, AppRegistry, Image, StatusBar, ImageBackground, TouchableOpacity } from "react-native";
 import { NavigationActions, DrawerItems } from 'react-navigation'
 import {
-  Button, View,
+  Button,
   Container,
   List,
   ListItem,
   Content,
-  Icon,
   Body,
   Left,
-  Thumbnail, Header,
+  Header,
   Footer
 } from "native-base";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user";
 import imgs from '../../assets/images';
 import appStyles from '../../theme/appStyles';
@@ -82,7 +80,12 @@ class Drawer extends React.Component {
         </Content>
         <Footer style={styles.logoutFooter}>
           <Button iconLeft transparent full style={styles.logoutBtn} onPress={() => this.logout()} >
-            <Icon fontSize='12' type='AntDesign' name='logout' style={styles.white} />
+            <Svgicon 
+              style={{marginRight:Theme.sizes.indenthalf}} 
+              color={Theme.colors.white} 
+              name={'logout'} 
+              width={30} 
+              height={30} />
             <Text style={styles.white}>{this.props.language.logout}</Text>
           </Button>
         </Footer>

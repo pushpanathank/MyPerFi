@@ -50,7 +50,7 @@ const HomeStack = createStackNavigator({
   [Screens.TransactionAdd.route]: { screen: TransactionAdd },
 }, {
   headerMode: 'none',
-  initialRouteName: Screens.Home.route,
+  initialRouteName: Screens.TransactionAdd.route,
 });
 
 // drawer stack
@@ -75,7 +75,7 @@ const DrawerStack = createDrawerNavigator({
     activeTintColor: Colors.lightBlack,
     activeBackgroundColor: Colors.primaryLight,
   },
-  transitionConfig: transitionConfig,
+  // transitionConfig: transitionConfig,
   contentComponent: (props) => <Drawer {...props} />,
 });
 
@@ -83,7 +83,7 @@ const DrawerNavigation = createStackNavigator({
   [Screens.DrawerStack.route]: { screen: DrawerStack }
 }, {
   headerMode: 'none',
-  transitionConfig: transitionConfig
+  // transitionConfig: transitionConfig
 });
 
 // login stack
@@ -94,7 +94,7 @@ const LoginStack = createStackNavigator({
 }, {
   headerMode: 'none',
   initialRouteName: Screens.SignIn.route,
-  transitionConfig: transitionConfig
+  // transitionConfig: transitionConfig
 });
 
 // Manifest of possible screens

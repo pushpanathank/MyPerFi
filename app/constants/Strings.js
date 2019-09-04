@@ -31,6 +31,11 @@ export default[
 		bankacc: 'Bank Accounts',
 		wallets: 'Wallets',
 
+		addAccIn: 'Add Account Income',
+		addAccSp: 'Add Account Spend',
+		addCashIn: 'Add Cash Income',
+		addCashSp: 'Add Cash Spend',
+
 		// Settings page
 		settings: 'Settings',
 		chooseLang: 'Choose Language',
@@ -82,6 +87,20 @@ export default[
 		inr: 'Rupees',
 		usd: 'Dollar',
 		euro: 'Euro',
+
+		// Months
+		january: 'January',
+		february: 'February',
+		march: 'March',
+		april: 'April',
+		may: 'May',
+		june: 'June',
+		july: 'July',
+		august: 'August',
+		september: 'September',
+		october: 'October',
+		november: 'November',
+		december: 'December',
 
 		// Categories
 		transfer: 'Transfer',
@@ -203,6 +222,11 @@ export default[
 		bankacc: 'வங்கி கணக்குகள்',
 		wallets: 'பணப்பைகள்',
 
+		addAccIn: 'கணக்கு வருமானத்தைச் சேர்க்கவும்',
+		addAccSp: 'கணக்குச் செலவைச் சேர்க்கவும்',
+		addCashIn: 'பண வருமானத்தைச் சேர்க்கவும்',
+		addCashSp: 'பணச் செலவைச் சேர்க்கவும்',
+
 		// Settings page
 		settings: 'அமைப்புகள்',
 		chooseLang: 'மொழியைத் தேர்வுசெய்க',
@@ -254,6 +278,20 @@ export default[
 		inr: 'ரூபாய்',
 		usd: 'டாலர்',
 		euro: 'யூரோ',
+
+		// Months
+		january: 'ஜனவரி',
+		february: 'பிப்ரவரி',
+		march: 'மார்ச்',
+		april: 'ஏப்ரல்',
+		may: 'மே',
+		june: 'ஜூன்',
+		july: 'ஜூலை',
+		august: 'ஆகஸ்ட்',
+		september: 'செப்டம்பர்',
+		october: 'அக்டோபர்',
+		november: 'நவம்பர்',
+		december: 'டிசம்பர்',
 
 		// Categories
 		transfer: 'பரிமாற்றம்',
