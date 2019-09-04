@@ -76,7 +76,14 @@ class Drawer extends React.Component {
           {/*<DrawerItems {...this.props} />*/}
         </Content>
         <Footer style={styles.logoutFooter}>
-
+          <Button block center ripple color='secondary' style={{flexDirection: 'row', marginTop:-5}} onPress={() => this.logout()} >
+            <Svgicon  
+              style={{marginRight:Theme.sizes.indenthalf}}  
+              color={Theme.colors.white}  
+              name={'logout'}   
+              width={30}  
+              height={30} />  
+            <Text style={styles.white}>{this.props.language.logout}</Text>
           </Button>
         </Footer>
       </Container>
