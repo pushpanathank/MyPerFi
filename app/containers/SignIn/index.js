@@ -5,21 +5,15 @@ import { NavigationActions } from 'react-navigation';
 import {
   Container,
   Content,
-  Icon,
-  Text,
-  Button,
-  Form,
   Item,
-  Label,
-  Input,
-  Spinner, Row, Col
+  Spinner,
 } from 'native-base';
 import { connect } from "react-redux";
-import { submit } from 'redux-form';
+import { submit, reset } from 'redux-form';
 import * as Animatable from 'react-native-animatable';
 
-import { Layout, Colors, Screens, ActionTypes } from '../../constants';
-import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro } from '../../components';
+import { Theme, Screens, ActionTypes } from '../../constants';
+import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text } from '../../components';
 import imgs from '../../assets/images';
 import { userActions, settingActions } from "../../actions";
 import { showToast, getLanguage } from '../../utils/common';
@@ -47,11 +41,13 @@ class SignIn extends React.Component {
   }
 
   onSignupButtonPressHandler(){
-    this.props.navigation.navigate(Screens.SignUp.route)
+    this.props.navigation.navigate(Screens.SignUp.route);
+    // this.props.resetForm();
   }
 
   onForgotpasswordPressHandler(){
-    this.props.navigation.navigate(Screens.ForgotPassword.route)
+    this.props.navigation.navigate(Screens.ForgotPassword.route);
+    // this.props.resetForm();
   }
 
   signin(values, dispatch, props){
@@ -92,10 +88,10 @@ class SignIn extends React.Component {
         <Container style={appStyles.container}>
           <ImageBackground 
               source={imgs.bg} 
-              style={ { width: Layout.window.width, height: Layout.window.height }}>
+              style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
             <Content enableOnAndroid>
               <View style={{flexDirection: 'column', flex:1}}>
-                <View style={{flex: 0.8,height: Layout.window.height-80,}}>
+                <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
                   <View style={appStyles.rowXcenter}>
                     <TouchableWithoutFeedback onPress={() => this.props.resetState()}>
                       <Logo style={appStyles.loginLogo} />
@@ -110,24 +106,24 @@ class SignIn extends React.Component {
                     delay={500}
                     style={styles.loginBox}>
                     <SignInForm onSubmit={this.signin} />
-                    <Row>
-                      <Col>
-                        <Button transparent full  
+                    <Block row padding={[0,Theme.sizes.indent]}>
+                      <Block>
+                        <Button color="transparant"  
                           onPress={() => this.onSignupButtonPressHandler()}
-                          style={[styles.linkTextBtn,{justifyContent:'flex-start'}]}
+                          style={[styles.linkTextBtn]}
                         >
-                          <Text style={[styles.linkText,appStyles.textLeft]} > {language.createAcc} </Text>
+                          <Text white > {language.createAcc} </Text>
                         </Button> 
-                      </Col>
-                      <Col>
-                        <Button transparent full  
+                      </Block>
+                      <Block>
+                        <Button color="transparant"  
                           onPress={() => this.onForgotpasswordPressHandler()}
-                          style={[styles.linkTextBtn,{justifyContent:'flex-end'}]}
+                          style={[styles.linkTextBtn]}
                         >
-                          <Text style={[styles.linkText,appStyles.textRight]} > {language.forgot} </Text>
+                          <Text white right > {language.forgot} </Text>
                         </Button>
-                      </Col>
-                    </Row>
+                      </Block>
+                    </Block>
                   </Animatable.View>
                 </View>  
                 <Animatable.View 
@@ -135,14 +131,12 @@ class SignIn extends React.Component {
                     delay={1000} 
                     style={{flex: 0.2,height: 80,}}> 
                   { this.props.isLoading ? 
-                     <Spinner color={Colors.secondary} /> : 
-                      <Button
-                        full
-                        primary
-                        style={appStyles.btnSecontary}
+                     <Spinner color={Theme.colors.secondary} /> : 
+                      <Button ripple
+                        color="secondary"
                         onPress={() => this.props.pressSignin()}
                       >
-                        <Text> {language.signin} </Text>
+                        <Text center white transform="uppercase"> {language.signin} </Text>
                       </Button>
                   }
                 </Animatable.View>  
@@ -181,6 +175,7 @@ const mapDispatchToProps = (dispatch) => {
   // Action
     return {
       pressSignin: () => dispatch(submit('signinForm')),
+      resetForm: () => dispatch(reset('signinForm')),
       setLanguage: () => dispatch(settingActions.setLanguage({id:1,set:1})),
       showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true }),
       resetState: () => {

@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Theme } from '../constants';
+import Ripple from './Ripple';
 
 class Button extends Component {
   render() {
     const {
       style,
       block,
+      center,
+      ripple,
       opacity,
       gradient,
       color,
@@ -18,12 +21,19 @@ class Button extends Component {
       locations,
       shadow,
       children,
+      rippleSize,
+      rippleDuration,
+      rippleColor,
+      rippleOpacity,
+      rippleCentered,
+      rippleContainerBorderRadius,
       ...props
     } = this.props;
 
     const buttonStyles = [
       styles.button,
       block && styles.block,
+      center && styles.center,
       shadow && styles.shadow,
       color && styles[color], // predefined styles colors for backgroundColor
       color && !styles[color] && { backgroundColor: color }, // custom backgroundColor
@@ -48,6 +58,22 @@ class Button extends Component {
           </LinearGradient>
         </TouchableOpacity>
       )
+    }
+    if(ripple){
+      return (
+        <Ripple
+          style={buttonStyles}
+          rippleSize={rippleSize || 0}
+          rippleDuration={rippleDuration || 400}
+          rippleColor={rippleColor || 'rgb(0, 0, 0)'}
+          rippleOpacity={rippleOpacity || 0.3}
+          rippleCentered={rippleCentered || false}
+          rippleContainerBorderRadius={rippleContainerBorderRadius || 0}
+          {...props}
+        >
+          {children}
+        </Ripple>
+      );
     }
 
     return (
@@ -90,6 +116,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
   },
+  center: {
+    alignItems: 'center',
+  },
   accent: { backgroundColor: Theme.colors.accent, },
   primary: { backgroundColor: Theme.colors.primary, },
   secondary: { backgroundColor: Theme.colors.secondary, },
@@ -98,6 +127,4 @@ const styles = StyleSheet.create({
   white: { backgroundColor: Theme.colors.white, },
   gray: { backgroundColor: Theme.colors.gray, },
   gray2: { backgroundColor: Theme.colors.gray2, },
-  gray3: { backgroundColor: Theme.colors.gray3, },
-  gray4: { backgroundColor: Theme.colors.gray4, },
 });

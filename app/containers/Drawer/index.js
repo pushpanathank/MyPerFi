@@ -2,13 +2,10 @@ import React from "react";
 import { View, AppRegistry, Image, StatusBar, ImageBackground, TouchableOpacity } from "react-native";
 import { NavigationActions, DrawerItems } from 'react-navigation'
 import {
-  Button,
   Container,
   List,
   ListItem,
   Content,
-  Body,
-  Left,
   Header,
   Footer
 } from "native-base";
@@ -20,7 +17,7 @@ import appStyles from '../../theme/appStyles';
 import { Screens, Theme } from '../../constants';
 import styles from './styles';
 import { getCurrentRoute, getLanguage } from '../../utils/common';
-import { Svgicon, Logo, Block, Text } from '../../components';
+import { Svgicon, Logo, Block, Text, Button } from '../../components';
 
 
 class Drawer extends React.Component {
@@ -79,14 +76,7 @@ class Drawer extends React.Component {
           {/*<DrawerItems {...this.props} />*/}
         </Content>
         <Footer style={styles.logoutFooter}>
-          <Button iconLeft transparent full style={styles.logoutBtn} onPress={() => this.logout()} >
-            <Svgicon 
-              style={{marginRight:Theme.sizes.indenthalf}} 
-              color={Theme.colors.white} 
-              name={'logout'} 
-              width={30} 
-              height={30} />
-            <Text style={styles.white}>{this.props.language.logout}</Text>
+
           </Button>
         </Footer>
       </Container>
