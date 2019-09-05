@@ -334,13 +334,18 @@ export default StyleSheet.create({
     color: Theme.colors.white
   },
   textbox:{
-    marginTop:15,
     color: Theme.colors.black,
-    width:100,
+    width: '100%',
     paddingLeft:Theme.sizes.indent,
     paddingRight:Theme.sizes.indent,
     fontFamily: 'Font-Regular',
-    fontSize:14
+    fontSize:14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Theme.colors.black,
+    borderRadius: Theme.sizes.radius,
+    fontSize: Theme.sizes.font,
+    color: Theme.colors.black,
+    height: Theme.sizes.base * 3,
   },
   inputIcon:{
     marginTop: Theme.sizes.indent,

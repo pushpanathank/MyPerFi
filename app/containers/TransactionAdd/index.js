@@ -75,7 +75,8 @@ class TransactionAdd extends React.Component {
               name={'plus'} 
               width={18} 
               height={18} />}
-              error={true}
+              error={false}
+              errorMsg={'Error message'}
               style={[styles.input]}
               defaultValue={this.state.email}
               onChangeText={text => this.setState({ email: text })}

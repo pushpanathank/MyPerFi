@@ -8,116 +8,88 @@ import Button from './Button';
 import Svgicon from './Svgicon';
 import { Theme } from '../constants';
 
+import appStyles from '../theme/appStyles';
+
 export default class Input extends Component {
   state = {
-    toggleSecure: false,
+    borderColor: Theme.colors.black
   }
 
-  renderLabel() {
-    const { label, error } = this.props;
-
-    return (
-      <Block flex={false}>
-        {label ? <Text gray2={!error} accent={error}>{label}</Text> : null}
-      </Block>
-    )
+  renderError() {
+    const { error, errorMsg } = this.props;
+    if(!error){
+      return (<Text accent>{errorMsg}</Text>)
+    }
   }
 
-  renderToggle() {
-    const { secure, rightLabel } = this.props;
-    const { toggleSecure } = this.state;
+  onFocus() {
+    this.setState({
+      borderColor: Theme.colors.secondary
+    })
+  };
 
-    if (!secure) return null;
-
-    return (
-      <Button
-        style={styles.toggle}
-        onPress={() => this.setState({ toggleSecure: !toggleSecure })}
-      >
-        {
-          rightLabel ? rightLabel :
-            <Icon.Ionicons
-              color={Theme.colors.gray}
-              size={Theme.sizes.font * 1.35}
-              name={!toggleSecure ? "md-eye" : "md-eye-off"}
-          />
-        }
-      </Button>
-    );
-  }
-
-  renderRight() {
-    const { rightLabel, rightStyle, onRightPress } = this.props;
-
-    if (!rightLabel) return null;
-
-    return (
-      <Button
-        style={[styles.toggle, rightStyle]}
-        onPress={() => onRightPress && onRightPress()}
-      >
-        {rightLabel}
-      </Button>
-    );
-  }
+  onBlur() {
+    this.setState({
+      borderColor: Theme.colors.black
+    })
+  };
 
   render() {
     const {
-      email,
-      phone,
-      number,
-      secure,
       error,
       style,
       leftIcon,
+      placeholder,
+      placeholderTextColor,
+      keyboardType,
+      autoCapitalize,
+      maxLength,
+      numberOfLines,
+      spellCheck,
+      autoCorrect,
+      secureTextEntry,
+      autoComplete,
+      value,
       ...props
     } = this.props;
 
-    const { toggleSecure } = this.state;
-    const isSecure = toggleSecure ? false : secure;
-
     const inputStyles = [
-      styles.input,
-      error && { borderColor: Theme.colors.accent },
+      appStyles.textbox,
+      // error && { borderBottomColor: Theme.colors.accent },
       leftIcon && { paddingLeft: Theme.sizes.indent * 3 },
       style,
     ];
 
-    const inputType = email
-      ? 'email-address' : number
-      ? 'numeric' : phone
-      ? 'phone-pad' : 'default';
-
     return (
       <Block flex={false} margin={[Theme.sizes.base, 0]}>
         {leftIcon ? <View style={{position:'absolute', padding:Theme.sizes.indent}}>{leftIcon}</View> : <View/>}
-        {/*this.renderLabel()*/}
         <TextInput
-          style={inputStyles}
-          secureTextEntry={isSecure}
-          autoComplete="off"
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType={inputType}
+          style={[inputStyles,{borderBottomColor: this.state.borderColor }]}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          numberOfLines={numberOfLines}
+          spellCheck={spellCheck}
+          autoCorrect={autoCorrect}
+          secureTextEntry={secureTextEntry}
+          value={value}
+          underlineColorAndroid='transparent'
+
+          onFocus={()=>this.onFocus()}
+          onBlur={()=>this.onBlur()}
+
           {...props}
         />
-        {this.renderToggle()}
-        {this.renderRight()}
+        {this.renderError()}
       </Block>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Theme.colors.black,
-    borderRadius: Theme.sizes.radius,
-    fontSize: Theme.sizes.font,
-    fontWeight: '500',
-    color: Theme.colors.black,
-    height: Theme.sizes.base * 3,
-  },
   toggle: {
     position: 'absolute',
     alignItems: 'flex-end',
