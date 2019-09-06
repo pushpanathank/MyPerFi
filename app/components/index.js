@@ -24,6 +24,7 @@ import Divider from "./Divider";
 import Switch from "./Switch";
 import CurrencySymbol from "./CurrencySymbol";
 import withPreventDoubleClick from "./withPreventDoubleClick";
+import ReduxInput from "./ReduxInput";
 
 import Ripple from "./Ripple";
 
@@ -46,6 +47,7 @@ export {
 	Block, Badge, Button, Card, Text, Input, Progress, Divider, Switch,
 	CurrencySymbol,
 	withPreventDoubleClick,
+	ReduxInput,
 	
 	Ripple
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import { Icon } from 'expo';
+import * as Animatable from 'react-native-animatable';
 
 import Text from './Text';
 import Block from './Block';
@@ -11,26 +12,29 @@ import { Theme } from '../constants';
 import appStyles from '../theme/appStyles';
 
 export default class Input extends Component {
-  state = {
-    borderColor: Theme.colors.black
+  constructor(props){
+    super(props);
+    this.state = {
+      borderColor: this.props.borderColor,
+    }
   }
 
   renderError() {
-    const { error, errorMsg } = this.props;
+    const { error, errorMessage, errorStyle } = this.props;
     if(!error){
-      return (<Text accent>{errorMsg}</Text>)
+      return (<Animatable.Text animation="wobble" duration={500} useNativeDriver style={[appStyles.inputError,errorStyle]}>{errorMessage}</Animatable.Text>)
     }
   }
 
   onFocus() {
     this.setState({
-      borderColor: Theme.colors.secondary
+      borderColor: this.props.activeBorderColor
     })
   };
 
   onBlur() {
     this.setState({
-      borderColor: Theme.colors.black
+      borderColor: this.props.borderColor
     })
   };
 
@@ -39,6 +43,9 @@ export default class Input extends Component {
       error,
       style,
       leftIcon,
+      leftIconStyle,
+      rightIcon,
+      rightIconStyle,
       placeholder,
       placeholderTextColor,
       keyboardType,
@@ -55,16 +62,18 @@ export default class Input extends Component {
 
     const inputStyles = [
       appStyles.textbox,
-      // error && { borderBottomColor: Theme.colors.accent },
+      {borderBottomColor: this.state.borderColor },
+      //error && { borderBottomColor: Theme.colors.accent },
       leftIcon && { paddingLeft: Theme.sizes.indent * 3 },
+      rightIcon && { paddingRight: Theme.sizes.indent * 3 },
       style,
     ];
 
     return (
       <Block flex={false} margin={[Theme.sizes.base, 0]}>
-        {leftIcon ? <View style={{position:'absolute', padding:Theme.sizes.indent}}>{leftIcon}</View> : <View/>}
+        {leftIcon ? <View style={[appStyles.inputLeftIcon, leftIconStyle]}>{leftIcon}</View> : <View/>}
         <TextInput
-          style={[inputStyles,{borderBottomColor: this.state.borderColor }]}
+          style={[inputStyles]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           keyboardType={keyboardType}
@@ -83,6 +92,7 @@ export default class Input extends Component {
 
           {...props}
         />
+        {rightIcon ? <View style={[appStyles.inputRightIcon, rightIconStyle]}>{rightIcon}</View> : <View/>}
         {this.renderError()}
       </Block>
     )

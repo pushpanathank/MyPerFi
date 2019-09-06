@@ -75,12 +75,21 @@ class TransactionAdd extends React.Component {
               name={'plus'} 
               width={18} 
               height={18} />}
+              rightIcon={<Svgicon 
+              color={Theme.colors.white}
+              name={'plus'} 
+              width={18} 
+              height={18} />}
+              borderColor={Theme.colors.white}
+              activeBorderColor={Theme.colors.white}
               error={false}
-              errorMsg={'Error message'}
+              errorMessage={'Error message'}
+              errorStyle={{color:'red'}}
               style={[styles.input]}
               defaultValue={this.state.email}
               onChangeText={text => this.setState({ email: text })}
             />
+            <Text>dfsdfsdf</Text>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
             <AccountForm onSubmit={this.addAccount} initialValues={this.state.accInitialValues}/>
           </Content>

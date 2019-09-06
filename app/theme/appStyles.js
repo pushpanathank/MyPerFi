@@ -347,15 +347,26 @@ export default StyleSheet.create({
     color: Theme.colors.black,
     height: Theme.sizes.base * 3,
   },
+  inputError:{
+    fontFamily: 'Font-Regular',
+    color: Theme.colors.accent,
+    bottom:Theme.sizes.indentsmall,
+    right:Theme.sizes.indentsmall,
+    position:'absolute',
+    fontSize:Theme.sizes.caption
+  },
+  inputLeftIcon:{
+    position:'absolute', 
+    left:0,
+    padding:Theme.sizes.indent
+  },
+  inputRightIcon:{
+    position:'absolute', 
+    right:0,
+    padding:Theme.sizes.indent
+  },
   inputIcon:{
     marginTop: Theme.sizes.indent,
     marginLeft: Theme.sizes.indent,
   },
-  inputError:{
-    color: Theme.colors.red,
-    bottom:5,
-    right:0,
-    position:'absolute',
-    fontSize:12
-  }
 });

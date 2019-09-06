@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { Form, Item, Input, Title, Button } from 'native-base';
 import { required, email } from 'redux-form-validators'
-import { InputBox, Svgicon, Block, Text, CurrencySymbol, Switch } from '../../components';
+import { InputBox, Svgicon, Block, Text, CurrencySymbol, Switch, ReduxInput } from '../../components';
 import { getLanguage } from '../../utils/common';
 import { Theme } from '../../constants';
 import appStyles from '../../theme/appStyles';
@@ -34,7 +34,7 @@ class AccountForm extends React.Component {
         <Block block margin={[0,0,Theme.sizes.indent,-Theme.sizes.indent]}>
           <Field 
             name="name" 
-            component={InputBox} 
+            component={ReduxInput} 
             placeholder={''}
             style={{marginTop:0}}
             validate={[required({msg: `${language.accName} ${language.required}`})]}
