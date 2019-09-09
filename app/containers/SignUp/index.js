@@ -8,37 +8,62 @@ import {
   Spinner
 } from 'native-base';
 import { connect } from "react-redux";
-import { submit } from 'redux-form';
-import { bindActionCreators } from "redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { LoginBackIcon, Button, Block, Text } from '../../components';
+import { Svgicon, LoginBackIcon, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import {showToast, getLanguage} from '../../utils/common';
+import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
-import SignUpForm from './form';
 
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      username: '',
-      password: '',
-      error: '',
+    this.state = { 
+      authInputs: {
+        name: {
+          type: "generic",
+          value: ""
+        },
+        email: {
+          type: "email",
+          value: ""
+        },
+        password: {
+          type: "password",
+          value: ""
+        },
+        confirmpass: {
+          type: "generic",
+          value: ""
+        }
+      },
+      validForm: true,
     };
+    this.onInputChange = validationService.onInputChange.bind(this);
+    this.getFormValidation = validationService.getFormValidation.bind(this);
+    this.renderError = validationService.renderError.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
-  signup(values, dispatch, props){
-    dispatch(userActions.signup(values))
-      .then(res => {
+  signup(){
+    this.getFormValidation({obj:'authInputs'});
+    if(this.state.validForm){
+      const { authInputs } = this.state;
+      const user = {
+        name: authInputs.name.value, 
+        email: authInputs.email.value, 
+        password: authInputs.password.value, 
+        confirmpass: authInputs.confirmpass.value
+      };
+      this.props.signupAction(user).then(res => {
         if(res.status == 200){
           showToast(res.msg,"success");
-          dispatch(NavigationActions.navigate({ routeName: Screens.SignIn.route }));
-          // this.props.navigation.navigate(Screens.SignIn.route)
+          // dispatch(NavigationActions.navigate({ routeName: Screens.SignInStack.route }));
+          this.props.navigation.navigate(Screens.SignIn.route)
         }else{
           showToast(res.msg,"danger");
         }
@@ -47,22 +72,24 @@ class SignUp extends React.Component {
         const messages = _.get(error, 'response.data.error')
         message = (_.values(messages) || []).join(',')
         if (message){
-          showToast(message,"danger");
+         showToast(message,"danger");
        }
        console.log(`
           Error messages returned from server:`, messages )
       });
+    }
   }
 
   render(){
     const { language } = this.props;
+    const { authInputs } = this.state;
     return (
-      <Container style={appStyles.container}>
+      <Block style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <Content enableOnAndroid>
-            <View style={{flexDirection: 'column', flex:1}}>
+            <Block column>
               <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
                 <View style={appStyles.row}>
                   <LoginBackIcon props={this.props} /> 
@@ -75,7 +102,51 @@ class SignUp extends React.Component {
                   animation="fadeInUp"
                   delay={500}
                   style={styles.loginBox}>
-                  <SignUpForm onSubmit={this.signup} />
+                  <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent,0]}>
+                    <Input
+                      textColor={Theme.colors.white}
+                      leftIcon={<Svgicon name='username' width='20' color={Theme.colors.white}/>}
+                      borderColor={Theme.colors.white}
+                      activeBorderColor={Theme.colors.white}
+                      error={this.renderError('authInputs', 'name', 'name')}
+                      returnKeyType={"next"}
+                      keyboardType={'default'}
+                      value={authInputs.name.value}
+                      onChangeText={value => {this.onInputChange({ field: "name", value, obj:'authInputs' });}}
+                    />
+                    <Input
+                      textColor={Theme.colors.white}
+                      leftIcon={<Svgicon name='email' width='20' color={Theme.colors.white}/>}
+                      borderColor={Theme.colors.white}
+                      activeBorderColor={Theme.colors.white}
+                      error={this.renderError('authInputs', 'email', 'email')}
+                      returnKeyType={"next"}
+                      value={authInputs.email.value}
+                      onChangeText={value => {this.onInputChange({ field: "email", value, obj:'authInputs' });}}
+                    />
+                    <Input
+                      textColor={Theme.colors.white}
+                      leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                      secureTextEntry={true}
+                      borderColor={Theme.colors.white}
+                      activeBorderColor={Theme.colors.white}
+                      error={this.renderError('authInputs', 'password', 'password')}
+                      returnKeyType={"next"}
+                      value={authInputs.password.value}
+                      onChangeText={value => {this.onInputChange({ field: "password", value, obj:'authInputs' });}}
+                    />
+                    <Input
+                      textColor={Theme.colors.white}
+                      leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                      secureTextEntry={true}
+                      borderColor={Theme.colors.white}
+                      activeBorderColor={Theme.colors.white}
+                      error={this.renderError('authInputs', 'confirmpass', 'password')}
+                      returnKeyType={"go"}
+                      value={authInputs.confirmpass.value}
+                      onChangeText={value => {this.onInputChange({ field: "confirmpass", value, obj:'authInputs' });}}
+                    />
+                  </Block>
                 </Animatable.View>
               </View>  
               <Animatable.View 
@@ -86,16 +157,16 @@ class SignUp extends React.Component {
                    <Spinner color={Theme.colors.secondary} /> : 
                     <Button ripple
                       color="secondary"
-                      onPress={() => this.props.pressSignup()}
+                      onPress={() => this.signup()}
                     >
                       <Text center white transform="uppercase">{language.signup}</Text>
                     </Button>
                 }
               </Animatable.View>  
-            </View>          
+            </Block>          
           </Content>
          </ImageBackground>
-      </Container>
+      </Block>
      
     );
   }
@@ -111,8 +182,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   // Action
     return {
-      pressSignup: () => dispatch(submit('signupForm')),
-      signup: (user) => dispatch(userActions.signup(user)),
+      signupAction: (values) => dispatch(userActions.signup(values)),
    };
 };
 

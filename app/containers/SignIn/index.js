@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, TouchableWithoutFeedback} from 'react-native'
+import { StyleSheet, View, ImageBackground, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native'
 import _ from 'lodash'; 
 import { NavigationActions } from 'react-navigation';
 import {
@@ -9,24 +9,38 @@ import {
   Spinner,
 } from 'native-base';
 import { connect } from "react-redux";
-import { submit, reset } from 'redux-form';
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens, ActionTypes } from '../../constants';
-import { Logo, Statusbar, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text } from '../../components';
+import { Logo, Svgicon, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import { userActions, settingActions } from "../../actions";
 import { showToast, getLanguage } from '../../utils/common';
+import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
-import SignInForm from './form';
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
+      authInputs: {
+        email: {
+          type: "email",
+          value: ""
+        },
+        password: {
+          type: "password",
+          value: ""
+        }
+      },
+      validForm: true,
       visibleModal: false,
     };
+    this.onInputChange = validationService.onInputChange.bind(this);
+    this.getFormValidation = validationService.getFormValidation.bind(this);
+    this.renderError = validationService.renderError.bind(this);
+    this.signin = this.signin.bind(this);
   }
 
   componentDidMount() {
@@ -42,21 +56,24 @@ class SignIn extends React.Component {
 
   onSignupButtonPressHandler(){
     this.props.navigation.navigate(Screens.SignUp.route);
-    // this.props.resetForm();
+    this.resetUserInputs();
   }
 
   onForgotpasswordPressHandler(){
     this.props.navigation.navigate(Screens.ForgotPassword.route);
-    // this.props.resetForm();
+    this.resetUserInputs();
   }
 
-  signin(values, dispatch, props){
-    dispatch(userActions.signin(values))
-      .then(res => {
+  signin(){
+    this.getFormValidation({obj:'authInputs'});
+    if(this.state.validForm){
+      const { authInputs } = this.state;
+      const user = {email: authInputs.email.value, password: authInputs.password.value};
+      this.props.signinAction(user).then(res => {
         if(res.status == 200){
-          showToast(res.msg,"success");
-          dispatch(NavigationActions.navigate({ routeName: Screens.SignInStack.route }));
-          // this.props.navigation.navigate(Screens.SignInStack.route)
+          // dispatch(NavigationActions.navigate({ routeName: Screens.SignInStack.route }));
+          this.props.navigation.navigate(Screens.SignInStack.route)
+          this.resetUserInputs();
         }else{
           showToast(res.msg,"danger");
         }
@@ -70,10 +87,17 @@ class SignIn extends React.Component {
        console.log(`
           Error messages returned from server:`, messages )
       });
+    }
   }
+
+  resetUserInputs(){
+    this.setState({authInputs:{email: {type: "email",value: ""},password: {type: "password",value: ""}}});
+  }
+
 
   render(){
     const { language } = this.props;
+    const { authInputs } = this.state;
     if(this.props.showIntro){
       // Show the app intro on first time launch
       if(this.props.languageSet==0){
@@ -85,27 +109,47 @@ class SignIn extends React.Component {
     if(this.props.user==null){
       // Login 
       return (
-        <Container style={appStyles.container}>
+        <Block style={appStyles.container}>
           <ImageBackground 
-              source={imgs.bg} 
-              style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
+            source={imgs.bg} 
+            style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
             <Content enableOnAndroid>
-              <View style={{flexDirection: 'column', flex:1}}>
-                <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
+              <Block column>
+                <View style={{flex: 0.8,height: Theme.sizes.window.height-80}}>
                   <View style={appStyles.rowXcenter}>
                     <TouchableWithoutFeedback onPress={() => this.props.resetState()}>
                       <Logo style={appStyles.loginLogo} />
                     </TouchableWithoutFeedback >
-                    <TouchableWithoutFeedback onPress={() => this.props.showModal()}>
-                      <Text style={appStyles.loginMidText}>{language.signinTitle}</Text>
-                    </TouchableWithoutFeedback >
+                    <Text style={appStyles.loginMidText}>{language.signinTitle}</Text>
                   </View> 
 
                   <Animatable.View 
                     animation="fadeInUp"
                     delay={500}
                     style={styles.loginBox}>
-                    <SignInForm onSubmit={this.signin} />
+                    <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent,0]}>
+                      <Input
+                        textColor={Theme.colors.white}
+                        leftIcon={<Svgicon name='username' width='20' color={Theme.colors.white}/>}
+                        borderColor={Theme.colors.white}
+                        activeBorderColor={Theme.colors.white}
+                        error={this.renderError('authInputs', 'email', 'email')}
+                        returnKeyType={"next"}
+                        value={authInputs.email.value}
+                        onChangeText={value => {this.onInputChange({ field: "email", value, obj:'authInputs' });}}
+                      />
+                      <Input
+                        textColor={Theme.colors.white}
+                        leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                        secureTextEntry={true}
+                        borderColor={Theme.colors.white}
+                        activeBorderColor={Theme.colors.white}
+                        error={this.renderError('authInputs', 'password', 'password')}
+                        returnKeyType={"go"}
+                        value={authInputs.password.value}
+                        onChangeText={value => {this.onInputChange({ field: "password", value, obj:'authInputs' });}}
+                      />
+                    </Block>
                     <Block row padding={[0,Theme.sizes.indent]}>
                       <Block>
                         <Button color="transparant"  
@@ -134,13 +178,13 @@ class SignIn extends React.Component {
                      <Spinner color={Theme.colors.secondary} /> : 
                       <Button ripple
                         color="secondary"
-                        onPress={() => this.props.pressSignin()}
+                        onPress={() => this.signin()}
                       >
                         <Text center white transform="uppercase"> {language.signin} </Text>
                       </Button>
                   }
                 </Animatable.View>  
-              </View>
+              </Block>
               <ModalBox 
                 visibleModal={this.state.visibleModal}
                 content={<SetLanguage />} 
@@ -149,7 +193,7 @@ class SignIn extends React.Component {
                 />         
             </Content>
            </ImageBackground>
-        </Container>
+        </Block>
        
       );
     }else{
@@ -174,8 +218,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   // Action
     return {
-      pressSignin: () => dispatch(submit('signinForm')),
-      resetForm: () => dispatch(reset('signinForm')),
+      signinAction: (values) => dispatch(userActions.signin(values)),
       setLanguage: () => dispatch(settingActions.setLanguage({id:1,set:1})),
       showModal: () => dispatch({ type: ActionTypes.SHOWMODAL, showModal: true }),
       resetState: () => {

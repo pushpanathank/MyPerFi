@@ -296,7 +296,7 @@ export default StyleSheet.create({
     // width: 70
   },
   loginLogo: {
-    marginTop: Theme.sizes.indent6x,
+    marginTop: Theme.sizes.indent3x,
     width: 220,
     height: 68, 
     // marginTop: Theme.sizes.fourIndent,
@@ -308,7 +308,7 @@ export default StyleSheet.create({
     fontFamily: 'Font-Light',
     marginLeft: 40,
     marginRight: 40,
-    marginTop: -Theme.sizes.indent2x,
+    marginTop: -Theme.sizes.indent,
     color:Theme.colors.lightWhite
   },
   loginTitle:{
@@ -349,7 +349,7 @@ export default StyleSheet.create({
   },
   inputError:{
     fontFamily: 'Font-Regular',
-    color: Theme.colors.accent,
+    color: Theme.colors.red,
     bottom:Theme.sizes.indentsmall,
     right:Theme.sizes.indentsmall,
     position:'absolute',
@@ -358,15 +358,13 @@ export default StyleSheet.create({
   inputLeftIcon:{
     position:'absolute', 
     left:0,
-    padding:Theme.sizes.indent
+    bottom:5,
+    paddingHorizontal:Theme.sizes.indent
   },
   inputRightIcon:{
     position:'absolute', 
     right:0,
-    padding:Theme.sizes.indent
-  },
-  inputIcon:{
-    marginTop: Theme.sizes.indent,
-    marginLeft: Theme.sizes.indent,
+    bottom:5,
+    paddingHorizontal:Theme.sizes.indent
   },
 });

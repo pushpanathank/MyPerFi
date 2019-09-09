@@ -20,9 +20,9 @@ export default class Input extends Component {
   }
 
   renderError() {
-    const { error, errorMessage, errorStyle } = this.props;
-    if(!error){
-      return (<Animatable.Text animation="wobble" duration={500} useNativeDriver style={[appStyles.inputError,errorStyle]}>{errorMessage}</Animatable.Text>)
+    const { error, errorStyle } = this.props;
+    if(error){
+      return (<Animatable.Text animation="wobble" duration={500} useNativeDriver style={[appStyles.inputError,errorStyle]}>{error}</Animatable.Text>)
     }
   }
 
@@ -42,6 +42,7 @@ export default class Input extends Component {
     const {
       error,
       style,
+      textColor,
       leftIcon,
       leftIconStyle,
       rightIcon,
@@ -56,6 +57,7 @@ export default class Input extends Component {
       autoCorrect,
       secureTextEntry,
       autoComplete,
+      returnKeyType,
       value,
       ...props
     } = this.props;
@@ -64,13 +66,14 @@ export default class Input extends Component {
       appStyles.textbox,
       {borderBottomColor: this.state.borderColor },
       //error && { borderBottomColor: Theme.colors.accent },
-      leftIcon && { paddingLeft: Theme.sizes.indent * 3 },
-      rightIcon && { paddingRight: Theme.sizes.indent * 3 },
+      textColor && { color: textColor },
+      leftIcon && { paddingLeft: Theme.sizes.indent * 3.3 },
+      rightIcon && { paddingRight: Theme.sizes.indent * 3.3 },
       style,
     ];
 
     return (
-      <Block flex={false} margin={[Theme.sizes.base, 0]}>
+      <Block flex={false} margin={[0, 0, Theme.sizes.base, 0]}>
         {leftIcon ? <View style={[appStyles.inputLeftIcon, leftIconStyle]}>{leftIcon}</View> : <View/>}
         <TextInput
           style={[inputStyles]}
@@ -86,6 +89,7 @@ export default class Input extends Component {
           secureTextEntry={secureTextEntry}
           value={value}
           underlineColorAndroid='transparent'
+          returnKeyType={returnKeyType || 'done'}
 
           onFocus={()=>this.onFocus()}
           onBlur={()=>this.onBlur()}

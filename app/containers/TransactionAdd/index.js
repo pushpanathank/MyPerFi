@@ -11,87 +11,57 @@ import {
 import { connect } from "react-redux";
 import { submit } from 'redux-form';
 import { accountActions } from "../../actions";
+import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
-import AccountForm from './accountform';
 
 class TransactionAdd extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
     const type = navigation.getParam('type');
-    this.state = {
+    this.state = { 
       type:type,
-      accInitialValues: {id:null, name: "",no: "",bal: "",act: true},
-    }
-  }
-  addAccount(values, dispatch, props){
-    dispatch(accountActions.addBankAcc(values));
-    showToast(props.language.added,"success");
-    dispatch(NavigationActions.navigate({ routeName: Screens.Accounts.route }));
-    Keyboard.dismiss();
-  }
-  addWallet(values, dispatch, props){
-    dispatch(accountActions.addWalletAcc(values));
-    showToast(props.language.added,"success");
-    dispatch(NavigationActions.navigate({ routeName: Screens.Accounts.route }));
-    Keyboard.dismiss();
-  }
-
-  removeAcc(){
-    Alert.alert(
-      this.props.language.confirm,
-      this.props.language.delAccConfirm,
-      [
-        {
-          text: this.props.language.cancel,
-          onPress: () => {},
-          style: 'cancel',
+      transInputs: {
+        amount: {
+          type: "integer",
+          value: ""
         },
-        {text: this.props.language.okay, onPress: () => {
-          this.props.removeAcc(this.state);
-          showToast(this.props.language.deleted,"success");
-          this.props.navigation.navigate(Screens.Accounts.route);
-        }},
-      ],
-      {cancelable: false},
-    );
+      },
+      validForm: true,
+    };
+    this.onInputChange = validationService.onInputChange.bind(this);
+    this.getFormValidation = validationService.getFormValidation.bind(this);
+    this.renderError = validationService.renderError.bind(this);
+    this.addTransaction = this.addTransaction.bind(this);
+  }
+  addTransaction(){
+
   }
 
   render(){
     const {language} = this.props;
+    const { transInputs } = this.state;
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <HeadersWithTitle {...this.props} title={language[this.state.type]} leftIcon={'back'}/>
-          <View style={[appStyles.heading40]}>
-          </View>
+          <Block flex={false} style={[appStyles.heading60]}>
             <Input
-              label="Email"
-              leftIcon={<Svgicon 
-              color={Theme.colors.white}
-              name={'plus'} 
-              width={18} 
-              height={18} />}
-              rightIcon={<Svgicon 
-              color={Theme.colors.white}
-              name={'plus'} 
-              width={18} 
-              height={18} />}
-              borderColor={Theme.colors.white}
-              activeBorderColor={Theme.colors.white}
-              error={false}
-              errorMessage={'Error message'}
-              errorStyle={{color:'red'}}
-              style={[styles.input]}
-              defaultValue={this.state.email}
-              onChangeText={text => this.setState({ email: text })}
-            />
-            <Text>dfsdfsdf</Text>
+                textColor={Theme.colors.white}
+                leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
+                borderColor={Theme.colors.white}
+                activeBorderColor={Theme.colors.white}
+                error={this.renderError('transInputs', 'amount', 'email')}
+                returnKeyType={"next"}
+                value={transInputs.amount.value}
+                onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
+              />
+          </Block>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
-            <AccountForm onSubmit={this.addAccount} initialValues={this.state.accInitialValues}/>
+
           </Content>
         </ImageBackground>
       </Container>
@@ -110,9 +80,6 @@ const mapDispatchToProps = (dispatch,props) => {
   return {
       pressSave: () => {
         dispatch(submit('accountForm'))
-      },
-      removeAcc: (state) =>{
-        dispatch(accountActions.removeBankAcc(state.type));
       },
       logout: () => dispatch(userActions.logoutUser()),
    };

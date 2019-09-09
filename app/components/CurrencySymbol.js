@@ -12,7 +12,7 @@ class CurrencySymbol extends React.Component {
     super(props);
   }
   render() {
-    return <Text style={[Theme.fonts[this.props.size] || Theme.fonts.header, {fontFamily: 'OpenSans-Regular'},this.props.style]}>{this.props.currSymbol}</Text>;
+    return <Text style={[Theme.fonts[this.props.size] || Theme.fonts.header, {fontFamily: 'OpenSans-Regular', color: this.props.color || Theme.colors.black},this.props.style]}>{this.props.currSymbol}</Text>;
   }
 }
 

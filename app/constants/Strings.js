@@ -80,7 +80,7 @@ export default[
 		//Validation messages
 		required: 'is required',
 		notValid: 'is not valid',
-		tooShort: 'Minimum {count, number} chars required',
+		tooShort: 'Minimum 6 chars required',
 		doesntMatch: 'doesn\'t match',
 
 		// Currency
@@ -271,7 +271,7 @@ export default[
 		//Validation messages
 		required: 'தேவை',
 		notValid: 'சரியானது அல்ல',
-		tooShort: 'குறைந்தபட்சம் {count, number} எழுத்துகள் தேவை',
+		tooShort: 'குறைந்தபட்சம் 6 எழுத்துகள் தேவை',
 		doesntMatch: 'பொருந்தவில்லை',
 
 		// Currency
