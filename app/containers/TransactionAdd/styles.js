@@ -1,7 +1,7 @@
 import { Theme } from '../../constants/';
 export default {
   container: {
-    padding: Theme.sizes.indent
+    paddingVertical: Theme.sizes.indent
   },
   form:{
 

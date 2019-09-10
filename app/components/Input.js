@@ -43,6 +43,8 @@ export default class Input extends Component {
       error,
       style,
       textColor,
+      fontSize,
+      selectionColor,
       leftIcon,
       leftIconStyle,
       rightIcon,
@@ -67,6 +69,7 @@ export default class Input extends Component {
       {borderBottomColor: this.state.borderColor },
       //error && { borderBottomColor: Theme.colors.accent },
       textColor && { color: textColor },
+      fontSize && { fontSize: fontSize },
       leftIcon && { paddingLeft: Theme.sizes.indent * 3.3 },
       rightIcon && { paddingRight: Theme.sizes.indent * 3.3 },
       style,
@@ -90,6 +93,7 @@ export default class Input extends Component {
           value={value}
           underlineColorAndroid='transparent'
           returnKeyType={returnKeyType || 'done'}
+          selectionColor={selectionColor|| Theme.colors.black}
 
           onFocus={()=>this.onFocus()}
           onBlur={()=>this.onBlur()}

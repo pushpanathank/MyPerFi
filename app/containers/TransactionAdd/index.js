@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input } from '../../components';
+import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -48,19 +48,52 @@ class TransactionAdd extends React.Component {
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <HeadersWithTitle {...this.props} title={language[this.state.type]} leftIcon={'back'}/>
-          <Block flex={false} style={[appStyles.heading60]}>
-            <Input
+          <Block flex={false} style={[appStyles.heading60]} shadow>
+            <Block column padding={[0,Theme.sizes.indent2x]}>
+              <Input
                 textColor={Theme.colors.white}
+                fontSize={Theme.sizes.h4}
+                placeholder={"Enter Amount"}
                 leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
-                borderColor={Theme.colors.white}
-                activeBorderColor={Theme.colors.white}
+                borderColor={'transparent'}
+                activeBorderColor={'transparent'}
+                selectionColor={Theme.colors.white}
+                error={this.renderError('transInputs', 'amount', 'email')}
+                returnKeyType={"next"}
+                keyboardType={"numeric"}
+                value={transInputs.amount.value}
+                onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
+              />
+            </Block>
+          </Block>
+          <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
+            <Block column>
+              <Input
+                placeholder={"Where did you spend?"}
+                leftIcon={<Svgicon name='shop' width='20' color={Theme.colors.gray3}/>}
+                borderColor={Theme.colors.black}
                 error={this.renderError('transInputs', 'amount', 'email')}
                 returnKeyType={"next"}
                 value={transInputs.amount.value}
                 onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
               />
-          </Block>
-          <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
+              <Input
+                placeholder={"Thu, 10 Sep, 2019"}
+                placeholderTextColor={Theme.colors.black}
+                leftIcon={<Svgicon name='calendar' width='20' color={Theme.colors.gray3}/>}
+                borderColor={Theme.colors.black}
+                error={this.renderError('transInputs', 'amount', 'email')}
+                returnKeyType={"next"}
+                value={transInputs.amount.value}
+                onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
+              />
+            </Block>
+            <Ripple>
+              <Block row>
+                <Svgicon name='calendar' width='20' color={Theme.colors.gray3}/>
+                <Text>Thu, 10 Sep, 2019</Text>
+              </Block>
+            </Ripple>
 
           </Content>
         </ImageBackground>

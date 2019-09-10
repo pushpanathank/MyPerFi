@@ -339,7 +339,7 @@ export default StyleSheet.create({
     paddingLeft:Theme.sizes.indent,
     paddingRight:Theme.sizes.indent,
     fontFamily: 'Font-Regular',
-    fontSize:14,
+    fontSize:Theme.sizes.body,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Theme.colors.black,
     borderRadius: Theme.sizes.radius,
