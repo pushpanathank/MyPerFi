@@ -42,6 +42,7 @@ export default class Input extends Component {
     const {
       error,
       style,
+      containerStyle,
       textColor,
       fontSize,
       selectionColor,
@@ -76,7 +77,7 @@ export default class Input extends Component {
     ];
 
     return (
-      <Block flex={false} margin={[0, 0, Theme.sizes.base, 0]}>
+      <Block flex={false} style={containerStyle}>
         {leftIcon ? <View style={[appStyles.inputLeftIcon, leftIconStyle]}>{leftIcon}</View> : <View/>}
         <TextInput
           style={[inputStyles]}

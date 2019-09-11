@@ -15,8 +15,12 @@ const validationDictionary = {
     email: {  message: "^notValid" }
   },
 
-  generic: {
+  genericRequired: {
     presence: { allowEmpty: false, message: "^required" }
+  },
+
+  generic: {
+    presence: { allowEmpty: true, message: "^required" }
   },
 
   integer: {

@@ -127,7 +127,7 @@ class SignIn extends React.Component {
                     animation="fadeInUp"
                     delay={500}
                     style={styles.loginBox}>
-                    <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent,0]}>
+                    <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent2x,0,0,0]}>
                       <Input
                         textColor={Theme.colors.white}
                         leftIcon={<Svgicon name='username' width='20' color={Theme.colors.white}/>}

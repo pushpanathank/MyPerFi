@@ -183,6 +183,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  btnCircle:{
+    width: Theme.sizes.indent3x,
+    height: Theme.sizes.indent3x,
+    borderRadius: Theme.sizes.indent3x,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnShadow:{
+    shadowColor: Theme.colors.black,
+    shadowOffset: { width: 1, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 4,
+  },
   activeDotStyle:{
     backgroundColor: Theme.colors.secondary
   },
@@ -255,10 +269,10 @@ export default StyleSheet.create({
      alignItems:'center',
      justifyContent:'center',
      width:Theme.sizes.indent3x,
+     height:Theme.sizes.indent3x,
      position: 'absolute',
      bottom: Theme.sizes.indenthalf,
      right: Theme.sizes.indent,
-     height:Theme.sizes.indent3x,
      backgroundColor: Theme.colors.secondary,
      borderRadius:100,
      shadowColor: Theme.colors.black,
@@ -340,7 +354,7 @@ export default StyleSheet.create({
     paddingRight:Theme.sizes.indent,
     fontFamily: 'Font-Regular',
     fontSize:Theme.sizes.body,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderBottomColor: Theme.colors.black,
     borderRadius: Theme.sizes.radius,
     fontSize: Theme.sizes.font,
@@ -367,4 +381,10 @@ export default StyleSheet.create({
     bottom:5,
     paddingHorizontal:Theme.sizes.indent
   },
+  listItem:{
+    paddingHorizontal: Theme.sizes.indent,
+    paddingVertical: Theme.sizes.indenthalf,
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.gray2
+  }
 });

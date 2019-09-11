@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple } from '../../components';
+import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -23,10 +23,12 @@ class TransactionAdd extends React.Component {
     this.state = { 
       type:type,
       transInputs: {
-        amount: {
-          type: "integer",
-          value: ""
-        },
+        amount: { type: "integer", value: "" },
+        place: { type: "generic", value: "" },
+        date: { type: "generic", value: "" },
+        spend: { type: "bool", value: true },
+        reimb: { type: "bool", value: false },
+        note: { type: "generic", value: "" },
       },
       validForm: true,
     };
@@ -36,6 +38,8 @@ class TransactionAdd extends React.Component {
     this.addTransaction = this.addTransaction.bind(this);
   }
   addTransaction(){
+console.log("this.state", this.state);
+    this.getFormValidation({obj:'transInputs'});
 
   }
 
@@ -65,33 +69,68 @@ class TransactionAdd extends React.Component {
                 onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
               />
             </Block>
+            <Button ripple shadow color="secondary" 
+              onPress= {()=> this.addTransaction() }
+              rippleContainerBorderRadius={Theme.sizes.indent3x} 
+              style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:9999999, bottom: -Theme.sizes.indent3x/1.5}]}>
+              <Svgicon name='tick' width='20' color={Theme.colors.white} />
+            </Button>
           </Block>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
             <Block column>
               <Input
                 placeholder={"Where did you spend?"}
                 leftIcon={<Svgicon name='shop' width='20' color={Theme.colors.gray3}/>}
-                borderColor={Theme.colors.black}
-                error={this.renderError('transInputs', 'amount', 'email')}
+                borderColor={Theme.colors.gray2}
+                error={this.renderError('transInputs', 'place', 'email')}
                 returnKeyType={"next"}
-                value={transInputs.amount.value}
-                onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
-              />
-              <Input
-                placeholder={"Thu, 10 Sep, 2019"}
-                placeholderTextColor={Theme.colors.black}
-                leftIcon={<Svgicon name='calendar' width='20' color={Theme.colors.gray3}/>}
-                borderColor={Theme.colors.black}
-                error={this.renderError('transInputs', 'amount', 'email')}
-                returnKeyType={"next"}
-                value={transInputs.amount.value}
-                onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
+                value={transInputs.place.value}
+                onChangeText={value => {this.onInputChange({ field: "place", value, obj:'transInputs' });}}
+                style={{marginBottom:0}}
               />
             </Block>
             <Ripple>
-              <Block row>
-                <Svgicon name='calendar' width='20' color={Theme.colors.gray3}/>
+              <Block row center style={appStyles.listItem}>
+                <Svgicon name='calendar' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>Thu, 10 Sep, 2019</Text>
+              </Block>
+            </Ripple>
+            <Block row center space="around" style={appStyles.listItem}>
+              <Block row center>
+                <Svgicon name='spend' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Text>Spend</Text>
+                </Block>
+              <Switch
+                value={transInputs.spend.value}
+                onValueChange={value => {this.onInputChange({ field: "spend", value, obj:'transInputs' });}}
+              />
+            </Block>
+            <Block row center space="around" style={appStyles.listItem}>
+              <Block row center>
+                <Svgicon name='reimburse' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Text>Reimbursable</Text>
+                </Block>
+              <Switch
+                value={transInputs.reimb.value}
+                onValueChange={value => {this.onInputChange({ field: "reimb", value, obj:'transInputs' });}}
+              />
+            </Block>
+            <Block column>
+              <Input
+                placeholder={"Add Note (Optional)"}
+                leftIcon={<Svgicon name='addnote' width='20' color={Theme.colors.gray3}/>}
+                borderColor={Theme.colors.gray2}
+                error={this.renderError('transInputs', 'note', 'email')}
+                returnKeyType={"next"}
+                value={transInputs.note.value}
+                onChangeText={value => {this.onInputChange({ field: "note", value, obj:'transInputs' });}}
+                style={{marginBottom:0}}
+              />
+            </Block>
+            <Ripple>
+              <Block row center style={appStyles.listItem}>
+                <Svgicon name='uploadbill' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Text>Upload Bill or Receipt (Optional)</Text>
               </Block>
             </Ripple>
 
