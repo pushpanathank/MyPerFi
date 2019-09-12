@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 
 import { Theme, Screens } from '../../constants';
 import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button, Ripple } from '../../components';
-import { fullMonth } from '../../utils/accounts';
+import { getFullMonth } from '../../utils/accounts';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
@@ -40,7 +40,7 @@ class Home extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={language[fullMonth]} leftIcon rightIcon/>
+          <HeadersWithTitle {...this.props} title={getFullMonth('ta')} leftIcon rightIcon/>
 
           <Modal
             isVisible={this.state.addTransModal}

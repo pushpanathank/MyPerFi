@@ -1,4 +1,4 @@
-export default {
+const iconList = {
   airticket: { icon: "airticket", color: "#088da5", label: "Airticket", desc: ""},
   beauty: { icon: "beauty", color: "#8a2be2", label: "Beauty", desc: ""},
   bell: { icon: "bell", color: "#133337", label: "Bell", desc: ""},
@@ -91,3 +91,10 @@ export default {
   water: { icon: "water", color: "#5B5EA6", label: "Water", desc: ""},
   work: { icon: "work", color: "#9B2335", label: "Work", desc: ""}
 };
+
+const iconListArray = Object.values(iconList);
+
+export {
+  iconList,
+  iconListArray
+}

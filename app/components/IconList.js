@@ -18,7 +18,7 @@ class IconList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: Object.values(iconList),
+      data: Object.values(iconList.iconListArray),
     };
   }
   searchFilterFunction = text => {
@@ -61,10 +61,16 @@ class IconList extends React.Component {
                 data={this.state.data}
                 numColumns={4}
                 keyExtractor={(item, index) => index.toString()}
+                removeClippedSubviews={true}
+                maxToRenderPerBatch={40}
+                updateCellsBatchingPeriod={100}
+                initialNumToRender={40}
+                windowSize={400}
+                legacyImplementation={true}
                 renderItem={({ item }) => (
                   <Block center middle>
                           <Button 
-                          style={[appStyles.iconListItemBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
+                          style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
                           onPress={() => this.props.selectedColor(item)}>
                               <Svgicon 
                                 style={appStyles.iconListSingle} 

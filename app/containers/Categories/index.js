@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal';
 import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, IconList, Block, ModalBox } from '../../components';
+import { Logo, Svgicon, HeadersWithTitle, IconList, Block } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -66,7 +66,7 @@ class Categories extends React.Component {
                             >
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.iconListItem,{backgroundColor:iconList[data].color,margin:0}]}>
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:iconList[data].color,margin:0}]}>
                                       <Svgicon 
                                         style={appStyles.iconListSingle} 
                                         color={Theme.colors.white} 
@@ -101,7 +101,7 @@ class Categories extends React.Component {
                                 onPress={() => this.props.selectedColor(data)}>
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.iconListItem,{backgroundColor:iconList[data].color,margin:0}]}>
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:iconList[data].color,margin:0}]}>
                                       <Svgicon 
                                         style={appStyles.iconListSingle} 
                                         color={Theme.colors.white} 

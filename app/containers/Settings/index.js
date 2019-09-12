@@ -106,7 +106,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      setLanguage: (value) => dispatch(settingActions.setLanguage({id:value,set:1})),
+      setLanguage: (value) => dispatch(settingActions.setLanguage({id:value, code: Strings[value].langCode ,set:1})),
       setCurrency: (value) => dispatch(settingActions.setCurrency(value)),
       logout: () => dispatch(userActions.logoutUser()),
    };

@@ -12,6 +12,7 @@ export const initialState = {
 		currency: 'inr',
 		currSymbol: getCurrencySymbol('inr'),
 		languageId:0,
+		languageCode:'en',
 		languageSet:0
 	},
 	accounts:{

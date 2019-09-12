@@ -78,6 +78,7 @@ const sizes = {
   indentY3x:verticalScale(indent * 3),
   indentY4x:verticalScale(indent * 4),
   iconSize:moderateScale(baseSize*2),
+  midIconSize:moderateScale(baseSize*2.5),
   bigIconSize:moderateScale(baseSize*3),
   isSmallDevice: width < 375,
 };

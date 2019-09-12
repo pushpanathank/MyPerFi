@@ -1,9 +1,12 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import Modal from 'react-native-modal';
+
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch } from '../../components';
+import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
+import { getDateWithTime, getDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {
   Container, Content
@@ -31,12 +34,19 @@ class TransactionAdd extends React.Component {
         note: { type: "generic", value: "" },
       },
       validForm: true,
+      visibleIconModal: false
     };
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
     this.renderError = validationService.renderError.bind(this);
     this.addTransaction = this.addTransaction.bind(this);
   }
+
+  toggleIconModal = () => {
+    console.log("toggleIconModal");
+    this.setState({visibleIconModal: !this.state.visibleIconModal});
+  }
+
   addTransaction(){
 console.log("this.state", this.state);
     this.getFormValidation({obj:'transInputs'});
@@ -52,34 +62,53 @@ console.log("this.state", this.state);
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
           <HeadersWithTitle {...this.props} title={language[this.state.type]} leftIcon={'back'}/>
-          <Block flex={false} style={[appStyles.heading60]} shadow>
-            <Block column padding={[0,Theme.sizes.indent2x]}>
+          <Button ripple shadow color="secondary" 
+            onPress= {()=> this.addTransaction() }
+            rippleContainerBorderRadius={Theme.sizes.indent3x} 
+            style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:999, top: Theme.sizes.moderateScale(160)}]}>
+            <Svgicon name='tick' width='20' color={Theme.colors.white} />
+          </Button>
+          <Block flex={false} style={[appStyles.heading125]} shadow>
+            <Block row center padding={[0,Theme.sizes.indent1x]}>
+              <Button center
+                onPress={() => this.toggleIconModal()}
+                style={[appStyles.catIcon,appStyles.catIconMid,{backgroundColor:Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}]}
+                >
+                <Svgicon 
+                  color={Theme.colors.white} 
+                  name={'exclamation'} 
+                  width={18} 
+                  height={18} />
+              </Button>
+              <Block>
+                <Ripple onPress={() => this.toggleIconModal()} style={{padding:Theme.sizes.indenthalf}}>
+                  <Text title white>{language['selectCat']}  </Text>
+                  <Text caption gray2>{getDate(this.props.languageCode)}</Text>
+                </Ripple>
+              </Block>
+            </Block>
+            <Block column padding={[0,Theme.sizes.indent3x]}>
               <Input
                 textColor={Theme.colors.white}
                 fontSize={Theme.sizes.h4}
-                placeholder={"Enter Amount"}
+                placeholder={language['enterAmt']}
                 leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
                 borderColor={'transparent'}
                 activeBorderColor={'transparent'}
                 selectionColor={Theme.colors.white}
-                error={this.renderError('transInputs', 'amount', 'email')}
+                error={this.renderError('transInputs', 'amount', 'amount', 1)}
+                errorStyle={'toast'}
                 returnKeyType={"next"}
                 keyboardType={"numeric"}
                 value={transInputs.amount.value}
                 onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
               />
             </Block>
-            <Button ripple shadow color="secondary" 
-              onPress= {()=> this.addTransaction() }
-              rippleContainerBorderRadius={Theme.sizes.indent3x} 
-              style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:9999999, bottom: -Theme.sizes.indent3x/1.5}]}>
-              <Svgicon name='tick' width='20' color={Theme.colors.white} />
-            </Button>
           </Block>
-          <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
+          <Content enableOnAndroid style={[appStyles.contentBg,appStyles.contentBg125, styles.container]}>
             <Block column>
               <Input
-                placeholder={"Where did you spend?"}
+                placeholder={language['whereSpend']}
                 leftIcon={<Svgicon name='shop' width='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
                 error={this.renderError('transInputs', 'place', 'email')}
@@ -92,13 +121,13 @@ console.log("this.state", this.state);
             <Ripple>
               <Block row center style={appStyles.listItem}>
                 <Svgicon name='calendar' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>Thu, 10 Sep, 2019</Text>
+                <Text>{getDate(this.props.languageCode)}</Text>
               </Block>
             </Ripple>
             <Block row center space="around" style={appStyles.listItem}>
               <Block row center>
                 <Svgicon name='spend' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>Spend</Text>
+                <Text>{language['spend']}</Text>
                 </Block>
               <Switch
                 value={transInputs.spend.value}
@@ -108,7 +137,7 @@ console.log("this.state", this.state);
             <Block row center space="around" style={appStyles.listItem}>
               <Block row center>
                 <Svgicon name='reimburse' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>Reimbursable</Text>
+                <Text>{language['reimbursable']}</Text>
                 </Block>
               <Switch
                 value={transInputs.reimb.value}
@@ -117,10 +146,10 @@ console.log("this.state", this.state);
             </Block>
             <Block column>
               <Input
-                placeholder={"Add Note (Optional)"}
+                placeholder={`${language['addNote']} (${language['optional']})`}
                 leftIcon={<Svgicon name='addnote' width='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
-                error={this.renderError('transInputs', 'note', 'email')}
+                error={this.renderError('transInputs', 'note', 'addNote')}
                 returnKeyType={"next"}
                 value={transInputs.note.value}
                 onChangeText={value => {this.onInputChange({ field: "note", value, obj:'transInputs' });}}
@@ -130,11 +159,27 @@ console.log("this.state", this.state);
             <Ripple>
               <Block row center style={appStyles.listItem}>
                 <Svgicon name='uploadbill' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>Upload Bill or Receipt (Optional)</Text>
+                <Text>{`${language['addBill']} (${language['optional']})`}</Text>
               </Block>
             </Ripple>
 
           </Content>
+
+          <Modal
+              isVisible={this.state.visibleIconModal}
+              backdropOpacity={ 0.5 }
+              animationIn={ 'slideInUp' }
+              animationOut={ 'slideOutDown' }
+              onBackdropPress={ () => { this.toggleIconModal(); } }
+              onBackButtonPress={ () => { this.toggleIconModal(); } }
+              style={{}}
+              useNativeDriver
+            > 
+              <Block row style={[styles.modalContent]}>
+                <IconList />
+              </Block>
+            </Modal>
+
         </ImageBackground>
       </Container>
      
@@ -144,6 +189,7 @@ console.log("this.state", this.state);
 const mapStateToProps = (state) => {
   return {
     bankAcc: state.accounts.bankAcc,
+    languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
   };
 };

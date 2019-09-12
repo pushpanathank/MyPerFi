@@ -10,6 +10,7 @@ const settings = (state = initialState.settings, action) => {
         ...state,
         languageId: action.languageId,
         languageSet: action.languageSet,
+        languageCode: action.languageCode,
       }
     }
     

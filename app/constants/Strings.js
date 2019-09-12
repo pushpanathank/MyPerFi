@@ -59,6 +59,15 @@ export default[
 		walBal: 'Wallet Balance',
 		walAct: 'Wallet is active',
 		delAccConfirm: 'All the transaction associated with this account will be deleted. Do you want to continue?',
+		selectCat: 'Select Category',
+		amount: 'Enter',
+		enterAmt: 'Enter Amount',
+		whereSpend: 'Where did you spend?',
+		spend: 'Spend',
+		reimbursable: 'Reimbursable',
+		addNote: 'Add Note',
+		addBill: 'Upload Bill or Receipt',
+		optional: 'Optional',
 
 
 		added: 'Added successfully',
@@ -250,6 +259,15 @@ export default[
 		walBal: 'பணப்பை இருப்பு',
 		walAct: 'பணப்பை செயலில் உள்ளது',
 		delAccConfirm: 'இந்த கணக்குடன் தொடர்புடைய அனைத்து பரிவர்த்தனைகளும் நீக்கப்படும். நீங்கள் தொடர விரும்புகிறீர்களா?',
+		selectCat: 'வகையை தேர்வு செய்க',
+		amount: 'தொகை',
+		enterAmt: 'தொகையை உள்ளிடவும்',
+		whereSpend: 'எங்கே செலவிட்டீர்கள்?',
+		spend: 'செலவு',
+		reimbursable: 'திரும்ப கிடைக்கும்',
+		addNote: 'குறிப்பு சேர்க்க',
+		addBill: 'பில் அல்லது ரசீதைப் பதிவேற்றுக',
+		optional: 'விருப்பத்தேர்வு',
 
 
 		added: 'வெற்றிகரமாக சேர்க்கப்பட்டது',

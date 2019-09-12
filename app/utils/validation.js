@@ -1,4 +1,5 @@
 import validatejs from "validate.js";
+import {showToast} from "./common";
 // https://github.com/lawnstarter/react-native-form-helpers/tree/5bf9f1f27be1628927af1eea4753edb1265ec76a/demoApp
 const validationDictionary = {
   bool: {
@@ -127,12 +128,16 @@ function getFormValidation({obj='inputs'}) {
   });
 }
 
-function renderError(obj, field, fieldName) {
-  const { language } = this.props;
+function renderError(obj, field, fieldName, toast) {
+  const { language, errorStyle } = this.props;
   const inputs = this.state[obj];
-  console.log("inputs", inputs);
   if (inputs[field].error) {
-    return `${language[fieldName]} ${language[inputs[field].error]}`;
+    let err = `${language[fieldName]} ${language[inputs[field].error]}`;
+    if(toast){
+      showToast(err,"danger");
+    }else{
+      return err;
+    }
   }
   return null;
 }

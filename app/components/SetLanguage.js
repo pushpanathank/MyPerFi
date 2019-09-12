@@ -25,7 +25,7 @@ class SetLanguage extends React.Component {
               block
               key={index}
               style={[appStyles.introLangBtn,this.props.languageId === value.id ? appStyles.introLangBtnActive : {}]}
-              onPress={() => {this.props.setLanguage(index)}}
+              onPress={() => {this.props.setLanguage(index,value)}}
               >
               <Text style={{color:Colors.black}}>{value.lang}</Text>
             </Button>);
@@ -35,7 +35,7 @@ class SetLanguage extends React.Component {
                 button 
                 full 
                 key={index} 
-                onPress={() => {this.props.setLanguage(index)}} 
+                onPress={() => {this.props.setLanguage(index,value)}} 
                 style={{borderBottomWidth: 0, width:'100%'}}>
                 <Radio 
                   id={value.langCode}
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      setLanguage: (value) => dispatch(settingActions.setLanguage({id:value,set:1})),
+      setLanguage: (index,value) => dispatch(settingActions.setLanguage({id:index,code:value.langCode,set:1})),
     };
 };
 

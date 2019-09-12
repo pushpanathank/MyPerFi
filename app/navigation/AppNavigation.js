@@ -50,7 +50,7 @@ const HomeStack = createStackNavigator({
   [Screens.TransactionAdd.route]: { screen: TransactionAdd },
 }, {
   headerMode: 'none',
-  initialRouteName: Screens.TransactionAdd.route,
+  initialRouteName: Screens.Home.route,
 });
 
 // drawer stack

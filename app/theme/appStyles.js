@@ -56,6 +56,9 @@ export default StyleSheet.create({
   contentBg150:{
     height: Theme.sizes.window.height-240,
   },
+  contentBg125:{
+    height: Theme.sizes.window.height-215,
+  },
   heading40:{
     height:Theme.sizes.moderateScale(40),
     paddingTop: Theme.sizes.indenthalf,
@@ -74,6 +77,11 @@ export default StyleSheet.create({
   },
   heading100:{
     height:Theme.sizes.moderateScale(100),
+    paddingLeft: Theme.sizes.indent,
+    paddingRight: Theme.sizes.indent,
+  },
+  heading125:{
+    height:Theme.sizes.moderateScale(125),
     paddingLeft: Theme.sizes.indent,
     paddingRight: Theme.sizes.indent,
   },
@@ -237,19 +245,20 @@ export default StyleSheet.create({
   iconList:{
     justifyContent: 'space-around',
   },
-  iconListItem:{
+  catIcon:{
+    borderRadius:25,
+    padding:0,
+    justifyContent:'center',
     width: Theme.sizes.iconSize,
     height:Theme.sizes.iconSize,
-    borderRadius:25,
-    padding:0,
-    justifyContent:'center',
   },
-  iconListItemBig:{
-    width: Theme.sizes.bigIconSize,
-    height:Theme.sizes.bigIconSize,
-    borderRadius:25,
-    padding:0,
-    justifyContent:'center',
+  catIconMid:{
+    width: Theme.sizes.midIconSize,
+    height:Theme.sizes.midIconSize,
+  },
+  catIconBig:{
+    width: Theme.sizes.catIconBig,
+    height:Theme.sizes.catIconBig,
   },
   iconListSingle:{
 
