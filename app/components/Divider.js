@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import { StyleSheet } from 'react-native';
 
 import Block from './Block';
 import { Theme } from '../constants';
 
-export default class Divider extends Component {
+const divider = class Divider extends Component {
   render() {
     const { color, style, ...props } = this.props;
     const dividerStyles = [
@@ -21,6 +21,8 @@ export default class Divider extends Component {
     )
   }
 }
+
+export default memo(divider);
 
 export const styles = StyleSheet.create({
   divider: {

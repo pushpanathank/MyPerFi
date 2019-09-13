@@ -5,13 +5,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "create-icon": "node ./create-icon.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "expo": "^33.0.0",
     "expo-constants": "^6.0.0",
     "expo-font": "^6.0.1",
+    "icon-font-generator": "^2.1.10",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.24.0",
     "native-base": "^2.13.4",

@@ -1,12 +1,11 @@
-import React from "react";
+import React, {Component, memo} from "react";
 import { Text, Image } from 'react-native';
-import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
 
-class Logo extends React.Component {
+class Logo extends Component {
   render() {
     if(this.props.header){
       return (
@@ -36,13 +35,4 @@ class Logo extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {};
-};
-
-// Exports
-export default connect(mapStateToProps, mapDispatchToProps)(Logo);
+export default memo(Logo);

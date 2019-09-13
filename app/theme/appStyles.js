@@ -394,6 +394,7 @@ export default StyleSheet.create({
     paddingHorizontal: Theme.sizes.indent,
     paddingVertical: Theme.sizes.indenthalf,
     borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.gray2
+    borderBottomColor: Theme.colors.gray2,
+    overflow: 'hidden'
   }
 });

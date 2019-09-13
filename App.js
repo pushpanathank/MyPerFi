@@ -52,6 +52,7 @@ export default class App extends React.Component {
       ...Ionicons.font,
       ...FontAwesome.font,
       ...AntDesign.font,
+      'icomoon': require('./app/assets/fonts/icomoon.ttf'),
       'Font-Light': require('./app/assets/fonts/Montserrat-Light.ttf'),
       'Font-Regular': require('./app/assets/fonts/Montserrat-Regular.ttf'),
       'Font-Semibold': require('./app/assets/fonts/Montserrat-SemiBold.ttf'),

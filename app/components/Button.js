@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Theme } from '../constants';
@@ -98,7 +98,7 @@ Button.defaultProps = {
   color: Theme.colors.white,
 }
 
-export default Button;
+export default memo(Button);
 
 const styles = StyleSheet.create({
   block: {

@@ -1,10 +1,10 @@
 // just copy this code from the driving repo :)
-import React, { Component } from "react";
+import React, { Component, memo } from "react";
 import { Text, StyleSheet } from "react-native";
 
 import { Theme } from "../constants";
 
-export default class Typography extends Component {
+class Typography extends Component {
   render() {
     const {
       h1,
@@ -91,6 +91,8 @@ export default class Typography extends Component {
     );
   }
 }
+
+export default memo(Typography);
 
 const styles = StyleSheet.create({
   // default style

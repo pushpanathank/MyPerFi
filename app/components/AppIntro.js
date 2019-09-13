@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, memo } from "react";
 import { ImageBackground, View, Image } from 'react-native';
 import { connect } from "react-redux";
 import {
@@ -21,7 +21,7 @@ import { Layout, Colors, ActionTypes } from '../constants';
 import { getLanguage } from '../utils/common';
 
 
-class AppIntro extends React.Component {
+const appIntro = class AppIntro extends Component {
   constructor(props) {
     super(props);
 
@@ -107,4 +107,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Exports
-export default connect(mapStateToProps, mapDispatchToProps)(AppIntro);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(appIntro));

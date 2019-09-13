@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, memo } from "react";
 import { Text } from 'react-native';
 import { connect } from "react-redux";
 
@@ -7,7 +7,7 @@ import imgs from '../assets/images';
 import { Theme } from '../constants';
 
 
-class CurrencySymbol extends React.Component {
+const currencySymbol = class CurrencySymbol extends Component {
   constructor(props) {
     super(props);
   }
@@ -26,4 +26,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrencySymbol);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(currencySymbol));

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import { StyleSheet } from 'react-native';
 
 import Block from './Block';
 import { Theme } from '../constants';
 
-export default class Card extends Component {
+class Card extends Component {
   render() {
     const { color, style, children, ...props } = this.props;
     const cardStyles = [
@@ -19,6 +19,8 @@ export default class Card extends Component {
     )
   }
 }
+
+export default memo(Card);
 
 export const styles = StyleSheet.create({
   card: {

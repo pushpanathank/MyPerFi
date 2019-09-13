@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
+import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput, Modal} from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import Modal from 'react-native-modal';
+// import Modal from 'react-native-modal';
 
 import { Screens, Strings, Theme } from '../../constants';
 import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
@@ -166,15 +166,9 @@ console.log("this.state", this.state);
           </Content>
 
           <Modal
-              isVisible={this.state.visibleIconModal}
-              backdropOpacity={ 0.5 }
-              animationIn={ 'slideInUp' }
-              animationOut={ 'slideOutDown' }
-              onBackdropPress={ () => { this.toggleIconModal(); } }
-              onBackButtonPress={ () => { this.toggleIconModal(); } }
-              style={{}}
-              useNativeDriver
-            > 
+              visible={this.state.visibleIconModal}
+              animationType="slide"
+              onRequestClose={() => {this.toggleIconModal() }}>
               <Block row style={[styles.modalContent]}>
                 <IconList />
               </Block>

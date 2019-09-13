@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import Block from './Block';
 import { Theme } from '../constants';
 
-export default class Badge extends Component {
+const badge = class Badge extends Component {
   render() {
     const { children, style, size, color, ...props } = this.props;
 
@@ -25,6 +25,8 @@ export default class Badge extends Component {
     )
   }
 }
+
+export default memo(badge);
 
 const styles = StyleSheet.create({
   badge: {

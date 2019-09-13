@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import { StyleSheet, View, Animated } from 'react-native'
 
 import { Theme } from '../constants';
 
-export default class Block extends Component {
+const block = class Block extends Component {
   handleMargins() {
     const { margin } = this.props;
     if (typeof margin === 'number') {
@@ -158,6 +158,8 @@ export default class Block extends Component {
     )
   }
 }
+
+export default memo(block);
 
 export const styles = StyleSheet.create({
   block: {

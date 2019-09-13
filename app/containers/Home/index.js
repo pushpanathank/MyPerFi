@@ -7,7 +7,7 @@ import {
 import Modal from 'react-native-modal';
 
 import { Theme, Screens } from '../../constants';
-import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button, Ripple } from '../../components';
+import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button, Ripple, Icon } from '../../components';
 import { getFullMonth } from '../../utils/accounts';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -91,6 +91,9 @@ class Home extends React.Component {
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.latestTrans}</Text>
               <Divider />
+              <Icon name="dinner" color="purple" size={45} />
+              <Text style={styles.icon}>e901</Text>
+              <Text style={styles.icon}>icon-addnote</Text>
               <Svgicon name="chart"  width={200}/>
               <Svgicon name="chart"  width={200}/>
               <Svgicon name="chart"  width={200}/>

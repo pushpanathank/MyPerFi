@@ -11,8 +11,8 @@ import Svgicon from "./Svgicon";
 import Headers from "./Headers";
 import HeadersWithTitle from "./HeadersWithTitle";
 import IconList from "./IconList";
-import MyText from "./MyText";
 
+import Icon from "./Icon";
 import Block from "./Block";
 import Badge from "./Badge";
 import Button from "./Button";
@@ -24,7 +24,6 @@ import Divider from "./Divider";
 import Switch from "./Switch";
 import CurrencySymbol from "./CurrencySymbol";
 import withPreventDoubleClick from "./withPreventDoubleClick";
-import ReduxInput from "./ReduxInput";
 
 import Ripple from "./Ripple";
 
@@ -42,12 +41,11 @@ export {
 	Headers, 
 	HeadersWithTitle, 
 	IconList, 
-	MyText, 
 
+	Icon,
 	Block, Badge, Button, Card, Text, Input, Progress, Divider, Switch,
 	CurrencySymbol,
 	withPreventDoubleClick,
-	ReduxInput,
 	
 	Ripple
 };

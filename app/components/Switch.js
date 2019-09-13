@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {Component, memo} from 'react';
 import { Switch, Platform } from 'react-native';
 
 import { Theme } from '../constants';
 
 const GRAY_COLOR = 'rgba(168, 182, 200, 0.60)';
 
-export default class SwitchInput extends React.PureComponent {
+class SwitchInput extends Component {
   render() {
     const { value, ...props } = this.props;
     let thumbColor = null;
@@ -29,3 +29,5 @@ export default class SwitchInput extends React.PureComponent {
     );
   }
 }
+
+export default memo(SwitchInput);

@@ -1,7 +1,5 @@
-import React from "react";
+import React, {Component, memo} from "react";
 import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { connect } from "react-redux";
-import * as Animatable from 'react-native-animatable';
 
 import {
   Button, Item, Icon, Input,
@@ -14,19 +12,23 @@ import { Colors, Layout, ActionTypes, IconList as iconList, Theme } from '../con
 import Svgicon from './Svgicon';
 import Block from './Block';
 
-class IconList extends React.Component {
+class IconList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: Object.values(iconList.iconListArray),
+      data: null,
     };
+
+    setTimeout(()=>{
+      this.setState({ data: iconList.iconListArray });
+    },200);
   }
   searchFilterFunction = text => {
     this.setState({
       value: text,
     });
 
-    const newData = Object.values(iconList).filter(item => {
+    const newData = Object.values(iconList.iconListArray).filter(item => {
       const itemData = `${item.label.toUpperCase()} ${item.icon.toUpperCase()}`;
       const textData = text.toUpperCase();
 
@@ -62,23 +64,18 @@ class IconList extends React.Component {
                 numColumns={4}
                 keyExtractor={(item, index) => index.toString()}
                 removeClippedSubviews={true}
-                maxToRenderPerBatch={40}
-                updateCellsBatchingPeriod={100}
+                maxToRenderPerBatch={50}
+                updateCellsBatchingPeriod={1}
                 initialNumToRender={40}
-                windowSize={400}
+                windowSize={100}
                 legacyImplementation={true}
                 renderItem={({ item }) => (
                   <Block center middle>
-                          <Button 
-                          style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
-                          onPress={() => this.props.selectedColor(item)}>
-                              <Svgicon 
-                                style={appStyles.iconListSingle} 
-                                color={Colors.white} 
-                                name={item.icon} 
-                                width={22} 
-                                height={22} />
-                          </Button>
+                      <Button 
+                      style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
+                      onPress={() => this.props.selectedColor(item)}>
+                          <Icon name="home" />
+                      </Button>
                   </Block>
                 )}
               />
@@ -89,17 +86,4 @@ class IconList extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-      showModal: () => {
-        dispatch({ type: ActionTypes.SHOWMODAL, showModal: true })
-      },
-    };
-};
-
-// Exports
-export default connect(mapStateToProps, mapDispatchToProps)(IconList);
+export default memo(IconList);

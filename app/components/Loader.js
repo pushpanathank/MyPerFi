@@ -1,6 +1,5 @@
-import React from "react";
+import React, {Component, memo} from "react";
 import { ImageBackground, View } from 'react-native';
-import { connect } from "react-redux";
 import {
   Container,
   Content,
@@ -42,13 +41,4 @@ class Loader extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {};
-};
-
-// Exports
-export default connect(mapStateToProps, mapDispatchToProps)(Loader);
+export default  memo(Loader);
