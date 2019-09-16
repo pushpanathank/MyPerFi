@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toast, Icon } from 'native-base';
 import { Strings, Account } from '../constants';
 import moment from 'moment';
 import 'moment/locale/ta';

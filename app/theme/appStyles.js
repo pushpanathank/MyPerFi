@@ -34,6 +34,10 @@ export default StyleSheet.create({
   padding:{
     padding: Theme.sizes.indent,
   },
+  myIcon: {
+    fontFamily: 'icomoon',
+    color: Theme.colors.white
+  },
 
   content:{
     // marginTop: Theme.sizes.indent,
@@ -226,7 +230,6 @@ export default StyleSheet.create({
   drawerText:{
     fontSize: 14, 
     color: Theme.colors.black,
-    paddingLeft: Theme.sizes.indent,
     fontFamily: 'Font-Regular',
     color: Theme.colors.lightBlack
   },
@@ -346,7 +349,8 @@ export default StyleSheet.create({
     justifyContent:'flex-start',
   },
   loginBackIcon:{
-    color: Theme.colors.white
+    color: Theme.colors.white,
+    padding: Theme.sizes.indent
   },
 
   // Input
@@ -381,20 +385,19 @@ export default StyleSheet.create({
   inputLeftIcon:{
     position:'absolute', 
     left:0,
-    bottom:5,
+    bottom:10,
     paddingHorizontal:Theme.sizes.indent
   },
   inputRightIcon:{
     position:'absolute', 
     right:0,
-    bottom:5,
+    bottom:10,
     paddingHorizontal:Theme.sizes.indent
   },
   listItem:{
     paddingHorizontal: Theme.sizes.indent,
     paddingVertical: Theme.sizes.indenthalf,
     borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.gray2,
-    overflow: 'hidden'
+    borderBottomColor: Theme.colors.gray2
   }
 });

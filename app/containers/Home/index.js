@@ -7,7 +7,7 @@ import {
 import Modal from 'react-native-modal';
 
 import { Theme, Screens } from '../../constants';
-import { Svgicon, HeadersWithTitle, Block, Text, Divider, Button, Ripple, Icon } from '../../components';
+import { Icon, HeadersWithTitle, Block, Text, Divider, Button, Ripple } from '../../components';
 import { getFullMonth } from '../../utils/accounts';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -33,14 +33,14 @@ class Home extends React.Component {
   }
 
   render(){
-    const {language, languageId} = this.props;
+    const {language, languageId, languageCode} = this.props;
     const modalWidth = languageId ? {width: Theme.sizes.indent3x*4.5}:{};
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={getFullMonth('ta')} leftIcon rightIcon/>
+          <HeadersWithTitle {...this.props} title={getFullMonth(languageCode)} leftIcon rightIcon/>
 
           <Modal
             isVisible={this.state.addTransModal}
@@ -77,11 +77,7 @@ class Home extends React.Component {
             onPress={() => { this.toggleIconModal(); }}
             style={appStyles.fabBottomRight}
             >
-           <Svgicon 
-              color={Theme.colors.white}
-              name={'plus'} 
-              width={18} 
-              height={18} />
+            <Icon name="plus" size={16} color={Theme.colors.white} />
           </Button>
 
           <Content enableOnAndroid style={appStyles.row}>
@@ -91,32 +87,17 @@ class Home extends React.Component {
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.latestTrans}</Text>
               <Divider />
-              <Icon name="dinner" color="purple" size={45} />
-              <Text style={styles.icon}>e901</Text>
-              <Text style={styles.icon}>icon-addnote</Text>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
+              <Icon name="beauty" />
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.topSpend}</Text>
               <Divider />
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
+
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.bills}</Text>
               <Divider />
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
-              <Svgicon name="chart"  width={200}/>
+
             </Block>
           </Content>
          </ImageBackground>
@@ -126,10 +107,14 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  
+console.log("state.transactions", state.transactions);
   return {
     user: state.auth.user,
     languageId: state.settings.languageId,
+    languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
+    transactions: state.transactions,
   };
 };
 

@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import Text from './Text';
 import Block from './Block';
 import Button from './Button';
-import Svgicon from './Svgicon';
 import { Theme } from '../constants';
 
 import appStyles from '../theme/appStyles';
