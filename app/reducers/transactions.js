@@ -8,13 +8,14 @@ import { getAccSum } from '../utils/accounts';
 const transactions = (state = initialState.transactions, action) => {
   switch (action.type) {
     case ActionTypes.ADDTRANSACTION: {
-      let id= generateUUID();
-      if(action.transaction['id']){
-        id = action.transaction['id'];
+      let transaction=action.transaction,
+      id= generateUUID();
+      if(transaction['id']){
+        id = transaction['id'];
       }
-      action.transaction['id']=id;
-      state[id]=action.transaction;
-      return state;
+      transaction['id']=id;
+      const trans = { [id]: transaction };
+      return {...state, ...trans};
     }
 
     // Default

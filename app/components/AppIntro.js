@@ -5,7 +5,6 @@ import {
   Container,
   Content,
   Icon,
-  Text,
   Button,
   Form,
   Item,
@@ -19,6 +18,7 @@ import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
 import { Layout, Colors, ActionTypes } from '../constants';
 import { getLanguage } from '../utils/common';
+import Text from './Text';
 
 
 const appIntro = class AppIntro extends Component {

@@ -36,7 +36,8 @@ export default StyleSheet.create({
   },
   myIcon: {
     fontFamily: 'icomoon',
-    color: Theme.colors.white
+    color: Theme.colors.white,
+    fontSize: Theme.sizes.base
   },
 
   content:{
@@ -250,8 +251,9 @@ export default StyleSheet.create({
   },
   catIcon:{
     borderRadius:25,
-    padding:0,
+    padding:Theme.sizes.indenthalf,
     justifyContent:'center',
+    alignItems:'center',
     width: Theme.sizes.iconSize,
     height:Theme.sizes.iconSize,
   },
@@ -367,7 +369,7 @@ export default StyleSheet.create({
     paddingRight:Theme.sizes.indent,
     fontFamily: 'Font-Regular',
     fontSize:Theme.sizes.body,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Theme.colors.black,
     borderRadius: Theme.sizes.radius,
     fontSize: Theme.sizes.font,
@@ -396,8 +398,13 @@ export default StyleSheet.create({
   },
   listItem:{
     paddingHorizontal: Theme.sizes.indent,
+    paddingVertical: Theme.sizes.indent,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Theme.colors.gray3
+  },
+  listItemTrans:{
     paddingVertical: Theme.sizes.indenthalf,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.gray2
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Theme.colors.gray3
   }
 });

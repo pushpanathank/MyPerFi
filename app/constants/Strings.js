@@ -60,7 +60,7 @@ export default[
 		walAct: 'Wallet is active',
 		delAccConfirm: 'All the transaction associated with this account will be deleted. Do you want to continue?',
 		selectCat: 'Select Category',
-		amount: 'Enter',
+		amount: 'Amount',
 		enterAmt: 'Enter Amount',
 		whereSpend: 'Where did you spend?',
 		spend: 'Spend',
@@ -68,6 +68,7 @@ export default[
 		addNote: 'Add Note',
 		addBill: 'Upload Bill or Receipt',
 		optional: 'Optional',
+		unknown: 'Unknown',
 
 
 		added: 'Added successfully',
@@ -268,6 +269,7 @@ export default[
 		addNote: 'குறிப்பு சேர்க்க',
 		addBill: 'பில் அல்லது ரசீதைப் பதிவேற்றுக',
 		optional: 'விருப்பத்தேர்வு',
+		unknown: 'தெரியவில்லை',
 
 
 		added: 'வெற்றிகரமாக சேர்க்கப்பட்டது',

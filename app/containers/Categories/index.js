@@ -2,13 +2,13 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal';
 import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, IconList, Block } from '../../components';
+import { Logo, HeadersWithTitle, IconList, Block, Icon } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
   Container,
   Content,
-  Button, Icon,
+  Button,
   Text, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem, Fab,
   Header,
 } from 'native-base';
@@ -16,6 +16,8 @@ import { connect } from "react-redux";
 import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
+
+const catIcon= iconList.iconList;
 
 class Categories extends React.Component {
   constructor(props) {
@@ -66,13 +68,12 @@ class Categories extends React.Component {
                             >
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:iconList[data].color,margin:0}]}>
-                                      <Svgicon 
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:catIcon[data].color,margin:0}]}>
+                                      <Icon 
                                         style={appStyles.iconListSingle} 
-                                        color={Theme.colors.white} 
                                         name={data} 
-                                        width={18} 
-                                        height={18} />
+                                        size={18} 
+                                        />
                                       </Block>
                                   </Block>
                                   <Block row left style={{flex:4}}>
@@ -101,13 +102,12 @@ class Categories extends React.Component {
                                 onPress={() => this.props.selectedColor(data)}>
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:iconList[data].color,margin:0}]}>
-                                      <Svgicon 
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:catIcon[data].color,margin:0}]}>
+                                      <Icon 
                                         style={appStyles.iconListSingle} 
-                                        color={Theme.colors.white} 
                                         name={data} 
-                                        width={18} 
-                                        height={18} />
+                                        size={18} 
+                                       />
                                       </Block>
                                   </Block>
                                   <Block row left style={{flex:4}}>
@@ -127,11 +127,7 @@ class Categories extends React.Component {
               onPress={() => { this.toggleIconModal(); }}
              style={appStyles.fabBottomRight}
             >
-             <Svgicon 
-                color={Theme.colors.white}
-                  name={'plus'} 
-                  width={18} 
-                  height={18} />
+             <Icon name={'plus'} size={18} />
             </TouchableOpacity>
             
             

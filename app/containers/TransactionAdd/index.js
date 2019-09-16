@@ -1,22 +1,21 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput, Modal} from 'react-native';
+import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
-// import Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 
-import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
+import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
+import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import { getDateWithTime, getDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
-import {
-  Container, Content
-} from 'native-base';
+import { Container, Content } from 'native-base';
 import { connect } from "react-redux";
-import { submit } from 'redux-form';
-import { accountActions } from "../../actions";
+import { transactionActions } from "../../actions";
 import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
+
+const catIcon = iconList.iconList;
 
 class TransactionAdd extends React.Component {
   constructor(props) {
@@ -25,16 +24,18 @@ class TransactionAdd extends React.Component {
     const type = navigation.getParam('type');
     this.state = { 
       type:type,
+      id:0,
+      category: null,
       transInputs: {
         amount: { type: "integer", value: "" },
         place: { type: "generic", value: "" },
-        date: { type: "generic", value: "" },
+        date: { type: "generic", value: getDate(this.props.languageCode) },
         spend: { type: "bool", value: true },
         reimb: { type: "bool", value: false },
         note: { type: "generic", value: "" },
       },
       validForm: true,
-      visibleIconModal: false
+      visibleIconModal: false,
     };
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
@@ -43,19 +44,39 @@ class TransactionAdd extends React.Component {
   }
 
   toggleIconModal = () => {
-    console.log("toggleIconModal");
     this.setState({visibleIconModal: !this.state.visibleIconModal});
   }
 
-  addTransaction(){
-console.log("this.state", this.state);
-    this.getFormValidation({obj:'transInputs'});
+  selectedCategory = (cat)=>{
+    this.setState({category:cat.icon});
+    this.toggleIconModal();
+  }
 
+  addTransaction(){
+    this.getFormValidation({obj:'transInputs'});
+    const { transInputs } = this.state;
+    if(this.state.validForm){
+      const trans = {
+        id:this.state.id,
+        cat: this.state.category,
+        amount: transInputs.amount.value,
+        place: transInputs.place.value,
+        date: transInputs.date.value,
+        spend: transInputs.spend.value,
+        reimb: transInputs.reimb.value,
+        note: transInputs.note.value,
+      }
+      console.log("trans", trans);
+      this.props.addTrans(trans);
+      showToast('Added',"success");
+      this.props.navigation.navigate(Screens.Home.route);
+      Keyboard.dismiss();
+    }
   }
 
   render(){
     const {language} = this.props;
-    const { transInputs } = this.state;
+    const { transInputs, category } = this.state;
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
@@ -66,31 +87,35 @@ console.log("this.state", this.state);
             onPress= {()=> this.addTransaction() }
             rippleContainerBorderRadius={Theme.sizes.indent3x} 
             style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:999, top: Theme.sizes.moderateScale(160)}]}>
-            <Svgicon name='tick' width='20' color={Theme.colors.white} />
+            <Icon name='tick' size='20' color={Theme.colors.white} />
           </Button>
           <Block flex={false} style={[appStyles.heading125]} shadow>
             <Block row center padding={[0,Theme.sizes.indent1x]}>
               <Button center
                 onPress={() => this.toggleIconModal()}
-                style={[appStyles.catIcon,appStyles.catIconMid,{backgroundColor:Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}]}
+                style={[
+                  appStyles.catIcon,
+                  appStyles.catIconMid,
+                  {backgroundColor: category ? catIcon[category].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+                  ]}
                 >
-                <Svgicon 
+                <Icon 
                   color={Theme.colors.white} 
-                  name={'exclamation'} 
-                  width={18} 
-                  height={18} />
+                  name={category ? category :'exclamation'} 
+                  size={Theme.sizes.title} 
+                  />
               </Button>
               <Block>
                 <Ripple onPress={() => this.toggleIconModal()} style={{padding:Theme.sizes.indenthalf}}>
-                  <Text title white>{language['selectCat']}  </Text>
-                  <Text caption gray2>{getDate(this.props.languageCode)}</Text>
+                  <Text header white>{category ? language[category] : language['selectCat']}  </Text>
+                  <Text caption gray2>{transInputs.date.value}</Text>
                 </Ripple>
               </Block>
             </Block>
             <Block column padding={[0,Theme.sizes.indent3x]}>
               <Input
                 textColor={Theme.colors.white}
-                fontSize={Theme.sizes.h4}
+                fontSize={Theme.sizes.h5}
                 placeholder={language['enterAmt']}
                 leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
                 borderColor={'transparent'}
@@ -101,6 +126,7 @@ console.log("this.state", this.state);
                 returnKeyType={"next"}
                 keyboardType={"numeric"}
                 value={transInputs.amount.value}
+                numberOfLines={1}
                 onChangeText={value => {this.onInputChange({ field: "amount", value, obj:'transInputs' });}}
               />
             </Block>
@@ -109,7 +135,7 @@ console.log("this.state", this.state);
             <Block column>
               <Input
                 placeholder={language['whereSpend']}
-                leftIcon={<Svgicon name='shop' width='20' color={Theme.colors.gray3}/>}
+                leftIcon={<Icon name='shop' size='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
                 error={this.renderError('transInputs', 'place', 'email')}
                 returnKeyType={"next"}
@@ -120,13 +146,13 @@ console.log("this.state", this.state);
             </Block>
             <Ripple>
               <Block row center style={appStyles.listItem}>
-                <Svgicon name='calendar' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>{getDate(this.props.languageCode)}</Text>
+                <Icon name='calendar' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Text>{transInputs.date.value}</Text>
               </Block>
             </Ripple>
             <Block row center space="around" style={appStyles.listItem}>
               <Block row center>
-                <Svgicon name='spend' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Icon name='spend' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>{language['spend']}</Text>
                 </Block>
               <Switch
@@ -136,7 +162,7 @@ console.log("this.state", this.state);
             </Block>
             <Block row center space="around" style={appStyles.listItem}>
               <Block row center>
-                <Svgicon name='reimburse' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Icon name='reimburse' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>{language['reimbursable']}</Text>
                 </Block>
               <Switch
@@ -147,7 +173,7 @@ console.log("this.state", this.state);
             <Block column>
               <Input
                 placeholder={`${language['addNote']} (${language['optional']})`}
-                leftIcon={<Svgicon name='addnote' width='20' color={Theme.colors.gray3}/>}
+                leftIcon={<Icon name='addnote' size='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
                 error={this.renderError('transInputs', 'note', 'addNote')}
                 returnKeyType={"next"}
@@ -158,7 +184,7 @@ console.log("this.state", this.state);
             </Block>
             <Ripple>
               <Block row center style={appStyles.listItem}>
-                <Svgicon name='uploadbill' width='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Icon name='uploadbill' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>{`${language['addBill']} (${language['optional']})`}</Text>
               </Block>
             </Ripple>
@@ -166,11 +192,17 @@ console.log("this.state", this.state);
           </Content>
 
           <Modal
-              visible={this.state.visibleIconModal}
-              animationType="slide"
-              onRequestClose={() => {this.toggleIconModal() }}>
+              isVisible={this.state.visibleIconModal}
+              backdropOpacity={ 0.5 }
+              animationIn={ 'slideInUp' }
+              animationOut={ 'slideOutDown' }
+              onBackdropPress={ () => { this.toggleIconModal(); } }
+              onBackButtonPress={ () => { this.toggleIconModal(); } }
+              style={{backgroundColor:Theme.colors.white}}
+              useNativeDriver
+            > 
               <Block row style={[styles.modalContent]}>
-                <IconList />
+                <IconList selectedCategory={this.selectedCategory} />
               </Block>
             </Modal>
 
@@ -190,10 +222,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
-      pressSave: () => {
-        dispatch(submit('accountForm'))
-      },
-      logout: () => dispatch(userActions.logoutUser()),
+      addTrans: (values) => dispatch(transactionActions.addTransaction(values)),
    };
 };
 

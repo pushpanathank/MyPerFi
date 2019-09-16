@@ -1,16 +1,14 @@
 import React, {Component, memo} from "react";
 import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
-
-import {
-  Button, Item, Icon, Input,
-  Text,
-  List, ListItem
-} from 'native-base';
-
+import { Spinner } from 'native-base';
 import appStyles from '../theme/appStyles';
-import { Colors, Layout, ActionTypes, IconList as iconList, Theme } from '../constants';
+import { ActionTypes, IconList as iconList, Theme } from '../constants';
 import Svgicon from './Svgicon';
 import Block from './Block';
+import Icon from './Icon';
+import Text from './Text';
+import Button from './Button';
+import Input from './Input';
 
 class IconList extends Component {
   constructor(props) {
@@ -20,15 +18,16 @@ class IconList extends Component {
     };
 
     setTimeout(()=>{
-      this.setState({ data: iconList.iconListArray });
-    },200);
+      this.setState({data: iconList.iconListArray});
+    },50)
+
   }
   searchFilterFunction = text => {
     this.setState({
       value: text,
     });
 
-    const newData = Object.values(iconList.iconListArray).filter(item => {
+    const newData = iconList.iconListArray.filter(item => {
       const itemData = `${item.label.toUpperCase()} ${item.icon.toUpperCase()}`;
       const textData = text.toUpperCase();
 
@@ -46,39 +45,37 @@ class IconList extends Component {
   render() {
     return (
         <Block block padding={Theme.sizes.indent}>
-            <Item>
-              <Svgicon name='search' color={Colors.lightBlack} width={20} height={20}/>
+            <Block flex={false}>
               <Input 
                 placeholder="Search"
+                leftIcon={<Icon name='search' color={Theme.colors.lightBlack} size={20}/>}
+                rightIcon={<Icon name='close' color={Theme.colors.lightBlack} size={30}/>}
                 onChangeText={text => this.searchFilterFunction(text)}
-                style={{paddingLeft:Layout.indent, paddingRight:Layout.indent}}
+                borderColor={Theme.colors.gray}
+                activeBorderColor={Theme.colors.gray2}
               />
-              <TouchableWithoutFeedback onPress={this.clear}>
-                <Svgicon name='close' color={Colors.lightBlack} width={30} height={30}/>
-              </TouchableWithoutFeedback>
-            </Item>
+              {/* <TouchableWithoutFeedback onPress={this.clear}>
+                <Icon name='close' color={Theme.colors.lightBlack} size={30}/>
+              </TouchableWithoutFeedback> */}
+            </Block>
             <ScrollView showsVerticalScrollIndicator={false} style={[appStyles.contentBg]}>
               <Block margin={[Theme.sizes.indent,0,0,0]}>
+              { this.state.data ? 
                 <FlatList
                 data={this.state.data}
                 numColumns={4}
                 keyExtractor={(item, index) => index.toString()}
-                removeClippedSubviews={true}
-                maxToRenderPerBatch={50}
-                updateCellsBatchingPeriod={1}
-                initialNumToRender={40}
-                windowSize={100}
-                legacyImplementation={true}
                 renderItem={({ item }) => (
                   <Block center middle>
                       <Button 
-                      style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indent}]}
-                      onPress={() => this.props.selectedColor(item)}>
-                          <Icon name="home" />
+                      style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indentsmall}]}
+                      onPress={() => this.props.selectedCategory(item)}>
+                          <Icon name={item.icon} size={20} />
                       </Button>
+                      <Text caption gray style={{marginBottom: Theme.sizes.indent}}>{item.label}</Text>
                   </Block>
                 )}
-              />
+              />: <Spinner color={Theme.colors.secondary} />}
             </Block>
             </ScrollView>
         </Block>
@@ -87,3 +84,11 @@ class IconList extends Component {
 }
 
 export default memo(IconList);
+
+/*
+removeClippedSubviews={true}
+maxToRenderPerBatch={40}
+updateCellsBatchingPeriod={1}
+initialNumToRender={40}
+windowSize={100}
+legacyImplementation={true}*/

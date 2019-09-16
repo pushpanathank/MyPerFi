@@ -46,7 +46,7 @@ export default class App extends React.Component {
     }
   }
 
-  async componentWillMount() {
+  /*async componentWillMount() {
     await Font.loadAsync({
       // 'Ionicons': require('native-base/Fonts/Ionicons.ttf'),
       ...Ionicons.font,
@@ -60,12 +60,42 @@ export default class App extends React.Component {
       'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
     });
     this.setState({isReady: true});
-  }
+  }*/
+
+ _loadResourcesAsync = async () => {
+      return Promise.all([
+          Font.loadAsync({
+              // ...Ionicons.font,
+              // ...FontAwesome.font,
+              // ...AntDesign.font,
+              'icomoon': require('./app/assets/fonts/icomoon.ttf'),
+              'Font-Light': require('./app/assets/fonts/Montserrat-Light.ttf'),
+              'Font-Regular': require('./app/assets/fonts/Montserrat-Regular.ttf'),
+              'Font-Semibold': require('./app/assets/fonts/Montserrat-SemiBold.ttf'),
+              'Font-Bold': require('./app/assets/fonts/Montserrat-Bold.ttf'),
+              'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
+          }),
+      ]);
+  };
+
+  _handleLoadingError = error => {
+      // In this case, you might want to report the error to your error
+      // reporting service, for example Sentry
+      console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+      this.setState({ isReady: true });
+  };
 
   render() {
     if (!this.state.isReady) {
       return (
-        <AppLoading />
+        <AppLoading
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+        />
       );
     }
     return (

@@ -20,5 +20,6 @@ export const initialState = {
 		bankAccSum: 0,
 		walletAcc: {},
 		walletAccSum: 0,
-	}
+	},
+	transactions:{}
 };
