@@ -69,7 +69,7 @@ class AccountsManage extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={language.accounts} leftIcon={'back'} rightIcon={'save'}/>
+          <HeadersWithTitle {...this.props} title={language.accounts} leftIcon={'back'} rightIcon={'tick'}/>
           <View style={[appStyles.heading40]}>
           { this.state.accId ? 
             <Text title color='white'>{this.state.activeTab ? language.editWallet : language.editBankacc}</Text> : 
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
-      pressSave: () => {
+      onPressRight: () => {
         if(props.navigation.getParam('activeTab')){
           dispatch(submit('walletForm'))
         }else{

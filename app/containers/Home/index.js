@@ -195,7 +195,6 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-    console.log("transactions", state.transactions);
     return {
     user: state.auth.user,
     languageId: state.settings.languageId,

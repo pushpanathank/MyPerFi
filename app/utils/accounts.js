@@ -28,32 +28,9 @@ function formatDate({lang='en',date=null,format='transaction'}){
 	}
 	return moment().format(form);
 }
-const getFullMonth = (lang) =>  {
-	moment.locale(lang);
-	return moment().format('MMMM');
-}
-const getDate = (lang,date,format) =>  {
-	moment.locale(lang);
-	let form = format || 'ddd, DD MMM, YYYY';
-	if(date){
-		return moment(date).format(form);
-	}
-	return moment().format(form);
-}
-const getDateWithTime = (lang) =>  {
-	moment.locale(lang);
-	return moment().format('ddd, DD MMM, YYYY | hh:mm A');
-}
-const getDateToSave = (date) =>  {
-	return moment(date).format('YYYY-MM-DD');
-}
 
 export {
 	getAccSum,
 
 	formatDate,
-	getFullMonth,
-	getDate,
-	getDateWithTime,
-	getDateToSave
 };

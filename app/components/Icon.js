@@ -37,6 +37,7 @@ class Icon extends Component {
         cookies: '\u{e917}',
         courier: '\u{e918}',
         cycle: '\u{e919}',
+        delete: '\u{e90f}',
         dining: '\u{e91a}',
         dinner: '\u{e91b}',
         donation: '\u{e91c}',

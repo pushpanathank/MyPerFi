@@ -45,8 +45,8 @@ class HeadersWithTitle extends React.Component {
           <Block row right style={{flex:1}}>
             { this.props.rightIcon ? (
               this.props.rightIcon ?
-              <ButtonEx transparent onPress={() => this.props.pressRight()}>
-                <Icon name={this.props.rightIcon} size={27} />
+              <ButtonEx transparent onPress={() => this.props.onPressRight()}>
+                <Icon name={this.props.rightIcon} size={24} />
               </ButtonEx>
               :
               <Button transparent>

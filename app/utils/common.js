@@ -39,11 +39,19 @@ const generateUUID = () =>{
 	return Date.now().toString(36) + Math.random().toString(36).substr(3, 4);
 }
 
+const generateUUIDInt = (date) =>{
+	if(date){
+		Math.floor(new Date(date).getTime()/ 1000);
+	}
+	return Math.floor(new Date().getTime()/ 1000);
+}
+
 export {
 	getLanguage,
 	getCurrencySymbol,
 	showToast,
 	getCurrentRoute,
 	getFontIcon,
-	generateUUID
+	generateUUID,
+	generateUUIDInt
 };

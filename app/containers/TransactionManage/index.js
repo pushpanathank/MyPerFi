@@ -26,24 +26,46 @@ class TransactionManage extends React.Component {
     const {navigation} = this.props;
     const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    this.state = { 
-      title : id!=0 ? editStr : addStr,
-      type:type,
-      id:id,
-      category: null,
-      selectedDate: new Date(),
-      transInputs: {
-        amount: { type: "integer", value: "" },
-        place: { type: "generic", value: "" },
-        date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
-        spend: { type: "bool", value: true },
-        reimb: { type: "bool", value: false },
-        note: { type: "generic", value: "" },
-      },
-      validForm: true,
-      visibleIconModal: false,
-      visibleDatePicker: false,
-    };
+    const trans = this.props.transactions[id];
+    if(id!=0){
+      this.state = { 
+        title : editStr,
+        type:type,
+        id:id,
+        category: trans.cat,
+        selectedDate: new Date(trans.date),
+        transInputs: {
+          amount: { type: "integer", value: trans.amount },
+          place: { type: "generic", value: trans.place },
+          date: { type: "generic", value: formatDate({lang:this.props.languageCode, date:trans.date}) },
+          spend: { type: "bool", value: trans.spend },
+          reimb: { type: "bool", value: trans.reimb },
+          note: { type: "generic", value: trans.note },
+        },
+        validForm: true,
+        visibleIconModal: false,
+        visibleDatePicker: false,
+      };
+    }else{
+      this.state = { 
+        title : addStr,
+        type:type,
+        id:id,
+        category: null,
+        selectedDate: new Date(),
+        transInputs: {
+          amount: { type: "integer", value: "" },
+          place: { type: "generic", value: "" },
+          date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
+          spend: { type: "bool", value: type ? false : true },
+          reimb: { type: "bool", value: false },
+          note: { type: "generic", value: "" },
+        },
+        validForm: true,
+        visibleIconModal: false,
+        visibleDatePicker: false,
+      };
+    }
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
     this.renderError = validationService.renderError.bind(this);
@@ -74,6 +96,7 @@ class TransactionManage extends React.Component {
   addTransaction(){
     this.getFormValidation({obj:'transInputs'});
     const { transInputs, selectedDate } = this.state;
+    const msg = this.state.id ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       const trans = {
         id:this.state.id,
@@ -94,6 +117,12 @@ class TransactionManage extends React.Component {
     }
   }
 
+  removeTransaction = ()=>{
+    this.props.removeTrans(this.state.id);
+    showToast(this.props.language.deleted,"success");
+    this.props.navigation.navigate(Screens.Home.route);
+  }
+
   render(){
     const {language} = this.props;
     const { transInputs, category } = this.state;
@@ -104,13 +133,13 @@ class TransactionManage extends React.Component {
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
             {
               this.state.id != 0 ? 
-              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'} rightIcon={'delete'}/> : 
+              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'} rightIcon={'delete'} onPressRight={this.removeTransaction}/> : 
               <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'}/>
             }
           <Button ripple shadow color="secondary" 
             onPress= {()=> this.addTransaction() }
             rippleContainerBorderRadius={Theme.sizes.indent3x} 
-            style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:999, top: Theme.sizes.moderateScale(160)}]}>
+            style={[appStyles.btnCircle, appStyles.btnShadow,{position:'absolute', right: Theme.sizes.indent,zIndex:999, top: Theme.sizes.moderateScale(170)}]}>
             <Icon name='tick' size='20' color={Theme.colors.white} />
           </Button>
           <Block flex={false} style={[appStyles.heading125]} shadow>
@@ -142,6 +171,7 @@ class TransactionManage extends React.Component {
                 fontSize={Theme.sizes.h5}
                 placeholder={language['enterAmt']}
                 leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
+                leftIconStyle={{bottom:3}}
                 borderColor={'transparent'}
                 activeBorderColor={'transparent'}
                 selectionColor={Theme.colors.white}
@@ -174,26 +204,31 @@ class TransactionManage extends React.Component {
                 <Text>{transInputs.date.value}</Text>
               </Block>
             </Ripple>
-            <Block row center space="around" style={appStyles.listItem}>
-              <Block row center>
-                <Icon name='spend' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>{language['spend']}</Text>
-                </Block>
-              <Switch
-                value={transInputs.spend.value}
-                onValueChange={value => {this.onInputChange({ field: "spend", value, obj:'transInputs' });}}
-              />
-            </Block>
-            <Block row center space="around" style={appStyles.listItem}>
-              <Block row center>
-                <Icon name='reimburse' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
-                <Text>{language['reimbursable']}</Text>
-                </Block>
-              <Switch
-                value={transInputs.reimb.value}
-                onValueChange={value => {this.onInputChange({ field: "reimb", value, obj:'transInputs' });}}
-              />
-            </Block>
+            {
+              !this.state.type ?
+              <View>
+              <Block row center space="around" style={appStyles.listItem}>
+                <Block row center>
+                  <Icon name='spend' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                  <Text>{language['spend']}</Text>
+                  </Block>
+                <Switch
+                  value={transInputs.spend.value}
+                  onValueChange={value => {this.onInputChange({ field: "spend", value, obj:'transInputs' });}}
+                />
+              </Block>
+              <Block row center space="around" style={appStyles.listItem}>
+                <Block row center>
+                  <Icon name='reimburse' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                  <Text>{language['reimbursable']}</Text>
+                  </Block>
+                <Switch
+                  value={transInputs.reimb.value}
+                  onValueChange={value => {this.onInputChange({ field: "reimb", value, obj:'transInputs' });}}
+                />
+              </Block>
+              </View> : <Text />
+            }
             <Block column>
               <Input
                 placeholder={`${language['addNote']} (${language['optional']})`}
@@ -249,13 +284,14 @@ const mapStateToProps = (state) => {
     bankAcc: state.accounts.bankAcc,
     languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
-    transactions: Object.values(state.transactions),
+    transactions: state.transactions,
   };
 };
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
       addTrans: (values) => dispatch(transactionActions.addTransaction(values)),
+      removeTrans: (id) => dispatch(transactionActions.removeTransaction(id))
    };
 };
 
