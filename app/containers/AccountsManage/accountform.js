@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { Form, Item, Input, Title, Button } from 'native-base';
 import { required, email } from 'redux-form-validators'
-import { InputBox, Svgicon, Block, Text, CurrencySymbol, Switch } from '../../components';
+import { InputBox, Block, Text, CurrencySymbol, Switch } from '../../components';
 import { getLanguage } from '../../utils/common';
 import { Theme } from '../../constants';
 import appStyles from '../../theme/appStyles';

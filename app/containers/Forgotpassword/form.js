@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { Form, Item, Input, Title, Button, Text } from 'native-base';
 import { required, email } from 'redux-form-validators'
-import { InputBox, Svgicon } from '../../components';
+import { InputBox, Icon } from '../../components';
 import { getLanguage } from '../../utils/common';
 import { Theme } from '../../constants';
 import appStyles from '../../theme/appStyles';
@@ -25,7 +25,7 @@ class ForgotForm extends React.Component {
           placeholder={language.email}
           textColor={Theme.colors.white}
           keyboardType={'email-address'}
-          icon={<Svgicon name='email' width='20' color={Theme.colors.white} style={appStyles.inputIcon} />}
+          icon={<Icon name='email' size='20' style={appStyles.inputIcon} />}
           iconStyle={{top:5,paddingLeft:15}}
           validate={[required({msg: `${language.email} ${language.required}`}), email({msg: `${language.email} ${language.notValid}`})]}
         />

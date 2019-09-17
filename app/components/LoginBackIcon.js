@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Icon,
-  Text,
   Button,
 } from 'native-base';
 import { connect } from "react-redux";
@@ -9,6 +7,7 @@ import { NavigationActions } from "react-navigation";
 
 import { Screens } from '../constants';
 import appStyles from '../theme/appStyles';
+import Icon from './Icon';
 
 class LoginBackIcon extends React.Component {
   constructor(props) {

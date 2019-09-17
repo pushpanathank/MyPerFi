@@ -12,7 +12,7 @@ import {
 import appStyles from '../theme/appStyles';
 import { Theme, ActionTypes } from '../constants';
 import Logo from './Logo';
-import Svgicon from './Svgicon';
+import Icon from './Icon';
 import Text from './Text';
 import Block from './Block';
 import withPreventDoubleClick from './withPreventDoubleClick';
@@ -30,11 +30,11 @@ class HeadersWithTitle extends React.Component {
             { this.props.leftIcon ? (
               this.props.leftIcon == 'back' ?
               <Button transparent style={appStyles.menuBtn} onPress={() => this.props.goBack()}>
-                <Svgicon color={Theme.colors.white} name="back" width={25} />
+                <Icon name="back_arrow" size={25} />
               </Button> 
               :
               <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
-                <Svgicon color={Theme.colors.white} name="menu" width={30} />
+                <Icon name="menu" size={30} />
               </Button>
               ) : <Text/>
             }
@@ -44,13 +44,13 @@ class HeadersWithTitle extends React.Component {
           </Block>
           <Block row right style={{flex:1}}>
             { this.props.rightIcon ? (
-              this.props.rightIcon == 'save' ?
-              <ButtonEx transparent onPress={() => this.props.pressSave()}>
-                <Svgicon color={Theme.colors.white} name="tick" width={27} />
+              this.props.rightIcon ?
+              <ButtonEx transparent onPress={() => this.props.pressRight()}>
+                <Icon name={this.props.rightIcon} size={27} />
               </ButtonEx>
               :
               <Button transparent>
-                <Svgicon color={Theme.colors.white} name="bell" width={23} />
+                <Icon name="bell" size={23} />
                 <View style={{ position: 'absolute', right:5, top:5, width:20, height:20, padding:0, margin:0, backgroundColor: Theme.colors.accent, borderRadius:10 }}>
                   <Text style={{ fontSize: 11, color: "#fff", position: 'absolute',right:10, top:4,}}>2</Text>
                 </View>

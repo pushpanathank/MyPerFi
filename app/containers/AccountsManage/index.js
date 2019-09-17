@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input } from '../../components';
+import { Logo, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {

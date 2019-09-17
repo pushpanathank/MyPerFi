@@ -17,7 +17,7 @@ import appStyles from '../../theme/appStyles';
 import { Screens, Theme } from '../../constants';
 import styles from './styles';
 import { getCurrentRoute, getLanguage } from '../../utils/common';
-import { Svgicon, Logo, Block, Text, Button } from '../../components';
+import { Icon, Logo, Block, Text, Button } from '../../components';
 
 
 class Drawer extends React.Component {
@@ -60,12 +60,12 @@ class Drawer extends React.Component {
                   noIndent
                   style={[appStyles.drawerItem, data.route==currentRoute ? appStyles.activeDrawerItem : {}]}
                   onPress={() => this.props.navigation.navigate(data.route)}>
-                      <Svgicon 
+                      <Icon 
                         style={appStyles.drawerIcon} 
                         color={(data.route==currentRoute) ? Theme.colors.secondary:Theme.colors.black} 
                         name={data.icon} 
-                        width={20} 
-                        height={20} />
+                        size={20} 
+                        />
                       <Text
                       style={appStyles.drawerText}>
                       {language[(data.route).toLowerCase()]}</Text>
@@ -77,12 +77,12 @@ class Drawer extends React.Component {
         </Content>
         <Footer style={styles.logoutFooter}>
           <Button block center ripple color='secondary' style={{flexDirection: 'row', marginTop:-5}} onPress={() => this.logout()} >
-            <Svgicon  
+            <Icon  
               style={{marginRight:Theme.sizes.indenthalf}}  
               color={Theme.colors.white}  
               name={'logout'}   
-              width={30}  
-              height={30} />  
+              size={30}  
+              />  
             <Text style={styles.white}>{this.props.language.logout}</Text>
           </Button>
         </Footer>

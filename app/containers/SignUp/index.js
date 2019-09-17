@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { Svgicon, LoginBackIcon, Button, Block, Text, Input } from '../../components';
+import { Icon, LoginBackIcon, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import {showToast, getLanguage} from '../../utils/common';
@@ -105,7 +105,7 @@ class SignUp extends React.Component {
                   <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent2x,0,0,0]}>
                     <Input
                       textColor={Theme.colors.white}
-                      leftIcon={<Svgicon name='username' width='20' color={Theme.colors.white}/>}
+                      leftIcon={<Icon name='username' size='20'/>}
                       borderColor={Theme.colors.white}
                       activeBorderColor={Theme.colors.white}
                       error={this.renderError('authInputs', 'name', 'name')}
@@ -116,7 +116,7 @@ class SignUp extends React.Component {
                     />
                     <Input
                       textColor={Theme.colors.white}
-                      leftIcon={<Svgicon name='email' width='20' color={Theme.colors.white}/>}
+                      leftIcon={<Icon name='email' size='20'/>}
                       borderColor={Theme.colors.white}
                       activeBorderColor={Theme.colors.white}
                       error={this.renderError('authInputs', 'email', 'email')}
@@ -126,7 +126,7 @@ class SignUp extends React.Component {
                     />
                     <Input
                       textColor={Theme.colors.white}
-                      leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                      leftIcon={<Icon name='password' size='20'/>}
                       secureTextEntry={true}
                       borderColor={Theme.colors.white}
                       activeBorderColor={Theme.colors.white}
@@ -137,7 +137,7 @@ class SignUp extends React.Component {
                     />
                     <Input
                       textColor={Theme.colors.white}
-                      leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                      leftIcon={<Icon name='password' size='20'/>}
                       secureTextEntry={true}
                       borderColor={Theme.colors.white}
                       activeBorderColor={Theme.colors.white}

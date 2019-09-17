@@ -15,8 +15,8 @@ export default {
     icon:'home',
     label: Strings.home,
   },
-  TransactionAdd : {
-    route: 'TransactionAdd',
+  TransactionManage : {
+    route: 'TransactionManage',
   },
   Categories : {
     route: 'Categories',

@@ -2,11 +2,12 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modal';
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
 import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
-import { getDateWithTime, getDate } from '../../utils/accounts';
+import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
 import { connect } from "react-redux";
@@ -16,26 +17,32 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 const catIcon = iconList.iconList;
+const addStr = ["addSp","addIn"];
+const editStr = ["editSp","editIn"];
 
-class TransactionAdd extends React.Component {
+class TransactionManage extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
     const type = navigation.getParam('type');
+    const id = navigation.getParam('id');
     this.state = { 
+      title : id!=0 ? editStr : addStr,
       type:type,
-      id:0,
+      id:id,
       category: null,
+      selectedDate: new Date(),
       transInputs: {
         amount: { type: "integer", value: "" },
         place: { type: "generic", value: "" },
-        date: { type: "generic", value: getDate(this.props.languageCode) },
+        date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
         spend: { type: "bool", value: true },
         reimb: { type: "bool", value: false },
         note: { type: "generic", value: "" },
       },
       validForm: true,
       visibleIconModal: false,
+      visibleDatePicker: false,
     };
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
@@ -47,28 +54,41 @@ class TransactionAdd extends React.Component {
     this.setState({visibleIconModal: !this.state.visibleIconModal});
   }
 
+  toggleDatePicker = () => {
+    Keyboard.dismiss();
+    this.setState({visibleDatePicker: !this.state.visibleDatePicker});
+  }
+
   selectedCategory = (cat)=>{
     this.setState({category:cat.icon});
     this.toggleIconModal();
   }
 
+  handleDatePicked = date => {
+    let { transInputs } = this.state;
+    transInputs.date.value = formatDate({lang:this.props.languageCode,date:date});
+    this.toggleDatePicker();
+    this.setState({transInputs: transInputs, selectedDate: date});
+  };
+
   addTransaction(){
     this.getFormValidation({obj:'transInputs'});
-    const { transInputs } = this.state;
+    const { transInputs, selectedDate } = this.state;
     if(this.state.validForm){
       const trans = {
         id:this.state.id,
+        type:this.state.type,
         cat: this.state.category,
         amount: transInputs.amount.value,
         place: transInputs.place.value,
-        date: transInputs.date.value,
+        date: formatDate({date:selectedDate, format:'save'}),
         spend: transInputs.spend.value,
         reimb: transInputs.reimb.value,
         note: transInputs.note.value,
       }
       console.log("trans", trans);
       this.props.addTrans(trans);
-      showToast('Added',"success");
+      showToast(this.props.language.added,"success");
       this.props.navigation.navigate(Screens.Home.route);
       Keyboard.dismiss();
     }
@@ -82,7 +102,11 @@ class TransactionAdd extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={language[this.state.type]} leftIcon={'back'}/>
+            {
+              this.state.id != 0 ? 
+              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'} rightIcon={'delete'}/> : 
+              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'}/>
+            }
           <Button ripple shadow color="secondary" 
             onPress= {()=> this.addTransaction() }
             rippleContainerBorderRadius={Theme.sizes.indent3x} 
@@ -144,7 +168,7 @@ class TransactionAdd extends React.Component {
                 style={{marginBottom:0}}
               />
             </Block>
-            <Ripple>
+            <Ripple onPress={()=>this.toggleDatePicker()}>
               <Block row center style={appStyles.listItem}>
                 <Icon name='calendar' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>{transInputs.date.value}</Text>
@@ -191,6 +215,14 @@ class TransactionAdd extends React.Component {
 
           </Content>
 
+          <DateTimePicker
+            isVisible={this.state.visibleDatePicker}
+            onConfirm={this.handleDatePicked}
+            onCancel={this.toggleDatePicker}
+            is24Hour={false}
+            date={this.state.selectedDate}
+          />
+
           <Modal
               isVisible={this.state.visibleIconModal}
               backdropOpacity={ 0.5 }
@@ -217,6 +249,7 @@ const mapStateToProps = (state) => {
     bankAcc: state.accounts.bankAcc,
     languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
+    transactions: Object.values(state.transactions),
   };
 };
 
@@ -227,4 +260,4 @@ const mapDispatchToProps = (dispatch,props) => {
 };
 
 // Exports
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionAdd);
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionManage);

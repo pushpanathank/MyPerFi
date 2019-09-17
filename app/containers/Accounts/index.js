@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Svgicon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider } from '../../components';
+import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -117,11 +117,7 @@ class Accounts extends React.Component {
               onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:null}) }}
              style={appStyles.fabBottomRight}
             >
-             <Svgicon 
-                color={Theme.colors.white}
-                name={'plus'} 
-                width={18} 
-                height={18} />
+             <Icon name={'plus'} size={18} />
             </Button>
          </ImageBackground>
       </Container>

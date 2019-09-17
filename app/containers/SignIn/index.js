@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens, ActionTypes } from '../../constants';
-import { Logo, Svgicon, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text, Input } from '../../components';
+import { Logo, Icon, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import { userActions, settingActions } from "../../actions";
 import { showToast, getLanguage } from '../../utils/common';
@@ -130,7 +130,7 @@ class SignIn extends React.Component {
                     <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent2x,0,0,0]}>
                       <Input
                         textColor={Theme.colors.white}
-                        leftIcon={<Svgicon name='username' width='20' color={Theme.colors.white}/>}
+                        leftIcon={<Icon name='username' size='20'/>}
                         borderColor={Theme.colors.white}
                         activeBorderColor={Theme.colors.white}
                         error={this.renderError('authInputs', 'email', 'email')}
@@ -140,7 +140,7 @@ class SignIn extends React.Component {
                       />
                       <Input
                         textColor={Theme.colors.white}
-                        leftIcon={<Svgicon name='password' width='20' color={Theme.colors.white}/>}
+                        leftIcon={<Icon name='password' size='20'/>}
                         secureTextEntry={true}
                         borderColor={Theme.colors.white}
                         activeBorderColor={Theme.colors.white}

@@ -3,7 +3,6 @@ import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-nati
 import { Spinner } from 'native-base';
 import appStyles from '../theme/appStyles';
 import { ActionTypes, IconList as iconList, Theme } from '../constants';
-import Svgicon from './Svgicon';
 import Block from './Block';
 import Icon from './Icon';
 import Text from './Text';

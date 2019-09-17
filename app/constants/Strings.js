@@ -31,10 +31,10 @@ export default[
 		bankacc: 'Bank Accounts',
 		wallets: 'Wallets',
 
-		addAccIn: 'Add Account Income',
-		addAccSp: 'Add Account Spend',
-		addCashIn: 'Add Cash Income',
-		addCashSp: 'Add Cash Spend',
+		addIn: 'Add Income',
+		addSp: 'Add Spend',
+		editIn: 'Edit Income',
+		editSp: 'Edit Spend',
 
 		// Settings page
 		settings: 'Settings',
@@ -232,10 +232,10 @@ export default[
 		bankacc: 'வங்கி கணக்குகள்',
 		wallets: 'பணப்பைகள்',
 
-		addAccIn: 'கணக்கு வருமானத்தைச் சேர்க்கவும்',
-		addAccSp: 'கணக்குச் செலவைச் சேர்க்கவும்',
-		addCashIn: 'பண வருமானத்தைச் சேர்க்கவும்',
-		addCashSp: 'பணச் செலவைச் சேர்க்கவும்',
+		addIn: 'வருமானத்தைச் சேர்க்கவும்',
+		addSp: 'செலவைச் சேர்க்கவும்',
+		editIn: 'வருமானத்தைத் திருத்து',
+		editSp: 'செலவைத் திருத்து',
 
 		// Settings page
 		settings: 'அமைப்புகள்',

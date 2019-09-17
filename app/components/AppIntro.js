@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import {
   Container,
   Content,
-  Icon,
   Button,
   Form,
   Item,
@@ -19,6 +18,7 @@ import imgs from '../assets/images';
 import { Layout, Colors, ActionTypes } from '../constants';
 import { getLanguage } from '../utils/common';
 import Text from './Text';
+import Icon from './Icon';
 
 
 const appIntro = class AppIntro extends Component {
@@ -63,8 +63,8 @@ const appIntro = class AppIntro extends Component {
     return (
       <View style={appStyles.buttonCircle}>
         <Icon
-          name="md-arrow-round-forward"
-          size={24}
+          name="arrow_right"
+          size={20}
           style={appStyles.slideIcon}
         />
       </View>
@@ -74,8 +74,8 @@ const appIntro = class AppIntro extends Component {
     return (
       <View style={appStyles.buttonCircle}>
         <Icon
-          name="md-checkmark"
-          size={24}
+          name="tick"
+          size={20}
           style={appStyles.slideIcon}
         />
       </View>

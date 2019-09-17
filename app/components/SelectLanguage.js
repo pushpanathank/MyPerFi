@@ -4,20 +4,13 @@ import { connect } from "react-redux";
 import {
   Container,
   Content,
-  Icon,
-  Text,
-  Button,
-  Form,
-  Item,
-  Label,
-  Input,
-  Spinner, Row, Col
 } from 'native-base';
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
 import { Colors, ActionTypes, Layout } from '../constants';
 import SetLanguage from './SetLanguage';
+import Text from './Text';
 
 
 class SelectLanguage extends React.Component {

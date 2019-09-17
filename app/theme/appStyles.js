@@ -127,7 +127,7 @@ export default StyleSheet.create({
   fabContentModal: {
     flex:0,
     backgroundColor: Theme.colors.white,
-    padding: Theme.sizes.indent,
+    paddingHorizontal: Theme.sizes.indent,
     borderRadius: 0,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     flexDirection: 'column',
@@ -141,14 +141,14 @@ export default StyleSheet.create({
       elevation: 4,
   },
   fabAddTransContent:{
-    height: Theme.sizes.indent3x*3.5,
+    height: Theme.sizes.indent3x*2.5,
     width: Theme.sizes.indent3x*3.5,
+    paddingVertical:Theme.sizes.indent
   },
   fabAddTransBtn:{
     flex:0,
-    height: Theme.sizes.indent*1.5,
     margin:0,
-    paddingVertical: Theme.sizes.indenthalf
+    paddingVertical: Theme.sizes.indent*1.5
   },
   bottomFabRightModal: {
     justifyContent: 'flex-end',
