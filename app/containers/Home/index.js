@@ -9,7 +9,7 @@ import Modal from 'react-native-modal';
 import { Theme, Screens, IconList } from '../../constants';
 import { Icon, HeadersWithTitle, Block, Text, Divider, Button, Ripple, CurrencySymbol } from '../../components';
 import { formatDate } from '../../utils/accounts';
-import { getLanguage } from '../../utils/common';
+import { getLanguage, getObjectNValues } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
 import * as userActions from "../../actions/user";
@@ -32,6 +32,33 @@ class Home extends React.Component {
   manageTransaction = (type,id) =>{
     if(id==0) this.toggleIconModal();
     this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,id:id})
+  }
+
+  renderTransactionItem = ({item}) =>{
+    const {language, languageCode} = this.props;
+    let color = item.type ? Theme.colors.green : Theme.colors.black;
+    return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id) }>
+      <Block row center space="around" style={appStyles.listItemTrans}>
+        <Block row flex={1} left>
+          <View style={[
+            appStyles.catIcon,
+            appStyles.catIconMid,
+            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            ]}
+            >
+            <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
+          </View>
+        </Block>
+        <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
+          <Text>{item.place ? item.place : language['unknown']}</Text>
+          <Text small gray>{item.cat ? language[item.cat] : language['unknown']}</Text>
+        </Block>
+        <Block column flex={1} right>
+          <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
+          <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+        </Block>
+      </Block>
+    </Ripple>);
   }
 
   render(){
@@ -63,16 +90,9 @@ class Home extends React.Component {
                 </Block>
                 <Block middle>
                   <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.manageTransaction(0,0); }}>
-                    <Text>{language.addSp}</Text>
+                    <Text>{language.addEx}</Text>
                   </Button>
                 </Block>
-                  { /* <Divider style={{flex:0,marginVertical: Theme.sizes.indentsmall}}/>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.manageTransaction('addCashIn'); }}>
-                    <Text>{language.addCashIn}</Text>
-                  </Button>
-                  <Button style={appStyles.fabAddTransBtn} onPress={() => { this.manageTransaction('addCashSp'); }}>
-                    <Text>{language.addCashSp}</Text>
-                  </Button> */ }
               </View>
             </View>
           </Modal>
@@ -90,101 +110,32 @@ class Home extends React.Component {
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.latestTrans}</Text>
-              <Divider />
+              <Divider style={{marginBottom:0}}/>
               <FlatList
-                data={this.props.transactions}
+                data={this.props.latestTransactions}
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <Ripple onPress={()=> this.manageTransaction(2,item.id) }>
-                    <Block row center space="around" style={appStyles.listItemTrans}>
-                      <Block row flex={1} left>
-                        <View style={[
-                          appStyles.catIcon,
-                          appStyles.catIconMid,
-                          {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
-                          ]}
-                          >
-                          <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
-                        </View>
-                      </Block>
-                      <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
-                        <Text>{item.place ? item.place : language['unknown']}</Text>
-                        <Text caption gray>{item.cat ? language[item.cat] : language['unknown']}</Text>
-                      </Block>
-                      <Block column flex={1} right>
-                        <Text><CurrencySymbol size='header' color={Theme.colors.black}/> {item.amount} </Text>
-                        <Text gray caption>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
-                      </Block>
-                    </Block>
-                  </Ripple>
-                )}
+                renderItem={this.renderTransactionItem}
               />
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.topSpend}</Text>
-              <Divider />
+              <Divider style={{marginBottom:0}}/>
               <FlatList
                 data={this.props.transactions}
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <Ripple>
-                    <Block row center space="around" style={appStyles.listItemTrans}>
-                      <Block row flex={1} left>
-                        <View style={[
-                          appStyles.catIcon,
-                          appStyles.catIconMid,
-                          {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
-                          ]}
-                          >
-                          <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
-                        </View>
-                      </Block>
-                      <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
-                        <Text>{item.place ? item.place : language['unknown']}</Text>
-                        <Text caption gray>{item.cat ? language[item.cat] : language['unknown']}</Text>
-                      </Block>
-                      <Block column flex={1} right>
-                        <Text><CurrencySymbol size='header' color={Theme.colors.black}/> {item.amount} </Text>
-                        <Text gray caption>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
-                      </Block>
-                    </Block>
-                  </Ripple>
-                )}
+                renderItem={this.renderTransactionItem}
               />
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.bills}</Text>
-              <Divider />
+              <Divider style={{marginBottom:0}}/>
               <FlatList
                 data={this.props.transactions}
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <Ripple>
-                    <Block row center space="around" style={appStyles.listItemTrans}>
-                      <Block row flex={1} left>
-                        <View style={[
-                          appStyles.catIcon,
-                          appStyles.catIconMid,
-                          {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
-                          ]}
-                          >
-                          <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
-                        </View>
-                      </Block>
-                      <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
-                        <Text>{item.place ? item.place : language['unknown']}</Text>
-                        <Text caption gray>{item.cat ? language[item.cat] : language['unknown']}</Text>
-                      </Block>
-                      <Block column flex={1} right>
-                        <Text><CurrencySymbol size='header' color={Theme.colors.black}/> {item.amount} </Text>
-                        <Text gray caption>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
-                      </Block>
-                    </Block>
-                  </Ripple>
-                )}
+                renderItem={this.renderTransactionItem}
               />
             </Block>
           </Content>
@@ -200,7 +151,8 @@ const mapStateToProps = (state) => {
     languageId: state.settings.languageId,
     languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
-    transactions: Object.values(state.transactions),
+    latestTransactions: getObjectNValues({obj:state.transactions,n:3,sort:-1}),
+    transactions: getObjectNValues({obj:state.transactions}),
   };
 };
 

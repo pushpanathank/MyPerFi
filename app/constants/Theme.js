@@ -29,6 +29,7 @@ const colors = {
   lightBlack:'#50535d',
   lightBlack1:'#696b72',
   red:'#ee0701',
+  green:'#24b124',
   gray: "#838a9c",
   gray2: "#acb5c1",
   gray3: "#8d96a2",
@@ -54,6 +55,7 @@ const sizes = {
   header: 16,
   body: 14,
   caption: 12,
+  small: 10,
 
   // General
   window: {
@@ -110,6 +112,9 @@ const fonts = {
   },
   caption: {
     fontSize: sizes.caption
+  },
+  small: {
+    fontSize: sizes.small
   },
 };
 

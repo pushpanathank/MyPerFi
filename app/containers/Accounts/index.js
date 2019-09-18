@@ -29,6 +29,12 @@ class Accounts extends React.Component {
     );
   };
 
+  noItemDisplay = () => {
+    return (
+      <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>No accounts avilable</Text></Block>
+    );
+  };
+
   onChangeTab(obj){
     activeTab = obj.i;
     this.setState({activeTab: activeTab});
@@ -46,7 +52,7 @@ class Accounts extends React.Component {
             <Block center middle style={{flex: 1}}>
               <Text color='white'>{language.current} {language.totalBalance}</Text>
               <Text color='secondary' style={{marginBottom: 15}}>{this.state.activeTab ? this.props.walletAcc.length : this.props.bankAcc.length  } {language.accounts}</Text>
-              <Text h1 color='white'><CurrencySymbol size='h1'/> {this.state.activeTab ? this.props.walletAccSum : this.props.bankAccSum }</Text>
+              <Text h1 color='white'><CurrencySymbol size='h1' color={Theme.colors.white}/> {this.state.activeTab ? this.props.walletAccSum : this.props.bankAccSum }</Text>
             </Block>
             <Block style={styles.contentBgAccount}>
               <Tabs transparent 
@@ -62,6 +68,7 @@ class Accounts extends React.Component {
                       <FlatList
                         data={this.props.bankAcc}
                         ItemSeparatorComponent={this.itemSeparator}
+                        ListEmptyComponent={this.noItemDisplay}
                         renderItem={({ item }) => (
                           <Button
                             onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
@@ -73,7 +80,7 @@ class Accounts extends React.Component {
                               </Block>
                               <Block middle right>
                                 <Text><CurrencySymbol /> {item.bal}</Text>
-                                <Text caption color='gray2'>Estimated Bal</Text>
+                                <Text caption color='gray2'>{language.estBal}</Text>
                               </Block>
                             </Block>
                           </Button>
@@ -92,6 +99,7 @@ class Accounts extends React.Component {
                     <FlatList
                         data={this.props.walletAcc}
                         ItemSeparatorComponent={this.itemSeparator}
+                        ListEmptyComponent={this.noItemDisplay}
                         renderItem={({ item }) => (
                           <Button
                             onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
@@ -102,7 +110,7 @@ class Accounts extends React.Component {
                               </Block>
                               <Block middle right>
                                 <Text><CurrencySymbol /> {item.bal}</Text>
-                                <Text caption color='gray2'>Estimated Bal</Text>
+                                <Text caption color='gray2'>{language.estBal}</Text>
                               </Block>
                             </Block>
                           </Button>

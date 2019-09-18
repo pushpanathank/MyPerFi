@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Keyboard, Alert, TextInput} from 'react-native';
+import { StyleSheet, View, ImageBackground, Keyboard, Alert} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modal';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -17,8 +17,8 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 const catIcon = iconList.iconList;
-const addStr = ["addSp","addIn"];
-const editStr = ["editSp","editIn"];
+const addStr = ["addEx","addIn"];
+const editStr = ["editEx","editIn"];
 
 class TransactionManage extends React.Component {
   constructor(props) {
@@ -111,16 +111,30 @@ class TransactionManage extends React.Component {
       }
       console.log("trans", trans);
       this.props.addTrans(trans);
-      showToast(this.props.language.added,"success");
+      showToast(msg,"success");
       this.props.navigation.navigate(Screens.Home.route);
       Keyboard.dismiss();
     }
   }
 
   removeTransaction = ()=>{
-    this.props.removeTrans(this.state.id);
-    showToast(this.props.language.deleted,"success");
-    this.props.navigation.navigate(Screens.Home.route);
+     Alert.alert(
+      this.props.language.confirm,
+      this.props.language.delTransConfirm,
+      [
+        {
+          text: this.props.language.cancel,
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {text: this.props.language.okay, onPress: () => {
+          this.props.removeTrans(this.state.id);
+          showToast(this.props.language.deleted,"success");
+          this.props.navigation.navigate(Screens.Home.route);
+        }},
+      ],
+      {cancelable: false},
+    );
   }
 
   render(){

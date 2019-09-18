@@ -32,9 +32,10 @@ export default[
 		wallets: 'Wallets',
 
 		addIn: 'Add Income',
-		addSp: 'Add Spend',
+		addEx: 'Add Expense',
 		editIn: 'Edit Income',
-		editSp: 'Edit Spend',
+		editEx: 'Edit Expense',
+		delTransConfirm: 'Are you sure you want to delete the transaction? You cannot undo after deletion.',
 
 		// Settings page
 		settings: 'Settings',
@@ -69,6 +70,7 @@ export default[
 		addBill: 'Upload Bill or Receipt',
 		optional: 'Optional',
 		unknown: 'Unknown',
+		estBal: 'Estimated Bal',
 
 
 		added: 'Added successfully',
@@ -233,9 +235,10 @@ export default[
 		wallets: 'பணப்பைகள்',
 
 		addIn: 'வருமானத்தைச் சேர்க்கவும்',
-		addSp: 'செலவைச் சேர்க்கவும்',
+		addEx: 'செலவைச் சேர்க்கவும்',
 		editIn: 'வருமானத்தைத் திருத்து',
-		editSp: 'செலவைத் திருத்து',
+		editEx: 'செலவைத் திருத்து',
+		delTransConfirm: 'பரிவர்த்தனையை நீக்க விரும்புகிறீர்களா? நீக்கப்பட்ட பிறகு திரும்பப்பெற முடியாது.',
 
 		// Settings page
 		settings: 'அமைப்புகள்',
@@ -270,6 +273,7 @@ export default[
 		addBill: 'பில் அல்லது ரசீதைப் பதிவேற்றுக',
 		optional: 'விருப்பத்தேர்வு',
 		unknown: 'தெரியவில்லை',
+		estBal: 'இருப்பு',
 
 
 		added: 'வெற்றிகரமாக சேர்க்கப்பட்டது',

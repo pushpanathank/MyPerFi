@@ -1,6 +1,7 @@
 import React from 'react';
 import { Toast, Icon } from 'native-base';
 import { Strings, Account } from '../constants';
+import moment from 'moment';
 
 const showToast = (msg,type) => {
 	if(msg=='') return;
@@ -41,9 +42,21 @@ const generateUUID = () =>{
 
 const generateUUIDInt = (date) =>{
 	if(date){
-		Math.floor(new Date(date).getTime()/ 1000);
+		return moment(date).unix() + Math.floor(moment.duration(moment().diff(moment().format('YYYY-MM-DD'))).asSeconds());
 	}
-	return Math.floor(new Date().getTime()/ 1000);
+	return moment().unix();
+}
+
+const getObjectNValues = ({obj, n=0, sort=0, ret=1})=> {
+	let arr = sort== 0 ? Object.keys(obj).sort(function ( a, b ) { return b - a; }): Object.keys(obj).sort(function ( a, b ) { return a - b; });
+	arr = n ? arr.slice(0, n) : arr;
+  let result = arr
+    .reduce(function(memo, current) { 
+      memo[current] = obj[current]
+      return memo;
+    }, {});
+    let prepareRes = ret ? Object.values(result) : result;
+    return ret && sort ==-1 ? prepareRes.reverse(): prepareRes;
 }
 
 export {
@@ -53,5 +66,6 @@ export {
 	getCurrentRoute,
 	getFontIcon,
 	generateUUID,
-	generateUUIDInt
+	generateUUIDInt,
+	getObjectNValues
 };
