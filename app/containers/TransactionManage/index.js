@@ -98,6 +98,7 @@ class TransactionManage extends React.Component {
     const { transInputs, selectedDate } = this.state;
     const msg = this.state.id ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
+      Keyboard.dismiss();
       const trans = {
         id:this.state.id,
         type:this.state.type,
@@ -112,8 +113,7 @@ class TransactionManage extends React.Component {
       console.log("trans", trans);
       this.props.addTrans(trans);
       showToast(msg,"success");
-      this.props.navigation.navigate(Screens.Home.route);
-      Keyboard.dismiss();
+      this.props.navigation.navigate(Screens.Accounts.route);
     }
   }
 

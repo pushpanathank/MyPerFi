@@ -12,7 +12,7 @@ import { submit } from 'redux-form';
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { LoginBackIcon, Button, Block, Text } from '../../components';
+import { BackIcon, Button, Block, Text } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
@@ -58,7 +58,7 @@ class Forgotpassword extends React.Component {
             <View style={{flexDirection: 'column', flex:1}}>
               <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
                 <View style={appStyles.row}>
-                  <LoginBackIcon props={this.props} /> 
+                  <BackIcon props={this.props} /> 
                   <Animatable.Text 
                     animation="fadeInDown"
                     style={appStyles.loginTitle}>{language.forgot}</Animatable.Text>

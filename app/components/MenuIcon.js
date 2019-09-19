@@ -5,21 +5,21 @@ import {
 import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
 
-import { Screens } from '../constants';
 import appStyles from '../theme/appStyles';
 import Icon from './Icon';
+import Button from './Button';
 
-class LoginBackIcon extends React.Component {
+class MenuIcon extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <Button transparent full
+      <Button 
         onPress={() => this.props.goBack()}
         style={appStyles.loginBack}
       >
-        <Icon name="arrow-back" style={appStyles.loginBackIcon} />
+        <Icon name="arrow-back" style={appStyles.menuIcon} />
       </Button> 
     );
   }
@@ -27,9 +27,8 @@ class LoginBackIcon extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      goBack: () => dispatch(NavigationActions.navigate({ routeName: Screens.SignIn.route })),
+      goBack: () => dispatch(NavigationActions.back()),
    };
 };
 
-// Exports
-export default connect(null, mapDispatchToProps)(LoginBackIcon);
+export default connect(null, mapDispatchToProps)(MenuIcon);

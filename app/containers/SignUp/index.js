@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { Icon, LoginBackIcon, Button, Block, Text, Input } from '../../components';
+import { Icon, BackIcon, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import {showToast, getLanguage} from '../../utils/common';
@@ -92,7 +92,7 @@ class SignUp extends React.Component {
             <Block column>
               <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
                 <View style={appStyles.row}>
-                  <LoginBackIcon props={this.props} /> 
+                  <BackIcon props={this.props} /> 
                   <Animatable.Text 
                     animation="fadeInDown"
                     style={appStyles.loginTitle}>{language.signup}</Animatable.Text>

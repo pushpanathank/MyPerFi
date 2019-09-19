@@ -2,7 +2,7 @@ import Loader from "./Loader";
 import AppIntro from "./AppIntro";
 import Logo from "./Logo";
 import Statusbar from "./Statusbar";
-import LoginBackIcon from "./LoginBackIcon";
+import BackIcon from "./BackIcon";
 import InputBox from "./InputBox";
 import ModalBox from "./ModalBox";
 import SetLanguage from "./SetLanguage";
@@ -32,7 +32,7 @@ export {
 	AppIntro, 
 	Logo, 
 	Statusbar, 
-	LoginBackIcon, 
+	BackIcon, 
 	InputBox, 
 	ModalBox, 
 	SetLanguage, 
@@ -47,5 +47,5 @@ export {
 	CurrencySymbol,
 	withPreventDoubleClick,
 	
-	Ripple
+	Ripple,
 };

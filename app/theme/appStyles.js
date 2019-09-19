@@ -214,7 +214,13 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.secondary
   },
 
-  menuBtn:{
+  menuIcon:{
+    padding: Theme.sizes.indent,
+    backgroundColor:'transparent', 
+    alignItems:'center',
+  },
+  backIcon:{
+    color: Theme.colors.white,
     padding: Theme.sizes.indent
   },
   drawerList:{
@@ -349,10 +355,6 @@ export default StyleSheet.create({
   loginBack:{
     marginTop:Theme.sizes.indent2x,
     justifyContent:'flex-start',
-  },
-  loginBackIcon:{
-    color: Theme.colors.white,
-    padding: Theme.sizes.indent
   },
 
   // Input

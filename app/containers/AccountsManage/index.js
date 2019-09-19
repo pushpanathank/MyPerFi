@@ -7,33 +7,48 @@ import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
 import { connect } from "react-redux";
-import { submit } from 'redux-form';
 import { accountActions } from "../../actions";
 import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
-import AccountForm from './accountform';
-import WalletForm from './walletform';
 
 class AccountsManage extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
     const activeTab = navigation.getParam('activeTab');
-    const accId = navigation.getParam('accId');
-    this.state = {
-      activeTab:activeTab,
-      accId:accId,
-      walInitialValues: accId ? this.props.walletAcc[accId] : {id:null, name: "",bal: "",act: true},
-      accInitialValues: accId ? this.props.bankAcc[accId] : {id:null, name: "",no: "",bal: "",act: true},
-      accInputs: {
-        name: { type: "genericRequired", value: "" },
-        no: { type: "generic", value: "" },
-        bal: { type: "integer", value: "" },
-        act: { type: "bool", value: true },
-      },
-      validForm: true,
+    const id = navigation.getParam('id');
+    if(id){
+      let obj = activeTab ? this.props.walletAcc[id]:this.props.bankAcc[id];
+      this.state = {
+        activeTab:activeTab,
+        accId:id,
+        walInitialValues: id ? this.props.walletAcc[id] : {id:null, name: "",bal: "",act: true},
+        accInitialValues: id ? this.props.bankAcc[id] : {id:null, name: "",no: "",bal: "",act: true},
+        accInputs: {
+          name: { type: "genericRequired", value: obj.name },
+          no: { type: "generic", value: obj.no },
+          bal: { type: "integer", value: obj.bal },
+          act: { type: "bool", value: obj.act },
+        },
+        validForm: true,
+      }
+    }else{
+      this.state = {
+        activeTab:activeTab,
+        accId:id,
+        walInitialValues: id ? this.props.walletAcc[id] : {id:null, name: "",bal: "",act: true},
+        accInitialValues: id ? this.props.bankAcc[id] : {id:null, name: "",no: "",bal: "",act: true},
+        accInputs: {
+          name: { type: "genericRequired", value: "" },
+          no: { type: "generic", value: "" },
+          bal: { type: "integer", value: "" },
+          act: { type: "bool", value: true },
+        },
+        validForm: true,
+      }
     }
+
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
     this.renderError = validationService.renderError.bind(this);
@@ -41,37 +56,26 @@ class AccountsManage extends React.Component {
   }
   addAccount(){
     this.getFormValidation({obj:'accInputs'});
-    const { accInputs } = this.state;
+    const { accInputs, accId, activeTab } = this.state;
+    const msg = accId ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
-      /*const trans = {
-        id:this.state.id,
-        type:this.state.type,
-        cat: this.state.category,
-        amount: transInputs.amount.value,
-        place: transInputs.place.value,
-        date: formatDate({date:selectedDate, format:'save'}),
-        spend: transInputs.spend.value,
-        reimb: transInputs.reimb.value,
-        note: transInputs.note.value,
+      Keyboard.dismiss();
+      const acc = {
+        id:accId,
+        name:accInputs.name.value,
+        no: accInputs.no.value,
+        bal: accInputs.bal.value,
+        act: accInputs.act.value,
       }
-      console.log("trans", trans);
-      this.props.addTrans(trans);
+      console.log("acc", acc);
+      if(activeTab){
+        this.props.addWall(acc);
+      }else{
+        this.props.addBank(acc);
+      }
       showToast(msg,"success");
-      this.props.navigation.navigate(Screens.Home.route);
-      Keyboard.dismiss();*/
+      this.props.navigation.navigate(Screens.Accounts.route);
     }
-  }
-/*  addAccount(values, dispatch, props){
-    dispatch(accountActions.addBankAcc(values));
-    showToast(props.language.added,"success");
-    dispatch(NavigationActions.navigate({ routeName: Screens.Accounts.route }));
-    Keyboard.dismiss();
-  }
-*/  addWallet(values, dispatch, props){
-    dispatch(accountActions.addWalletAcc(values));
-    showToast(props.language.added,"success");
-    dispatch(NavigationActions.navigate({ routeName: Screens.Accounts.route }));
-    Keyboard.dismiss();
   }
 
   removeAcc(){
@@ -102,7 +106,14 @@ class AccountsManage extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={language.accounts} leftIcon={'back'} rightIcon={'tick'} onPressRight={this.addAccount}/>
+          <HeadersWithTitle 
+            {...this.props} 
+            title={language.accounts} 
+            leftIcon={'back'} 
+            rightIcon={'tick'} 
+            onPressLeft={this.props.navigation.openDrawer} 
+            onPressRight={this.addAccount}
+            />
           <View style={[appStyles.heading40]}>
           { this.state.accId ? 
             <Text title color='white'>{this.state.activeTab ? language.editWallet : language.editBankacc}</Text> : 
@@ -110,11 +121,9 @@ class AccountsManage extends React.Component {
           }
           </View>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
-          { this.state.activeTab ? 
-            <WalletForm onSubmit={this.addWallet} initialValues={this.state.walInitialValues}/> :
             <View>
               <Block block>
-                <Text gray>{language.accName}</Text>
+                <Text gray>{this.state.activeTab ? language.walName: language.accName}</Text>
               </Block>
               <Block column>
                 <Input
@@ -127,23 +136,27 @@ class AccountsManage extends React.Component {
                   style={{marginBottom:Theme.sizes.indent}}
                 />
               </Block>
+              { !this.state.activeTab ?
+                <View>
+                  <Block block>
+                    <Text gray>{language.accNo} ({language.last4})</Text>
+                  </Block>
+                  <Block column>
+                    <Input
+                      placeholder={language.accNoEx}
+                      borderColor={Theme.colors.gray2}
+                      error={this.renderError('accInputs', 'no', 'accNo')}
+                      returnKeyType={"next"}
+                      keyboardType={"numeric"}
+                      value={accInputs.no.value}
+                      onChangeText={value => {this.onInputChange({ field: "no", value, obj:'accInputs' });}}
+                      style={{marginBottom:Theme.sizes.indent}}
+                    />
+                  </Block>
+                </View>:  <View />
+              }
               <Block block>
-                <Text gray>{language.accNo} ({language.last4})</Text>
-              </Block>
-              <Block column>
-                <Input
-                  placeholder={language.accNoEx}
-                  borderColor={Theme.colors.gray2}
-                  error={this.renderError('accInputs', 'no', 'accNo')}
-                  returnKeyType={"next"}
-                  keyboardType={"numeric"}
-                  value={accInputs.no.value}
-                  onChangeText={value => {this.onInputChange({ field: "no", value, obj:'accInputs' });}}
-                  style={{marginBottom:Theme.sizes.indent}}
-                />
-              </Block>
-              <Block block>
-                <Text gray>{language.accBal}</Text>
+                <Text gray>{this.state.activeTab ? language.walBal: language.accBal}</Text>
               </Block>
               <Block column>
                 <Input
@@ -153,21 +166,20 @@ class AccountsManage extends React.Component {
                   error={this.renderError('accInputs', 'bal', 'accBal')}
                   errorStyle={{bottom: -Theme.sizes.indentsmall}}
                   returnKeyType={"next"}
-                  keyboardType={"numeric"}
+                  keyboardType={"decimal-pad"}
                   value={accInputs.bal.value}
                   onChangeText={value => {this.onInputChange({ field: "bal", value, obj:'accInputs' });}}
                   style={{marginBottom:Theme.sizes.indent}}
                 />
               </Block>
               <Block row center space="between" style={{marginTop: Theme.sizes.indenthalf}}>
-                <Text gray>{language.accAct}?</Text>
+                <Text gray>{this.state.activeTab ? language.walAct : language.accAct}?</Text>
                 <Switch
                   value={accInputs.act.value}
                   onValueChange={value => {this.onInputChange({ field: "act", value, obj:'accInputs' });}}
                 />
               </Block>
             </View>
-          }
           { this.state.accId ? 
             <Block center middle row margin={[Theme.sizes.indent,0]}>
               <Button color="accent" block 
@@ -195,13 +207,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
-      onPressRight: () => {
-        if(props.navigation.getParam('activeTab')){
-          dispatch(submit('walletForm'))
-        }else{
-          dispatch(submit('accountForm'))
-        }
-      },
+      addWall: (values) => dispatch(accountActions.addWalletAcc(values)),
+      addBank: (values) => dispatch(accountActions.addBankAcc(values)),
       removeAcc: (state) =>{
         if(state.activeTab){
           dispatch(accountActions.removeWalletAcc(state.accId));

@@ -5,7 +5,6 @@ import * as Animatable from 'react-native-animatable';
 import { NavigationActions } from "react-navigation";
 
 import {
-  Button,
   Header,
 } from 'native-base';
 
@@ -15,6 +14,7 @@ import Logo from './Logo';
 import Icon from './Icon';
 import Text from './Text';
 import Block from './Block';
+import Button from './Button';
 import withPreventDoubleClick from './withPreventDoubleClick';
 
 const ButtonEx = withPreventDoubleClick(Button);
@@ -33,8 +33,8 @@ class HeadersWithTitle extends React.Component {
                 <Icon name="back_arrow" size={25} />
               </Button> 
               :
-              <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
-                <Icon name="menu" size={30} />
+              <Button ripple style={appStyles.menuBtn} onPress={() => this.props.onPressLeft()}>
+                {this.props.leftIcon}
               </Button>
               ) : <Text/>
             }
@@ -44,8 +44,8 @@ class HeadersWithTitle extends React.Component {
           </Block>
           <Block row right style={{flex:1}}>
             { this.props.rightIcon ? (
-              this.props.rightIcon ?
-              <ButtonEx transparent onPress={() => this.props.onPressRight()}>
+              this.props.rightIcon != null ?
+              <ButtonEx ripple style={appStyles.menuBtn} onPress={() => this.props.onPressRight()}>
                 <Icon name={this.props.rightIcon} size={24} />
               </ButtonEx>
               :

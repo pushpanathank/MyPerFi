@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider } from '../../components';
+import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider, Ripple } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -47,7 +47,13 @@ class Accounts extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
+          <HeadersWithTitle 
+            {...this.props} 
+            title={''} 
+            leftIcon={<Icon name="menu" size={30} />} 
+            onPressLeft={this.props.navigation.openDrawer} 
+            rightIcon={null}
+            />
           <Block block>
             <Block center middle style={{flex: 1}}>
               <Text color='white'>{language.current} {language.totalBalance}</Text>
@@ -70,8 +76,9 @@ class Accounts extends React.Component {
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
                         renderItem={({ item }) => (
-                          <Button
-                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
+                          <Ripple
+                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
+                            style={appStyles.listItem}
                             >
                             <Block row space="between" style={styles.inputRow}>
                               <Block middle>
@@ -83,7 +90,7 @@ class Accounts extends React.Component {
                                 <Text caption color='gray2'>{language.estBal}</Text>
                               </Block>
                             </Block>
-                          </Button>
+                          </Ripple>
                           )}
                         keyExtractor={(item, index) => index.toString()}
                       />
@@ -101,8 +108,9 @@ class Accounts extends React.Component {
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
                         renderItem={({ item }) => (
-                          <Button
-                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:item.id}) }}
+                          <Ripple
+                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
+                            style={appStyles.listItem}
                             >
                             <Block row space="between" style={styles.inputRow}>
                               <Block middle>
@@ -113,7 +121,7 @@ class Accounts extends React.Component {
                                 <Text caption color='gray2'>{language.estBal}</Text>
                               </Block>
                             </Block>
-                          </Button>
+                          </Ripple>
                           )}
                         keyExtractor={(item, index) => index.toString()}
                       />
@@ -122,7 +130,7 @@ class Accounts extends React.Component {
               </Block>
             </Block>
             <Button
-              onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, accId:null}) }}
+              onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:null}) }}
              style={appStyles.fabBottomRight}
             >
              <Icon name={'plus'} size={18} />
