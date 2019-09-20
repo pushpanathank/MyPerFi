@@ -1,8 +1,8 @@
 import React, { Component, memo } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import appStyles from '../theme/appStyles';
-import { Theme } from "../constants";
+import appStyles from '../../theme/appStyles';
+import { Theme } from "../../constants";
 
 class Icon extends Component {
 

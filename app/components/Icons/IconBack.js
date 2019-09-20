@@ -1,25 +1,22 @@
 import React from "react";
-import {
-  Button,
-} from 'native-base';
 import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
 
-import appStyles from '../theme/appStyles';
+import appStyles from '../../theme/appStyles';
 import Icon from './Icon';
-import Button from './Button';
+import Button from '../Button';
 
-class MenuIcon extends React.Component {
+class IconBack extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <Button 
+      <Button ripple
         onPress={() => this.props.goBack()}
-        style={appStyles.loginBack}
+        style={[appStyles.backIcon, this.props.style]}
       >
-        <Icon name="arrow-back" style={appStyles.menuIcon} />
+        <Icon name="back_arrow" size="26"/>
       </Button> 
     );
   }
@@ -31,4 +28,4 @@ const mapDispatchToProps = (dispatch) => {
    };
 };
 
-export default connect(null, mapDispatchToProps)(MenuIcon);
+export default connect(null, mapDispatchToProps)(IconBack);

@@ -18,7 +18,7 @@ import imgs from '../assets/images';
 import { Layout, Colors, ActionTypes } from '../constants';
 import { getLanguage } from '../utils/common';
 import Text from './Text';
-import Icon from './Icon';
+import Icon from './Icons/Icon';
 
 
 const appIntro = class AppIntro extends Component {

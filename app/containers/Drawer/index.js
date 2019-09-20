@@ -1,5 +1,5 @@
 import React from "react";
-import { View, AppRegistry, Image, StatusBar, ImageBackground, TouchableOpacity } from "react-native";
+import { View, AppRegistry, Image, ImageBackground, TouchableOpacity } from "react-native";
 import { NavigationActions, DrawerItems } from 'react-navigation'
 import {
   Container,

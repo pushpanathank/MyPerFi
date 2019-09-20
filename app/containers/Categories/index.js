@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal';
 import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
-import { Logo, HeadersWithTitle, IconList, Block, Icon } from '../../components';
+import { Logo, Headers, IconList, Block, Icon, IconMenu, IconBell } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -41,7 +41,12 @@ class Categories extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
+          <Headers 
+            {...this.props} 
+            title={''} 
+            leftIcon={<IconMenu {...this.props} />} 
+            rightIcon={<IconBell {...this.props} />}
+            />
           <View style={[appStyles.heading60]}>
             <Text style={appStyles.headingText}>{language.categories}</Text>
             <Text style={appStyles.subheadingText}>{language.manageCat}</Text>

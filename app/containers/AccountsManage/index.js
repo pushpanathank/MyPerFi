@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Icon, Switch } from '../../components';
+import { Logo, Headers, Text, Block, CurrencySymbol, Button, Input, Icon, Switch, IconBack, IconButton } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
@@ -106,13 +106,11 @@ class AccountsManage extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle 
+          <Headers 
             {...this.props} 
             title={language.accounts} 
-            leftIcon={'back'} 
-            rightIcon={'tick'} 
-            onPressLeft={this.props.navigation.openDrawer} 
-            onPressRight={this.addAccount}
+            leftIcon={<IconBack />} 
+            rightIcon={<IconButton icon={'tick'} onPress={this.addAccount} />} 
             />
           <View style={[appStyles.heading40]}>
           { this.state.accId ? 

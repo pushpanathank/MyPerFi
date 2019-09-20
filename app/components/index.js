@@ -1,18 +1,18 @@
 import Loader from "./Loader";
 import AppIntro from "./AppIntro";
 import Logo from "./Logo";
-import Statusbar from "./Statusbar";
-import BackIcon from "./BackIcon";
-import InputBox from "./InputBox";
 import ModalBox from "./ModalBox";
 import SetLanguage from "./SetLanguage";
 import SelectLanguage from "./SelectLanguage";
 import Svgicon from "./Svgicon";
 import Headers from "./Headers";
-import HeadersWithTitle from "./HeadersWithTitle";
-import IconList from "./IconList";
 
-import Icon from "./Icon";
+import IconList from "./Icons/IconList";
+import Icon from "./Icons/Icon";
+import IconBack from "./Icons/IconBack";
+import IconMenu from "./Icons/IconMenu";
+import IconBell from "./Icons/IconBell";
+import IconButton from "./Icons/IconButton";
 import Block from "./Block";
 import Badge from "./Badge";
 import Button from "./Button";
@@ -31,18 +31,18 @@ export {
 	Loader, 
 	AppIntro, 
 	Logo, 
-	Statusbar, 
-	BackIcon, 
-	InputBox, 
 	ModalBox, 
 	SetLanguage, 
 	SelectLanguage, 
 	Svgicon, 
 	Headers, 
-	HeadersWithTitle, 
 	IconList, 
 
 	Icon,
+	IconBack, 
+	IconMenu, 
+	IconBell, 
+	IconButton, 
 	Block, Badge, Button, Card, Text, Input, Progress, Divider, Switch,
 	CurrencySymbol,
 	withPreventDoubleClick,

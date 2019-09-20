@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { Icon, BackIcon, Button, Block, Text, Input } from '../../components';
+import { Icon, IconBack, Headers, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import * as userActions from "../../actions/user";
 import {showToast, getLanguage} from '../../utils/common';
@@ -88,21 +88,25 @@ class SignUp extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
+          <Headers 
+            {...this.props} 
+            title={''} 
+            leftIcon={<IconBack />} 
+            />
           <Content enableOnAndroid>
             <Block column>
-              <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
-                <View style={appStyles.row}>
-                  <BackIcon props={this.props} /> 
+              <View style={{flex: 0.8,height: Theme.sizes.window.height-160,}}>
+                <Block flex={false} center>
                   <Animatable.Text 
                     animation="fadeInDown"
                     style={appStyles.loginTitle}>{language.signup}</Animatable.Text>
-                </View> 
+                </Block> 
 
+                <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent2x,0,0,0]}>
                 <Animatable.View 
                   animation="fadeInUp"
                   delay={500}
                   style={styles.loginBox}>
-                  <Block padding={[Theme.sizes.indent]} margin={[Theme.sizes.indent2x,0,0,0]}>
                     <Input
                       textColor={Theme.colors.white}
                       leftIcon={<Icon name='username' size='20'/>}
@@ -146,8 +150,8 @@ class SignUp extends React.Component {
                       value={authInputs.confirmpass.value}
                       onChangeText={value => {this.onInputChange({ field: "confirmpass", value, obj:'authInputs' });}}
                     />
-                  </Block>
-                </Animatable.View>
+                  </Animatable.View>
+                </Block>
               </View>  
               <Animatable.View 
                 animation="fadeIn"

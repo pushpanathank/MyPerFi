@@ -2,7 +2,7 @@ import React from 'react'
 import { ActivityIndicator, StyleSheet, View, ImageBackground, FlatList, ScrollView, Picker} from 'react-native'
 import _ from 'lodash'; 
 import { Theme, Screens, Strings, Account } from '../../constants';
-import { HeadersWithTitle, IconList, Button, Block, Input, Text } from '../../components';
+import { Headers, IconList, Button, Block, Input, Text, IconMenu, IconBell } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -35,7 +35,12 @@ class Settings extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={''} leftIcon rightIcon/>
+          <Headers 
+            {...this.props} 
+            title={''} 
+            leftIcon={<IconMenu {...this.props} />} 
+            rightIcon={<IconBell {...this.props} />}
+            />
           <View style={[appStyles.heading50]}>
             <Text style={appStyles.headingText}>{language.settings}</Text>
           </View>

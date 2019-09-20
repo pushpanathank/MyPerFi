@@ -215,14 +215,21 @@ export default StyleSheet.create({
   },
 
   menuIcon:{
-    padding: Theme.sizes.indent,
     backgroundColor:'transparent', 
+    paddingHorizontal: Theme.sizes.indent,
+    paddingVertical: Theme.sizes.indenthalf,
     alignItems:'center',
+    borderRadius:30
   },
   backIcon:{
     color: Theme.colors.white,
-    padding: Theme.sizes.indent
+    backgroundColor:'transparent', 
+    paddingHorizontal: Theme.sizes.indent,
+    paddingVertical: Theme.sizes.indenthalf,
+    alignItems:'center',
+    borderRadius:30
   },
+
   drawerList:{
     margin:0,
     paddingLeft:0
@@ -351,10 +358,6 @@ export default StyleSheet.create({
     marginLeft: Theme.sizes.indent,
     textAlign:'center',
     fontFamily: 'Font-Regular',
-  },
-  loginBack:{
-    marginTop:Theme.sizes.indent2x,
-    justifyContent:'flex-start',
   },
 
   // Input

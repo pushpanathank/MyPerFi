@@ -12,64 +12,80 @@ import { submit } from 'redux-form';
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens } from '../../constants';
-import { BackIcon, Button, Block, Text } from '../../components';
+import { IconBack, Button, Block, Text, Icon, Input, Headers } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
-import * as userActions from "../../actions/user";
+import { validationService } from '../../utils/validation';
+import { userActions } from "../../actions";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
-import ForgotForm from './form';
+
 
 class Forgotpassword extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      authInputs: {
+        email: {
+          type: "email",
+          value: ""
+        },
+      },
+      validForm: true,
+    };
+    this.onInputChange = validationService.onInputChange.bind(this);
+    this.getFormValidation = validationService.getFormValidation.bind(this);
+    this.renderError = validationService.renderError.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
-  reset(values, dispatch, props){
-    dispatch(userActions.forgotpassword(values))
-      .then(res => {
-        if(res.status == 200){
-          showToast(res.msg,"success");
-          dispatch(NavigationActions.navigate({ routeName: Screens.SignInStack.route }));
-          // this.props.navigation.navigate(Screens.SignInStack.route)
-        }else{
-          showToast(res.msg,"danger");
-        }
-      })
-      .catch(error => {
-        const messages = _.get(error, 'response.data.error')
-        message = (_.values(messages) || []).join(',')
-        if (message){
-         showToast(message,"danger");
-       }
-       console.log(`
-          Error messages returned from server:`, messages )
-      });
+  reset(){
+    this.getFormValidation({obj:'authInputs'});
+    if(this.state.validForm){
+
+    }
   }
 
   render(){
     const { language } = this.props;
+    const { authInputs } = this.state;
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
+          <Headers 
+            {...this.props} 
+            title={''} 
+            leftIcon={<IconBack />} 
+            />
           <Content enableOnAndroid>
             <View style={{flexDirection: 'column', flex:1}}>
-              <View style={{flex: 0.8,height: Theme.sizes.window.height-80,}}>
-                <View style={appStyles.row}>
-                  <BackIcon props={this.props} /> 
+              <View style={{flex: 0.8,height: Theme.sizes.window.height-160,}}>
+                <Block flex={false} center>
                   <Animatable.Text 
                     animation="fadeInDown"
                     style={appStyles.loginTitle}>{language.forgot}</Animatable.Text>
-                </View> 
+                </Block> 
 
-                <Animatable.View 
-                  animation="fadeInUp"
-                  delay={500}
-                  style={styles.loginBox}>
-                  <ForgotForm onSubmit={this.reset} />
-                </Animatable.View>
+                <Block padding={[Theme.sizes.indent]}>
+                  <Animatable.View 
+                    animation="fadeInUp"
+                    delay={500}
+                    style={styles.loginBox}>
+                    <Input
+                        textColor={Theme.colors.white}
+                        leftIcon={<Icon name='email' size='20'/>}
+                        borderColor={Theme.colors.white}
+                        activeBorderColor={Theme.colors.white}
+                        error={this.renderError('authInputs', 'email', 'email')}
+                        returnKeyType={"next"}
+                        value={authInputs.email.value}
+                        onChangeText={value => {this.onInputChange({ field: "email", value, obj:'authInputs' });}}
+                        containerStyle={{marginBottom: Theme.sizes.indent3x}}
+                      />
+                  </Animatable.View>
+                </Block>
               </View>  
               <Animatable.View 
                 animation="fadeIn"
@@ -79,7 +95,7 @@ class Forgotpassword extends React.Component {
                    <Spinner color={Theme.colors.secondary} /> : 
                     <Button ripple
                       color="secondary"
-                      onPress={() => this.props.pressReset()}
+                      onPress={() => this.reset()}
                     >
                       <Text center white transform="uppercase"> {language.reset} </Text>
                     </Button>
@@ -102,9 +118,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-      pressReset: () => dispatch(submit('forgotForm')),
-   };
+    return {};
 };
 
 // Exports

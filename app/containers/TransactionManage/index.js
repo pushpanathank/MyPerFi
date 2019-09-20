@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
-import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList } from '../../components';
+import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList, IconButton, IconBack } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
@@ -147,8 +147,17 @@ class TransactionManage extends React.Component {
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
             {
               this.state.id != 0 ? 
-              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'} rightIcon={'delete'} onPressRight={this.removeTransaction}/> : 
-              <HeadersWithTitle {...this.props} title={language[this.state.title[this.state.type]]} leftIcon={'back'}/>
+              <Headers 
+                {...this.props} 
+                title={language[this.state.title[this.state.type]]} 
+                leftIcon={<IconBack />} 
+                rightIcon={<IconButton icon={'delete'} onPress={this.removeTransaction} />} 
+                /> : 
+              <Headers 
+                {...this.props} 
+                title={language[this.state.title[this.state.type]]} 
+                leftIcon={<IconBack />} 
+                />
             }
           <Button ripple shadow color="secondary" 
             onPress= {()=> this.addTransaction() }

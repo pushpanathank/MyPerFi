@@ -7,7 +7,7 @@ import {
 import Modal from 'react-native-modal';
 
 import { Theme, Screens, IconList } from '../../constants';
-import { Icon, HeadersWithTitle, Block, Text, Divider, Button, Ripple, CurrencySymbol } from '../../components';
+import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell } from '../../components';
 import { formatDate } from '../../utils/accounts';
 import { getLanguage, getObjectNValues } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -69,7 +69,12 @@ class Home extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle {...this.props} title={formatDate({lang:languageCode,format:'month'})} leftIcon rightIcon/>
+          <Headers 
+            {...this.props} 
+            title={formatDate({lang:languageCode,format:'month'})} 
+            leftIcon={<IconMenu {...this.props} />} 
+            rightIcon={<IconBell {...this.props} />}
+            />
 
           <Modal
             isVisible={this.state.addTransModal}

@@ -2,44 +2,39 @@ import React from "react";
 import { View } from 'react-native';
 import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
+import { NavigationActions } from "react-navigation";
 
 import {
-  Button, Badge,
-  Text,
-  Header, Left, Body, Title, Right
+  Header,
 } from 'native-base';
 
 import appStyles from '../theme/appStyles';
 import { Theme, ActionTypes } from '../constants';
 import Logo from './Logo';
-import Svgicon from './Svgicon';
+import Icon from './Icons/Icon';
+import Text from './Text';
+import Block from './Block';
+import Button from './Button';
+import withPreventDoubleClick from './withPreventDoubleClick';
+
+const ButtonEx = withPreventDoubleClick(Button);
 
 class Headers extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      visibleModal:false
-    }
   }
   render() {
     return (
         <Header transparent>
-          <Left style={appStyles.row}>
-            <Button transparent style={appStyles.menuBtn} onPress={() => this.props.navigation.openDrawer()}>
-              <Svgicon color={Theme.colors.white} name="menu" width={30} />
-            </Button>
-          </Left>
-          <Body style={appStyles.rowXcenter}>
-            <Logo header={true} />
-          </Body>
-          <Right style={appStyles.row}>
-            <Button transparent>
-              <Svgicon color={Theme.colors.white} name="bell" width={23} />
-              <View style={{ position: 'absolute', right:5, top:5, width:20, height:20, padding:0, margin:0, backgroundColor: Theme.colors.accent, borderRadius:10 }}>
-                <Text style={{ fontSize: 11, color: "#fff", position: 'absolute',right:10, top:4,}}>2</Text>
-              </View>
-            </Button>
-          </Right>
+          <Block row style={{flex:1}}>
+            { this.props.leftIcon ? this.props.leftIcon : <Text/> }
+          </Block>
+          <Block row middle center style={{flex:4}}>
+            <Text h5 white numberOfLines={1}>{this.props.title}</Text>
+          </Block>
+          <Block row right style={{flex:1}}>
+            { this.props.rightIcon ? this.props.rightIcon : <Text/> }
+          </Block>
         </Header>
     );
   }
@@ -50,7 +45,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+      goBack: () => dispatch(NavigationActions.back()),
+    };
 };
 
 // Exports

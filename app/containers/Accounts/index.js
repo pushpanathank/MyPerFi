@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Icon, HeadersWithTitle, Text, Block, CurrencySymbol, Button, Divider, Ripple } from '../../components';
+import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Divider, Ripple, IconMenu, IconBell } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
@@ -47,12 +47,11 @@ class Accounts extends React.Component {
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <HeadersWithTitle 
+          <Headers 
             {...this.props} 
             title={''} 
-            leftIcon={<Icon name="menu" size={30} />} 
-            onPressLeft={this.props.navigation.openDrawer} 
-            rightIcon={null}
+            leftIcon={<IconMenu {...this.props} />} 
+            rightIcon={<IconBell {...this.props} />}
             />
           <Block block>
             <Block center middle style={{flex: 1}}>
@@ -78,9 +77,8 @@ class Accounts extends React.Component {
                         renderItem={({ item }) => (
                           <Ripple
                             onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
-                            style={appStyles.listItem}
                             >
-                            <Block row space="between" style={styles.inputRow}>
+                            <Block row space="between" style={appStyles.listItem}>
                               <Block middle>
                                 <Text>{item.name}</Text>
                                 <Text caption color='gray2'>{item.no!=''? `x${item.no}`:''}</Text>

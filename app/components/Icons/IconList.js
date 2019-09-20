@@ -1,13 +1,13 @@
 import React, {Component, memo} from "react";
 import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Spinner } from 'native-base';
-import appStyles from '../theme/appStyles';
-import { ActionTypes, IconList as iconList, Theme } from '../constants';
-import Block from './Block';
+import appStyles from '../../theme/appStyles';
+import { ActionTypes, IconList as iconList, Theme } from '../../constants';
+import Block from '../Block';
 import Icon from './Icon';
-import Text from './Text';
-import Button from './Button';
-import Input from './Input';
+import Text from '../Text';
+import Button from '../Button';
+import Input from '../Input';
 
 class IconList extends Component {
   constructor(props) {
