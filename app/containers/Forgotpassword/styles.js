@@ -1,18 +1,18 @@
-import {Colors,Layout} from '../../constants/';
+import {Theme} from '../../constants/';
 export default {
   itemStyle:{
     // marginTop: 5
     marginLeft:0
   },
   loginBox: {
-    // marginTop: Layout.doubleIndent,
+    // marginTop: Theme.sizes.doubleIndent,
     marginLeft: 0,
     marginRight: 0,
     flex: 1,
     justifyContent:'flex-end'
   },
   loginForm:{
-    paddingRight:Layout.indent,
-    marginBottom: Layout.sixIndent,
+    paddingRight:Theme.sizes.indent,
+    marginBottom: Theme.sizes.indent6x,
   }
 };

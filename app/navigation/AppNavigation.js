@@ -3,7 +3,7 @@ import { Text, Animated, Easing } from 'react-native'
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 
 import { SignIn, SignUp, Forgotpassword, Home, Drawer, Categories, Accounts, AccountsManage, Settings, TransactionManage } from "../containers";
-import { Colors, Screens } from "../constants";
+import { Theme, Screens } from "../constants";
 
 const transitionConfig = () => ({
       transitionSpec: {
@@ -70,10 +70,10 @@ const DrawerStack = createDrawerNavigator({
   drawerType: 'front',
   hideStatusBar: false,
   statusBarAnimation: 'slide',
-  overlayColor: Colors.primaryDark,
+  overlayColor: Theme.colors.primaryDark,
   contentOptions: {
-    activeTintColor: Colors.lightBlack,
-    activeBackgroundColor: Colors.primaryLight,
+    activeTintColor: Theme.colors.lightBlack,
+    activeBackgroundColor: Theme.colors.primaryLight,
   },
   // transitionConfig: transitionConfig,
   contentComponent: (props) => <Drawer {...props} />,

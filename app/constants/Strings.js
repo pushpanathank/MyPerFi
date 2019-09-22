@@ -26,6 +26,11 @@ export default[
 		latestTrans: 'Latest Transactions',
 		topSpend: 'Top Spend Areas',
 		bills: 'Bills',
+		noTransactions : 'No Transactions Available',
+		noAccounts : 'No Accounts Available',
+		currentBal: 'Current Balance',
+		billDue: 'Bill Due',
+		daysLeft: 'days left',
 
 		home: 'Home',
 		bankacc: 'Bank Accounts',
@@ -70,7 +75,7 @@ export default[
 		addBill: 'Upload Bill or Receipt',
 		optional: 'Optional',
 		unknown: 'Unknown',
-		estBal: 'Estimated Bal',
+		estBal: 'Estimated Bal',		
 
 
 		added: 'Added successfully',
@@ -229,6 +234,11 @@ export default[
 		latestTrans: 'சமீபத்திய பரிவர்த்தனைகள்',
 		topSpend: 'அதிக செலவு பகுதிகள்',
 		bills: 'ரசிதுகள்',
+		noTransactions : 'பரிவர்த்தனைகள் எதுவும் இல்லை',
+		noAccounts : 'கணக்குகள் எதுவும் இல்லை',
+		currentBal: 'தற்போதைய இருப்பு',
+		billDue: 'கடன் தொகை',
+		daysLeft: 'நாட்கள் உள்ளன',
 
 		home: 'முகப்பு',
 		bankacc: 'வங்கி கணக்குகள்',

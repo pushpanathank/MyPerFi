@@ -1,17 +1,17 @@
-import {Colors,Layout} from '../../constants/';
+import { Theme } from '../../constants/';
 export default {
   header: {
     height: 160,
-    paddingTop: Layout.doubleIndent,
-    backgroundColor: Colors.primary
+    paddingTop: Theme.sizes.doubleIndent,
+    backgroundColor: Theme.colors.primary
   },
   logoutFooter: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Theme.colors.secondary,
     padding:0,
     margin:0,
     height:40
   },
   white:{
-    color: Colors.white
+    color: Theme.colors.white
   }
 };

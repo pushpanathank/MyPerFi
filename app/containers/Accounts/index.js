@@ -25,19 +25,42 @@ class Accounts extends React.Component {
 
   itemSeparator = () => {
     return (
-      <Divider style={{margin:Theme.sizes.indentsmall}}/>
+      <Divider style={{marginVertical:0}}/>
     );
   };
 
   noItemDisplay = () => {
+    const {language} = this.props;
     return (
-      <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>No accounts avilable</Text></Block>
+      <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noAccounts}</Text></Block>
     );
   };
 
   onChangeTab(obj){
     activeTab = obj.i;
     this.setState({activeTab: activeTab});
+  }
+
+  renderAccountItem = ({item}) =>{
+    const {language} = this.props;
+    return(<Ripple
+        style={[appStyles.listItem,{margin:0}]}
+        onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
+        >
+        <Block row space="between">
+          <Block middle>
+            <Text header>{item.name}</Text>
+            {this.state.activeTab == 0 ?
+            <Text small color='gray2'>{item.no!=''? `x${item.no}`:''}</Text>:
+            <Text />
+            }
+          </Block>
+          <Block middle right>
+            <Text header><CurrencySymbol /> {item.bal}</Text>
+            <Text small color='gray2'>{language.estBal}</Text>
+          </Block>
+        </Block>
+      </Ripple>);
   }
 
   render(){
@@ -74,22 +97,7 @@ class Accounts extends React.Component {
                         data={this.props.bankAcc}
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
-                        renderItem={({ item }) => (
-                          <Ripple
-                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
-                            >
-                            <Block row space="between" style={appStyles.listItem}>
-                              <Block middle>
-                                <Text>{item.name}</Text>
-                                <Text caption color='gray2'>{item.no!=''? `x${item.no}`:''}</Text>
-                              </Block>
-                              <Block middle right>
-                                <Text><CurrencySymbol /> {item.bal}</Text>
-                                <Text caption color='gray2'>{language.estBal}</Text>
-                              </Block>
-                            </Block>
-                          </Ripple>
-                          )}
+                        renderItem={this.renderAccountItem}
                         keyExtractor={(item, index) => index.toString()}
                       />
                         
@@ -105,22 +113,7 @@ class Accounts extends React.Component {
                         data={this.props.walletAcc}
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
-                        renderItem={({ item }) => (
-                          <Ripple
-                            onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
-                            style={appStyles.listItem}
-                            >
-                            <Block row space="between" style={styles.inputRow}>
-                              <Block middle>
-                                <Text>{item.name}</Text>
-                              </Block>
-                              <Block middle right>
-                                <Text><CurrencySymbol /> {item.bal}</Text>
-                                <Text caption color='gray2'>{language.estBal}</Text>
-                              </Block>
-                            </Block>
-                          </Ripple>
-                          )}
+                        renderItem={this.renderAccountItem}
                         keyExtractor={(item, index) => index.toString()}
                       />
                   </Tab>

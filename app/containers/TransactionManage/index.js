@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
-import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList, IconButton, IconBack } from '../../components';
+import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList, IconButton, IconBack, SelectAccount } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
@@ -25,14 +25,18 @@ class TransactionManage extends React.Component {
     super(props);
     const {navigation} = this.props;
     const type = navigation.getParam('type');
-    const id = navigation.getParam('id');
-    const trans = this.props.transactions[id];
-    if(id!=0){
+    const transid = navigation.getParam('transid');
+    const accid = navigation.getParam('accid');
+    console.log("accid", type,transid,accid);
+    const trans = this.props.transactions[transid];
+    if(transid!=0){
       this.state = { 
         title : editStr,
         type:type,
-        id:id,
+        id:transid,
+        acid:accid,
         category: trans.cat,
+        initAmt: trans.amount,
         selectedDate: new Date(trans.date),
         transInputs: {
           amount: { type: "integer", value: trans.amount },
@@ -45,13 +49,16 @@ class TransactionManage extends React.Component {
         validForm: true,
         visibleIconModal: false,
         visibleDatePicker: false,
+        selectAccModal: false
       };
     }else{
       this.state = { 
         title : addStr,
         type:type,
-        id:id,
+        id:transid,
+        acid:accid,
         category: null,
+        initAmt: 0,
         selectedDate: new Date(),
         transInputs: {
           amount: { type: "integer", value: "" },
@@ -64,6 +71,7 @@ class TransactionManage extends React.Component {
         validForm: true,
         visibleIconModal: false,
         visibleDatePicker: false,
+        selectAccModal: false
       };
     }
     this.onInputChange = validationService.onInputChange.bind(this);
@@ -81,6 +89,10 @@ class TransactionManage extends React.Component {
     this.setState({visibleDatePicker: !this.state.visibleDatePicker});
   }
 
+  toggleAccModal = () => {
+    this.setState({selectAccModal: !this.state.selectAccModal});
+  }
+
   selectedCategory = (cat)=>{
     this.setState({category:cat.icon});
     this.toggleIconModal();
@@ -93,16 +105,33 @@ class TransactionManage extends React.Component {
     this.setState({transInputs: transInputs, selectedDate: date});
   };
 
+  selectAccount = (type,transid,accid)=>{
+    this.toggleAccModal();
+    this.setState({acid: accid});
+  }
+
   addTransaction(){
     this.getFormValidation({obj:'transInputs'});
     const { transInputs, selectedDate } = this.state;
     const msg = this.state.id ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
-      const trans = {
+      const trans = this.getTransactionObj();
+      console.log("trans", trans);
+      this.props.addTrans(trans);
+      showToast(msg,"success");
+      this.props.navigation.navigate(Screens.Home.route);
+    }
+  }
+
+  getTransactionObj = ()=>{
+    const { transInputs, selectedDate } = this.state;
+    return {
         id:this.state.id,
+        acid:this.state.acid,
         type:this.state.type,
         cat: this.state.category,
+        initAmt: this.state.initAmt,
         amount: transInputs.amount.value,
         place: transInputs.place.value,
         date: formatDate({date:selectedDate, format:'save'}),
@@ -110,11 +139,6 @@ class TransactionManage extends React.Component {
         reimb: transInputs.reimb.value,
         note: transInputs.note.value,
       }
-      console.log("trans", trans);
-      this.props.addTrans(trans);
-      showToast(msg,"success");
-      this.props.navigation.navigate(Screens.Accounts.route);
-    }
   }
 
   removeTransaction = ()=>{
@@ -128,7 +152,8 @@ class TransactionManage extends React.Component {
           style: 'cancel',
         },
         {text: this.props.language.okay, onPress: () => {
-          this.props.removeTrans(this.state.id);
+          const trans = this.getTransactionObj();
+          this.props.removeTrans(trans);
           showToast(this.props.language.deleted,"success");
           this.props.navigation.navigate(Screens.Home.route);
         }},
@@ -138,7 +163,7 @@ class TransactionManage extends React.Component {
   }
 
   render(){
-    const {language} = this.props;
+    const {language, accounts} = this.props;
     const { transInputs, category } = this.state;
     return (
       <Container style={appStyles.container}>
@@ -159,6 +184,11 @@ class TransactionManage extends React.Component {
                 leftIcon={<IconBack />} 
                 />
             }
+          <SelectAccount 
+            isVisible={this.state.selectAccModal}
+            toggleModal={this.toggleAccModal}
+            onSelect={this.selectAccount}
+            />
           <Button ripple shadow color="secondary" 
             onPress= {()=> this.addTransaction() }
             rippleContainerBorderRadius={Theme.sizes.indent3x} 
@@ -194,7 +224,7 @@ class TransactionManage extends React.Component {
                 fontSize={Theme.sizes.h5}
                 placeholder={language['enterAmt']}
                 leftIcon={<CurrencySymbol size='h3' color={Theme.colors.white}/>}
-                leftIconStyle={{bottom:3}}
+                leftIconStyle={{bottom:6}}
                 borderColor={'transparent'}
                 activeBorderColor={'transparent'}
                 selectionColor={Theme.colors.white}
@@ -225,6 +255,12 @@ class TransactionManage extends React.Component {
               <Block row center style={appStyles.listItem}>
                 <Icon name='calendar' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                 <Text>{transInputs.date.value}</Text>
+              </Block>
+            </Ripple>
+            <Ripple onPress={()=>this.toggleAccModal()}>
+              <Block row center style={appStyles.listItem}>
+                <Icon name='wallet' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
+                <Text>{accounts[this.state.acid].name}</Text>
               </Block>
             </Ripple>
             {
@@ -303,18 +339,19 @@ class TransactionManage extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  let language = getLanguage(state.settings.languageId);
   return {
-    bankAcc: state.accounts.bankAcc,
     languageCode: state.settings.languageCode,
-    language: getLanguage(state.settings.languageId),
+    language: language,
     transactions: state.transactions,
+    accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}}
   };
 };
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
       addTrans: (values) => dispatch(transactionActions.addTransaction(values)),
-      removeTrans: (id) => dispatch(transactionActions.removeTransaction(id))
+      removeTrans: (values) => dispatch(transactionActions.removeTransaction(values))
    };
 };
 

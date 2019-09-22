@@ -71,7 +71,7 @@ class IconList extends Component {
                       onPress={() => this.props.selectedCategory(item)}>
                           <Icon name={item.icon} size={20} />
                       </Button>
-                      <Text caption gray style={{marginBottom: Theme.sizes.indent}}>{item.label}</Text>
+                      <Text small gray style={{marginBottom: Theme.sizes.indentsmall}}>{item.label}</Text>
                   </Block>
                 )}
               />: <Spinner color={Theme.colors.secondary} />}

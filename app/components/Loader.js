@@ -15,7 +15,7 @@ import {
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
-import { Layout, Colors } from '../constants';
+import { Theme } from '../constants';
 import Logo from './Logo';
 
 class Loader extends React.Component {
@@ -24,13 +24,13 @@ class Loader extends React.Component {
         <Container style={appStyles.container}>
           <ImageBackground 
               source={imgs.bg} 
-              style={ { width: Layout.window.width, height: Layout.window.height }}>
+              style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
             <Content enableOnAndroid>
               <View style={{flexDirection: 'column', flex:1}}>
-                <View style={{flex: 1,height: Layout.window.height,}}>
+                <View style={{flex: 1,height: Theme.sizes.window.height,}}>
                   <View style={appStyles.rowXYcenter}>
                     <Logo style={[appStyles.loaderLogo]} iterationCount={50} duration={1000} />
-                    <Spinner color={Colors.secondary} />
+                    <Spinner color={Theme.colors.secondary} />
                   </View> 
                 </View>  
               </View>  

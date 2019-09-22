@@ -5,17 +5,12 @@ import {
   Container,
   Content,
   Button,
-  Form,
-  Item,
-  Label,
-  Input,
-  Spinner, Row, Col
 } from 'native-base';
 import AppIntroSlider from 'react-native-app-intro-slider';
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
-import { Layout, Colors, ActionTypes } from '../constants';
+import { Theme, ActionTypes } from '../constants';
 import { getLanguage } from '../utils/common';
 import Text from './Text';
 import Icon from './Icons/Icon';
@@ -49,7 +44,7 @@ const appIntro = class AppIntro extends Component {
   }
   renderItem = ({ item }) => {
     return (
-      <View style={[appStyles.slide,appStyles.rowXYcenter,{padding:Layout.indent}]}>
+      <View style={[appStyles.slide,appStyles.rowXYcenter,{padding:Theme.sizes.indent}]}>
         <Text style={appStyles.slideTitle}>{item.title}</Text>
         <Image source={item.image} style={appStyles.slideImage} resizeMode="contain"/>
         <Text style={appStyles.slideText}>{item.text}</Text>

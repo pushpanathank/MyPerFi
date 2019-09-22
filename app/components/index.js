@@ -1,7 +1,6 @@
 import Loader from "./Loader";
 import AppIntro from "./AppIntro";
 import Logo from "./Logo";
-import ModalBox from "./ModalBox";
 import SetLanguage from "./SetLanguage";
 import SelectLanguage from "./SelectLanguage";
 import Svgicon from "./Svgicon";
@@ -26,12 +25,13 @@ import CurrencySymbol from "./CurrencySymbol";
 import withPreventDoubleClick from "./withPreventDoubleClick";
 
 import Ripple from "./Ripple";
+import PercentageCircle from "./PercentageCircle";
+import SelectAccount from "./Modals/SelectAccount";
 
 export { 
 	Loader, 
 	AppIntro, 
 	Logo, 
-	ModalBox, 
 	SetLanguage, 
 	SelectLanguage, 
 	Svgicon, 
@@ -48,4 +48,6 @@ export {
 	withPreventDoubleClick,
 	
 	Ripple,
+	PercentageCircle,
+	SelectAccount,
 };

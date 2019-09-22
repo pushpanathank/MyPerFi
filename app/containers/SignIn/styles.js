@@ -1,22 +1,22 @@
-import {Colors,Layout} from '../../constants/';
+import {Theme} from '../../constants/';
 export default {
   itemStyle:{
     marginLeft:0
   },
   loginBox: {
-    marginTop: Layout.indent,
+    marginTop: Theme.sizes.indent,
     marginLeft: 0,
     marginRight: 0,
     flex: 1,
   },
   linkTextBtn:{
-    marginTop:Layout.indent
+    marginTop:Theme.sizes.indent
   },
   linkText:{
     textTransform:'capitalize',
   },
   loginForm:{
-    marginTop: Layout.doubleIndent,
-    paddingRight:Layout.indent
+    marginTop: Theme.sizes.indent2x,
+    paddingRight:Theme.sizes.indent
   }
 };

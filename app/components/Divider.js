@@ -6,8 +6,13 @@ import { Theme } from '../constants';
 
 const divider = class Divider extends Component {
   render() {
-    const { color, style, ...props } = this.props;
-    const dividerStyles = [
+    const { color, style, vertical, height, ...props } = this.props;
+    const _height = height ? `${height}%` : '100%';
+    const dividerStyles = vertical ? [
+      styles.verticleDivider,
+      {height: _height,top:(100-height)/2},
+      style,
+    ]:[
       styles.divider,
       style,
     ];
@@ -30,5 +35,12 @@ export const styles = StyleSheet.create({
     marginVertical: Theme.sizes.indent,
     borderBottomColor: Theme.colors.gray2,
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  verticleDivider: {
+    width: 0,
+    flex:0,
+    marginHorizontal: Theme.sizes.indent,
+    borderLeftColor: Theme.colors.gray2,
+    borderLeftWidth: StyleSheet.hairlineWidth,
   }
 })

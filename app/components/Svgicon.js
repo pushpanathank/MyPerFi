@@ -6,7 +6,7 @@ import SvgIcon from 'react-native-svg-icon';
 
 import appStyles from '../theme/appStyles';
 import svgs from '../assets/svgs';
-import { Colors, Layout, Theme } from '../constants';
+import {Theme } from '../constants';
 
 const svgicon = class Svgicon extends Component {
   constructor(props) {

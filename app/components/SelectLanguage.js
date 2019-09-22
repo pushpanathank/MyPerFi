@@ -8,7 +8,7 @@ import {
 
 import appStyles from '../theme/appStyles';
 import imgs from '../assets/images';
-import { Colors, ActionTypes, Layout } from '../constants';
+import { ActionTypes, Theme } from '../constants';
 import SetLanguage from './SetLanguage';
 import Text from './Text';
 
@@ -22,7 +22,7 @@ class SelectLanguage extends React.Component {
       <Container style={appStyles.container}>
           <ImageBackground 
               source={imgs.languageBg} 
-              style={ { width: Layout.window.width, height: Layout.window.height }}>
+              style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
               <View style={[appStyles.rowXYcenter]}>
                 <Text style={[appStyles.slideTitle,{marginBottom:30}]}>Choose your language</Text>
                 <SetLanguage btnView={true}/>

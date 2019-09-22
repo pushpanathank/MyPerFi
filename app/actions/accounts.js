@@ -15,3 +15,7 @@ export const addWalletAcc = payloads => dispatch => {
 export const removeWalletAcc = payloads => dispatch => {
   return dispatch({ type: ActionTypes.REMOVEWALLETACC, id: payloads });
 }
+
+export const updateAccountTotal = payloads => dispatch => {
+  return dispatch({ type: ActionTypes.UPDATEACCOUNTTOTAL, transaction: payloads });
+}

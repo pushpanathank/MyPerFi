@@ -44,12 +44,40 @@ const accounts = (state = initialState.accounts, action) => {
         walletAccSum:getAccSum(walletAcc)
       }
     }
+
     case ActionTypes.REMOVEWALLETACC: {
       let walletAcc = state.walletAcc;
       delete(walletAcc[action.id]);
       return {
         ...state,
         walletAcc:walletAcc,
+        walletAccSum:getAccSum(walletAcc)
+      }
+    }
+
+    case ActionTypes.UPDATEACCOUNTTOTAL: {
+      let transaction = action.transaction,
+          add = action.add, // (0=>remove, 1=>add)
+          bankAcc = state.bankAcc,
+          walletAcc = state.walletAcc,
+          type = transaction.type ? 1:-1, //(1=>income, -1=>expense)
+          diff = (transaction.amount - transaction.initAmt) * type;
+          if(add==0){
+            //subract the transaction
+            diff = transaction.initAmt * type * -1;
+          }
+        delete transaction['initAmt'];
+      if(bankAcc.hasOwnProperty(transaction.acid)){
+        bankAcc[transaction.acid].bal = parseInt(bankAcc[transaction.acid].bal) + diff;
+      }
+      if(walletAcc.hasOwnProperty(transaction.acid)){
+        walletAcc[transaction.acid].bal = parseInt(walletAcc[transaction.acid].bal) + diff;
+      }
+      return {
+        ...state,
+        bankAcc:bankAcc,
+        walletAcc:walletAcc,
+        bankAccSum:getAccSum(bankAcc),
         walletAccSum:getAccSum(walletAcc)
       }
     }

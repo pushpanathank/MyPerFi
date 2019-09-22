@@ -7,8 +7,8 @@ import {
 import Modal from 'react-native-modal';
 
 import { Theme, Screens, IconList } from '../../constants';
-import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell } from '../../components';
-import { formatDate } from '../../utils/accounts';
+import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount } from '../../components';
+import { formatDate, getDaysLeft } from '../../utils/accounts';
 import { getLanguage, getObjectNValues } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
@@ -22,22 +22,27 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      addTransModal: false
+      addTransModal: false,
+      transType:0,
+      selectAccModal: false
     }
   }
-  toggleIconModal = () => {
+  toggleTransModal = () => {
     this.setState({addTransModal: !this.state.addTransModal});
   }
+  toggleAccModal = (type) => {
+    this.setState({selectAccModal: !this.state.selectAccModal, addTransModal:false, transType:type});
+  }
 
-  manageTransaction = (type,id) =>{
-    if(id==0) this.toggleIconModal();
-    this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,id:id})
+  manageTransaction = (type,transid,accid) =>{
+    if(transid==0) this.setState({addTransModal: false, selectAccModal:false});
+    this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,transid:transid,accid:accid})
   }
 
   renderTransactionItem = ({item}) =>{
-    const {language, languageCode} = this.props;
+    const {language, languageCode, accounts} = this.props;
     let color = item.type ? Theme.colors.green : Theme.colors.black;
-    return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id) }>
+    return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id,item.acid) }>
       <Block row center space="around" style={appStyles.listItemTrans}>
         <Block row flex={1} left>
           <View style={[
@@ -51,7 +56,7 @@ class Home extends React.Component {
         </Block>
         <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
           <Text>{item.place ? item.place : language['unknown']}</Text>
-          <Text small gray>{item.cat ? language[item.cat] : language['unknown']}</Text>
+          <Text small gray>{accounts[item.acid].name} - {item.cat ? language[item.cat] : language['unknown']}</Text>
         </Block>
         <Block column flex={1} right>
           <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
@@ -61,8 +66,15 @@ class Home extends React.Component {
     </Ripple>);
   }
 
+  noItemDisplay = () => {
+    const {language} = this.props;
+    return (
+      <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noTransactions}</Text></Block>
+    );
+  };
+
   render(){
-    const {language, languageId, languageCode} = this.props;
+    const {language, languageId, languageCode, availableBal} = this.props;
     const modalWidth = languageId ? {width: Theme.sizes.indent3x*4}:{};
     return (
       <Container style={appStyles.container}>
@@ -81,20 +93,20 @@ class Home extends React.Component {
             backdropOpacity={ 0.2 }
             animationIn={ 'fadeInUp' }
             animationOut={ 'fadeOutDown' }
-            onBackdropPress={ () => { this.toggleIconModal(); } }
-            onBackButtonPress={ () => { this.toggleIconModal(); } }
+            onBackdropPress={ () => { this.toggleTransModal(); } }
+            onBackButtonPress={ () => { this.toggleTransModal(); } }
             style={appStyles.bottomFabRightModal}
             useNativeDriver
           > 
             <View style={[appStyles.fabContentModal]}>
               <View style={[appStyles.fabAddTransContent,modalWidth]}>
                 <Block middle>
-                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.manageTransaction(1,0); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.toggleAccModal(1)}}>
                     <Text>{language.addIn}</Text>
                   </Button>
                 </Block>
                 <Block middle>
-                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.manageTransaction(0,0); }}>
+                  <Button ripple style={appStyles.fabAddTransBtn} onPress={() => { this.toggleAccModal(0) }}>
                     <Text>{language.addEx}</Text>
                   </Button>
                 </Block>
@@ -103,15 +115,42 @@ class Home extends React.Component {
           </Modal>
 
           <Button ripple rippleContainerBorderRadius={Theme.sizes.indent}
-            onPress={() => { this.toggleIconModal(); }}
+            onPress={() => { this.toggleTransModal(); }}
             style={appStyles.fabBottomRight}
             >
             <Icon name="plus" size={16} />
           </Button>
 
-          <Content enableOnAndroid style={appStyles.row}>
-            <Block block style={styles.dashboard}>
+          <SelectAccount 
+            isVisible={this.state.selectAccModal}
+            transType={this.state.transType}
+            toggleModal={this.toggleAccModal}
+            onSelect={this.manageTransaction}
+            />
 
+          <Content enableOnAndroid style={appStyles.row}>
+            <Block block center middle style={styles.dashboard}>
+              <PercentageCircle 
+                radius={Theme.sizes.indent6x} 
+                percent={75} 
+                borderWidth={Theme.sizes.indenthalf}
+                color={Theme.colors.secondary} 
+                >
+                <Text white>{language.spend}</Text>
+                <Text white h2><CurrencySymbol size='h2' color={'white'}/> 10000 </Text>
+                <Text small gray3>{getDaysLeft()} {language.daysLeft}</Text>
+              </PercentageCircle>
+              <Block row space="between" padding={Theme.sizes.indent}>
+                <Block>
+                  <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
+                  <Text small gray3>{language.currentBal}</Text>
+                </Block>
+                <Divider vertical height={70} />
+                <Block right>
+                  <Text white body><CurrencySymbol size='body' color={'white'}/>0</Text>
+                  <Text small gray3>{language.billDue}</Text>
+                </Block>
+              </Block>
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
               <Text h5 light>{language.latestTrans}</Text>
@@ -121,6 +160,7 @@ class Home extends React.Component {
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={this.renderTransactionItem}
+                ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
@@ -131,6 +171,7 @@ class Home extends React.Component {
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={this.renderTransactionItem}
+                ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
             <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
@@ -141,6 +182,7 @@ class Home extends React.Component {
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={this.renderTransactionItem}
+                ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
           </Content>
@@ -151,13 +193,16 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  let language = getLanguage(state.settings.languageId);
     return {
     user: state.auth.user,
     languageId: state.settings.languageId,
     languageCode: state.settings.languageCode,
-    language: getLanguage(state.settings.languageId),
+    language: language,
     latestTransactions: getObjectNValues({obj:state.transactions,n:3,sort:-1}),
     transactions: getObjectNValues({obj:state.transactions}),
+    accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}},
+    availableBal: parseInt(state.accounts.bankAccSum)+parseInt(state.accounts.walletAccSum),
   };
 };
 

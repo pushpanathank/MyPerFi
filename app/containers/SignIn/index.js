@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import * as Animatable from 'react-native-animatable';
 
 import { Theme, Screens, ActionTypes } from '../../constants';
-import { Logo, Icon, ModalBox, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text, Input } from '../../components';
+import { Logo, Icon, SetLanguage, SelectLanguage, Loader, AppIntro, Button, Block, Text, Input } from '../../components';
 import imgs from '../../assets/images';
 import { userActions, settingActions } from "../../actions";
 import { showToast, getLanguage } from '../../utils/common';
@@ -35,7 +35,6 @@ class SignIn extends React.Component {
         }
       },
       validForm: true,
-      visibleModal: false,
     };
     this.onInputChange = validationService.onInputChange.bind(this);
     this.getFormValidation = validationService.getFormValidation.bind(this);
@@ -184,13 +183,7 @@ class SignIn extends React.Component {
                       </Button>
                   }
                 </Animatable.View>  
-              </Block>
-              <ModalBox 
-                visibleModal={this.state.visibleModal}
-                content={<SetLanguage />} 
-                style={appStyles.bottomModal}
-                contentStyle={appStyles.setLanguage}
-                />         
+              </Block>         
             </Content>
            </ImageBackground>
         </Block>

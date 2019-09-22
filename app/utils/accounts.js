@@ -29,8 +29,15 @@ function formatDate({lang='en',date=null,format='transaction'}){
 	return moment().format(form);
 }
 
+function getDaysLeft() {
+	let a = moment().endOf('month');
+	let b = moment();
+	return a.diff(b, 'days');
+}
+
 export {
 	getAccSum,
 
 	formatDate,
+	getDaysLeft,
 };

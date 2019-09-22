@@ -8,7 +8,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from "react-redux";
 import Modal from 'react-native-modal';
 
-import { ActionTypes, Strings, Colors } from '../constants';
+import { ActionTypes, Strings, Theme } from '../constants';
 import { settingActions } from "../actions";
 import appStyles from '../theme/appStyles';
 
@@ -27,7 +27,7 @@ class SetLanguage extends React.Component {
               style={[appStyles.introLangBtn,this.props.languageId === value.id ? appStyles.introLangBtnActive : {}]}
               onPress={() => {this.props.setLanguage(index,value)}}
               >
-              <Text style={{color:Colors.black}}>{value.lang}</Text>
+              <Text style={{color:Theme.colors.black}}>{value.lang}</Text>
             </Button>);
           }else{
             return (
