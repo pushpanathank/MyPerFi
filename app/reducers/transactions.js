@@ -2,7 +2,7 @@
 import { initialState } from './initial';
 import { ActionTypes } from '../constants/';
 import { generateUUIDInt } from '../utils/common';
-import { getAccSum } from '../utils/accounts';
+import { getAccSum,getCurrentMonthTotalSpend } from '../utils/accounts';
 
 // Reducers (Modifies The State And Returns A New State)
 const transactions = (state = initialState.transactions, action) => {
@@ -14,13 +14,13 @@ const transactions = (state = initialState.transactions, action) => {
         id = transaction['id'];
       }
       transaction['id']=id;
-      state[id] = transaction;
-      return {...state};
+      state.items[id] = transaction;
+      return {...state, currMonthSpend: getCurrentMonthTotalSpend(state.items)};
     }
     case ActionTypes.REMOVETRANSACTION: {
       let id=action.id;
-      delete state[id];
-      return {...state};
+      delete state.items[id];
+      return {...state, currMonthSpend: getCurrentMonthTotalSpend(state.items)};
     }
 
     // Default

@@ -56,7 +56,7 @@ class Home extends React.Component {
         </Block>
         <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
           <Text>{item.place ? item.place : language['unknown']}</Text>
-          <Text small gray>{accounts[item.acid].name} - {item.cat ? language[item.cat] : language['unknown']}</Text>
+          <Text small gray>{accounts[item.acid] ? `${accounts[item.acid].name} - ` : ''}{item.cat ? language[item.cat] : language['unknown']}</Text>
         </Block>
         <Block column flex={1} right>
           <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
@@ -72,6 +72,14 @@ class Home extends React.Component {
       <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noTransactions}</Text></Block>
     );
   };
+
+  goToAccounts = ()=>{
+    this.props.navigation.navigate(Screens.Accounts.route);
+  }
+
+  spendPercentage = ()=>{
+    return (this.props.currMonthSpend/this.props.budget)*100;
+  }
 
   render(){
     const {language, languageId, languageCode, availableBal} = this.props;
@@ -132,18 +140,20 @@ class Home extends React.Component {
             <Block block center middle style={styles.dashboard}>
               <PercentageCircle 
                 radius={Theme.sizes.indent6x} 
-                percent={75} 
+                percent={this.spendPercentage()} 
                 borderWidth={Theme.sizes.indenthalf}
                 color={Theme.colors.secondary} 
                 >
                 <Text white>{language.spend}</Text>
-                <Text white h2><CurrencySymbol size='h2' color={'white'}/> 10000 </Text>
+                <Text white h2><CurrencySymbol size='h2' color={'white'}/> {this.props.currMonthSpend} </Text>
                 <Text small gray3>{getDaysLeft()} {language.daysLeft}</Text>
               </PercentageCircle>
               <Block row space="between" padding={Theme.sizes.indent}>
-                <Block>
-                  <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
-                  <Text small gray3>{language.currentBal}</Text>
+                <Block bottom>
+                  <Ripple onPress={this.goToAccounts}>
+                    <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
+                    <Text small gray3>{language.currentBal}</Text>
+                  </Ripple>
                 </Block>
                 <Divider vertical height={70} />
                 <Block right>
@@ -195,15 +205,17 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
   let language = getLanguage(state.settings.languageId);
     return {
-    user: state.auth.user,
-    languageId: state.settings.languageId,
-    languageCode: state.settings.languageCode,
-    language: language,
-    latestTransactions: getObjectNValues({obj:state.transactions,n:3,sort:-1}),
-    transactions: getObjectNValues({obj:state.transactions}),
-    accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}},
-    availableBal: parseInt(state.accounts.bankAccSum)+parseInt(state.accounts.walletAccSum),
-  };
+      user: state.auth.user,
+      languageId: state.settings.languageId,
+      languageCode: state.settings.languageCode,
+      budget: 10000,
+      language: language,
+      latestTransactions: getObjectNValues({obj:state.transactions.items,n:3,sort:-1}),
+      transactions: [],
+      accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}},
+      availableBal: parseInt(state.accounts.bankAccSum)+parseInt(state.accounts.walletAccSum),
+      currMonthSpend: state.transactions.currMonthSpend,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

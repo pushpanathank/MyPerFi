@@ -27,7 +27,7 @@ class TransactionManage extends React.Component {
     const type = navigation.getParam('type');
     const transid = navigation.getParam('transid');
     const accid = navigation.getParam('accid');
-    console.log("accid", type,transid,accid);
+    // console.log("accid", type,transid,accid);
     const trans = this.props.transactions[transid];
     if(transid!=0){
       this.state = { 
@@ -117,7 +117,7 @@ class TransactionManage extends React.Component {
     if(this.state.validForm){
       Keyboard.dismiss();
       const trans = this.getTransactionObj();
-      console.log("trans", trans);
+      // console.log("trans", trans);
       this.props.addTrans(trans);
       showToast(msg,"success");
       this.props.navigation.navigate(Screens.Home.route);
@@ -343,7 +343,7 @@ const mapStateToProps = (state) => {
   return {
     languageCode: state.settings.languageCode,
     language: language,
-    transactions: state.transactions,
+    transactions: state.transactions.items,
     accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}}
   };
 };

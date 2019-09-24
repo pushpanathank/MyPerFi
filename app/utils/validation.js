@@ -26,7 +26,7 @@ const validationDictionary = {
 
   integer: {
     presence: { allowEmpty: false, message: "^required" },
-    numericality: { greaterThan: 0, onlyInteger: true, message: "^notValid" }
+    numericality: { greaterThan: -1, onlyInteger: true, message: "^notValid" }
   },
 
   month: {

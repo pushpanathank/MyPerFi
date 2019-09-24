@@ -13,7 +13,8 @@ export const initialState = {
 		currSymbol: getCurrencySymbol('inr'),
 		languageId:0,
 		languageCode:'en',
-		languageSet:0
+		languageSet:0,
+		budget:0
 	},
 	accounts:{
 		bankAcc: {},
@@ -21,5 +22,8 @@ export const initialState = {
 		walletAcc: {},
 		walletAccSum: 0,
 	},
-	transactions:{}
+	transactions:{
+		items:{},
+		currMonthSpend:0
+	}
 };

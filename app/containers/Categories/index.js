@@ -104,7 +104,7 @@ class Categories extends React.Component {
                         renderRow={(data) => {
                           return (
                             <ListItem transparent
-                                onPress={() => this.props.selectedColor(data)}>
+                                onPress={() => this.setColor(data)}>
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
                                     <Block middle center style={[appStyles.catIcon,{backgroundColor:catIcon[data].color,margin:0}]}>

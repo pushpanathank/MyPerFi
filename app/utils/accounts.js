@@ -19,6 +19,17 @@ const getAccSum = (accounts) => {
 	return total.toLocaleString();
 }
 
+const getCurrentMonthTotalSpend = (transactions)=>{
+	let start = moment().startOf('month').unix(),
+	end = moment().endOf('month').unix(), sum=0;
+	for(let i in transactions){
+		if(i>=start && i<=end && transactions[i].type==0){
+			sum = sum+parseInt(transactions[i].amount);
+		}
+	}
+	return sum;
+}
+
 // Date 
 function formatDate({lang='en',date=null,format='transaction'}){
 	let form = dateFormat[format];
@@ -37,6 +48,7 @@ function getDaysLeft() {
 
 export {
 	getAccSum,
+	getCurrentMonthTotalSpend,
 
 	formatDate,
 	getDaysLeft,

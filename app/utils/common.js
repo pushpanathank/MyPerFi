@@ -48,6 +48,7 @@ const generateUUIDInt = (date) =>{
 }
 
 const getObjectNValues = ({obj, n=0, sort=0, ret=1})=> {
+	if(!obj) return;
 	let arr = sort== 0 ? Object.keys(obj).sort(function ( a, b ) { return b - a; }): Object.keys(obj).sort(function ( a, b ) { return a - b; });
 	arr = n ? arr.slice(0, n) : arr;
   let result = arr
