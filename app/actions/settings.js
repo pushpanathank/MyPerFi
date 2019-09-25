@@ -10,3 +10,7 @@ export const setLanguage = payloads => dispatch => {
 export const setCurrency = payloads => dispatch => {
   return dispatch({ type: ActionTypes.SETCURRENCY, currency: payloads, currSymbol: getCurrencySymbol(payloads)});
 }
+
+export const setBudget = payloads => dispatch => {
+  return dispatch({ type: ActionTypes.SETBUDGET, budget: payloads});
+}

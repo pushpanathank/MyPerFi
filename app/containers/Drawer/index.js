@@ -39,7 +39,7 @@ class Drawer extends React.Component {
       <Container>
         <Header style={styles.header}>
           <View style={[appStyles.row]}>
-            <Block row center middle bottom>
+            <Block row center middle bottom style={{marginTop:Theme.sizes.indent2x}}>
               <Logo header={true} style={{height: 50,width: 140}}/>
             </Block>
             <Block padding={[0,Theme.sizes.indent]} center>

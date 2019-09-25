@@ -21,6 +21,13 @@ const settings = (state = initialState.settings, action) => {
         currSymbol: action.currSymbol,
       }
     }
+
+    case ActionTypes.SETBUDGET: {
+      return {
+        ...state,
+        budget: action.budget,
+      }
+    }
     // Default
     default: {
       return state;

@@ -77,8 +77,27 @@ class Home extends React.Component {
     this.props.navigation.navigate(Screens.Accounts.route);
   }
 
+  summaryText = () => {
+    const {language, currMonthSpend, budget} = this.props;
+    let overSpent = currMonthSpend > budget ? 1: 0;
+    return(<Block middle center>
+            <Text white>{overSpent ? language.overSpent :language.spend}</Text>
+              {
+                overSpent ?
+                <Text accent h2><CurrencySymbol size='h2' color={'accent'}/> {currMonthSpend - budget} </Text>
+                :
+                <Text white h2><CurrencySymbol size='h2' color={'white'}/> {currMonthSpend} </Text>
+              }
+              <Text small gray3>{getDaysLeft()} {language.daysLeft}</Text>
+          </Block>);
+  }
+
   spendPercentage = ()=>{
-    return (this.props.currMonthSpend/this.props.budget)*100;
+    let percentage = (this.props.currMonthSpend/this.props.budget)*100;
+    if(percentage>100){
+      percentage = 100;
+    }
+    return percentage;
   }
 
   render(){
@@ -144,21 +163,21 @@ class Home extends React.Component {
                 borderWidth={Theme.sizes.indenthalf}
                 color={Theme.colors.secondary} 
                 >
-                <Text white>{language.spend}</Text>
-                <Text white h2><CurrencySymbol size='h2' color={'white'}/> {this.props.currMonthSpend} </Text>
-                <Text small gray3>{getDaysLeft()} {language.daysLeft}</Text>
+                {this.summaryText()}
               </PercentageCircle>
               <Block row space="between" padding={Theme.sizes.indent}>
                 <Block bottom>
-                  <Ripple onPress={this.goToAccounts}>
+                  <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
                     <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
                     <Text small gray3>{language.currentBal}</Text>
                   </Ripple>
                 </Block>
                 <Divider vertical height={70} />
                 <Block right>
-                  <Text white body><CurrencySymbol size='body' color={'white'}/>0</Text>
-                  <Text small gray3>{language.billDue}</Text>
+                  <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
+                    <Text white body><CurrencySymbol size='body' color={'white'}/>0</Text>
+                    <Text small gray3>{language.billDue}</Text>
+                  </Ripple>
                 </Block>
               </Block>
             </Block>
@@ -208,7 +227,7 @@ const mapStateToProps = (state) => {
       user: state.auth.user,
       languageId: state.settings.languageId,
       languageCode: state.settings.languageCode,
-      budget: 10000,
+      budget: parseInt(state.settings.budget),
       language: language,
       latestTransactions: getObjectNValues({obj:state.transactions.items,n:3,sort:-1}),
       transactions: [],

@@ -31,6 +31,8 @@ export default[
 		currentBal: 'Current Balance',
 		billDue: 'Bill Due',
 		daysLeft: 'days left',
+		setBudget: 'Set Budget',
+		overSpent: 'Over Spent',
 
 		home: 'Home',
 		bankacc: 'Bank Accounts',
@@ -239,6 +241,8 @@ export default[
 		currentBal: 'தற்போதைய இருப்பு',
 		billDue: 'கடன் தொகை',
 		daysLeft: 'நாட்கள் உள்ளன',
+		setBudget: 'வரம்பை அமைக்கவும்',
+		overSpent: 'அதிகமான செலவு',
 
 		home: 'முகப்பு',
 		bankacc: 'வங்கி கணக்குகள்',
