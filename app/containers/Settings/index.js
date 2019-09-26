@@ -3,11 +3,11 @@ import { ActivityIndicator, StyleSheet, View, ImageBackground, FlatList, Picker}
 import _ from 'lodash'; 
 import { Theme, Screens, Strings, Account } from '../../constants';
 import { Headers, IconList, Button, Block, Input, Text, IconMenu, IconBell } from '../../components';
-import { getLanguage } from '../../utils/common';
+import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
-import { Container, Content } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 import { connect } from "react-redux";
-import { userActions, settingActions } from "../../actions";
+import { settingActions, transactionActions } from "../../actions";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -16,17 +16,38 @@ class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected2: undefined
+      isBackup: false,
+      isRestore: false,
     };
-  }
-  onValueChange2(value: string) {
-    this.setState({
-      selected2: value
-    });
   }
 
   setBudget = (value)=>{
     this.props.setBudget(value.toString());
+  }
+
+  backup = ()=>{
+    this.setState({isBackup: true});
+    let data = { user_id : this.props.user.user_id, transactions: this.props.transactions};
+    this.props.backup(data).then(res => {
+      this.setState({isBackup: false});
+      showToast(res.msg,"success");
+      })
+      .catch(error => {
+        this.setState({isBackup: false});
+        console.log("error", error);
+      });
+  }
+  restore = ()=>{
+    this.setState({isRestore: true});
+    let data = { user_id : this.props.user.user_id };
+    this.props.restore(data).then(res => {
+      this.setState({isRestore: false});
+      showToast(res.msg,"success");
+      })
+      .catch(error => {
+        this.setState({isRestore: false});
+        console.log("error", error);
+      });
   }
   
   render(){
@@ -47,6 +68,20 @@ class Settings extends React.Component {
           </View>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
               <Block style={styles.inputs}>
+                <Block row space="between" style={styles.inputRow}>
+                  <Button ripple color="secondary" center style={{width:'48%'}} onPress={this.backup}>
+                    { this.state.isBackup ? 
+                     <Spinner color={Theme.colors.primary} /> : 
+                     <Text white>{language.backup}</Text>
+                   }
+                  </Button>
+                  <Button ripple color="secondary" center style={{width:'48%'}} onPress={this.restore}>
+                    { this.state.isRestore ? 
+                     <Spinner color={Theme.colors.primary} /> : 
+                     <Text white>{language.restore}</Text>
+                    }
+                  </Button>
+                </Block>
                 <Block row style={styles.inputRow}>
                   <Text style={{ marginBottom: 10 }}>{language.chooseLang}</Text>
                 </Block>
@@ -117,15 +152,17 @@ const mapStateToProps = (state) => {
     budget: state.settings.budget,
     language: getLanguage(state.settings.languageId),
     languageId: state.settings.languageId || 0,
+    transactions:state.transactions.items
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch,props) => {
   return {
       setLanguage: (value) => dispatch(settingActions.setLanguage({id:value, code: Strings[value].langCode ,set:1})),
       setCurrency: (value) => dispatch(settingActions.setCurrency(value)),
       setBudget: (value) => dispatch(settingActions.setBudget(value)),
-      logout: () => dispatch(userActions.logoutUser()),
+      backup: (obj) => dispatch(transactionActions.backup(obj)),
+      restore: (obj) => dispatch(transactionActions.restore(obj)),
    };
 };
 

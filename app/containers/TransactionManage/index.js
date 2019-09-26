@@ -6,7 +6,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
 import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList, IconButton, IconBack, SelectAccount } from '../../components';
-import { getLanguage, showToast } from '../../utils/common';
+import { getLanguage, showToast, generateUUIDInt } from '../../utils/common';
 import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
@@ -135,9 +135,11 @@ class TransactionManage extends React.Component {
         amount: transInputs.amount.value,
         place: transInputs.place.value,
         date: formatDate({date:selectedDate, format:'save'}),
+        ts: generateUUIDInt(selectedDate),
         spend: transInputs.spend.value,
         reimb: transInputs.reimb.value,
         note: transInputs.note.value,
+        sync: 1,
       }
   }
 

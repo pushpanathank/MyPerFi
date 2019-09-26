@@ -22,6 +22,8 @@ export default[
 		confirm: 'Confirm',
 		okay: 'Okay',
 		cancel: 'Cancel',
+		backup: 'Backup',
+		restore: 'Restore',
 
 		latestTrans: 'Latest Transactions',
 		topSpend: 'Top Spend Areas',
@@ -232,6 +234,8 @@ export default[
 		confirm: 'உறுதிப்படுத்தவும்',
 		okay: 'சரி',
 		cancel: 'ரத்துசெய்',
+		backup: 'காப்பு ',
+		restore: 'மீட்பு',
 
 		latestTrans: 'சமீபத்திய பரிவர்த்தனைகள்',
 		topSpend: 'அதிக செலவு பகுதிகள்',

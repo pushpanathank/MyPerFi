@@ -84,7 +84,7 @@ class Home extends React.Component {
             <Text white>{overSpent ? language.overSpent :language.spend}</Text>
               {
                 overSpent ?
-                <Text accent h2><CurrencySymbol size='h2' color={'accent'}/> {currMonthSpend - budget} </Text>
+                <Text accent h2><CurrencySymbol size='h2' color={Theme.colors.accent}/> {currMonthSpend - budget} </Text>
                 :
                 <Text white h2><CurrencySymbol size='h2' color={'white'}/> {currMonthSpend} </Text>
               }

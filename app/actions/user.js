@@ -1,7 +1,5 @@
 import axios from '../utils/api';
 import url from '../config/api';
-import apiConfig from '../config/api';
-import storage from '../utils/storage';
 import { ActionTypes, Strings } from '../constants/';
 import { getLanguage } from '../utils/common';
 

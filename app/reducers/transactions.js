@@ -22,6 +22,24 @@ const transactions = (state = initialState.transactions, action) => {
       delete state.items[id];
       return {...state, currMonthSpend: getCurrentMonthTotalSpend(state.items)};
     }
+    case ActionTypes.BACKUPSUCCESS: {
+      let data=action.data;
+      console.log("BACKUPSUCCESS", data);
+      for(let t in data){
+        if(data[t]){
+          state.items[t]['sync'] = 0;
+        }
+      }
+      return {...state};
+    }
+    case ActionTypes.RESTORESUCCESS: {
+      let data=action.data;
+      console.log("RESTORESUCCESS", data);
+      for(let t in data){
+        state.items[t] = data[t];
+      }
+      return {...state};
+    }
 
     // Default
     default: {
