@@ -66,6 +66,7 @@ class AccountsManage extends React.Component {
         no: accInputs.no.value,
         bal: accInputs.bal.value,
         act: accInputs.act.value,
+        sync: 1,
       }
       console.log("acc", acc);
       if(activeTab){

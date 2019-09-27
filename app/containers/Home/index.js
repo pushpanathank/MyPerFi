@@ -84,7 +84,7 @@ class Home extends React.Component {
             <Text white>{overSpent ? language.overSpent :language.spend}</Text>
               {
                 overSpent ?
-                <Text accent h2><CurrencySymbol size='h2' color={Theme.colors.accent}/> {currMonthSpend - budget} </Text>
+                <Text h2 color={Theme.colors.red}><CurrencySymbol size='h2' color={Theme.colors.red}/> {currMonthSpend - budget} </Text>
                 :
                 <Text white h2><CurrencySymbol size='h2' color={'white'}/> {currMonthSpend} </Text>
               }
@@ -101,7 +101,7 @@ class Home extends React.Component {
   }
 
   render(){
-    const {language, languageId, languageCode, availableBal} = this.props;
+    const {language, languageId, languageCode, availableBal, currMonthSpend, budget} = this.props;
     const modalWidth = languageId ? {width: Theme.sizes.indent3x*4}:{};
     return (
       <Container style={appStyles.container}>
@@ -161,7 +161,7 @@ class Home extends React.Component {
                 radius={Theme.sizes.indent6x} 
                 percent={this.spendPercentage()} 
                 borderWidth={Theme.sizes.indenthalf}
-                color={Theme.colors.secondary} 
+                color={currMonthSpend > budget ? Theme.colors.red : Theme.colors.secondary} 
                 >
                 {this.summaryText()}
               </PercentageCircle>

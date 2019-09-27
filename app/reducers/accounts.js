@@ -82,6 +82,51 @@ const accounts = (state = initialState.accounts, action) => {
       }
     }
 
+    case ActionTypes.BACKUPACCOUNT: {
+      let data=action.data,
+          bankAcc = state.bankAcc,
+          walletAcc = state.walletAcc;
+          console.log("BACKUPACCOUNT", data);
+      for(let a in data){
+        if(data[a]){
+          if(bankAcc.hasOwnProperty(a)){
+            bankAcc[a]['sync'] = 0;
+          }
+          if(walletAcc.hasOwnProperty(a)){
+            walletAcc[a]['sync'] = 0;
+          }
+        }
+      }
+      return {
+        ...state,
+        bankAcc:bankAcc,
+        walletAcc:walletAcc,
+        bankAccSum:getAccSum(bankAcc),
+        walletAccSum:getAccSum(walletAcc)
+      }
+    }
+    case ActionTypes.RESTOREACCOUNT: {
+      let data=action.data,
+          bankAcc = state.bankAcc,
+          walletAcc = state.walletAcc;
+          console.log("RESTOREACCOUNT", data);
+      for(let a in data){
+        if(bankAcc.hasOwnProperty(a)){
+          bankAcc[a] = data[a];
+        }
+        if(walletAcc.hasOwnProperty(a)){
+          walletAcc[a] = data[a];
+        }
+      }
+      return {
+        ...state,
+        bankAcc:bankAcc,
+        walletAcc:walletAcc,
+        bankAccSum:getAccSum(bankAcc),
+        walletAccSum:getAccSum(walletAcc)
+      }
+    }
+
     // Default
     default: {
       return state;

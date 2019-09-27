@@ -22,9 +22,9 @@ const transactions = (state = initialState.transactions, action) => {
       delete state.items[id];
       return {...state, currMonthSpend: getCurrentMonthTotalSpend(state.items)};
     }
-    case ActionTypes.BACKUPSUCCESS: {
+    case ActionTypes.BACKUPTRANSACTION: {
       let data=action.data;
-      console.log("BACKUPSUCCESS", data);
+      console.log("BACKUPTRANSACTION", data);
       for(let t in data){
         if(data[t]){
           state.items[t]['sync'] = 0;
@@ -32,13 +32,13 @@ const transactions = (state = initialState.transactions, action) => {
       }
       return {...state};
     }
-    case ActionTypes.RESTORESUCCESS: {
+    case ActionTypes.RESTORETRANSACTION: {
       let data=action.data;
-      console.log("RESTORESUCCESS", data);
+      console.log("RESTORETRANSACTION", data);
       for(let t in data){
         state.items[t] = data[t];
       }
-      return {...state};
+      return {...state, currMonthSpend: getCurrentMonthTotalSpend(state.items)};
     }
 
     // Default

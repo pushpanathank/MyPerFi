@@ -7,7 +7,7 @@ import { getLanguage, showToast } from '../../utils/common';
 import imgs from '../../assets/images';
 import { Container, Content, Spinner } from 'native-base';
 import { connect } from "react-redux";
-import { settingActions, transactionActions } from "../../actions";
+import { settingActions } from "../../actions";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -27,7 +27,7 @@ class Settings extends React.Component {
 
   backup = ()=>{
     this.setState({isBackup: true});
-    let data = { user_id : this.props.user.user_id, transactions: this.props.transactions};
+    let data = { user_id : this.props.user.user_id, transactions: this.props.transactions, accounts: this.props.accounts};
     this.props.backup(data).then(res => {
       this.setState({isBackup: false});
       showToast(res.msg,"success");
@@ -152,7 +152,8 @@ const mapStateToProps = (state) => {
     budget: state.settings.budget,
     language: getLanguage(state.settings.languageId),
     languageId: state.settings.languageId || 0,
-    transactions:state.transactions.items
+    transactions:state.transactions.items,
+    accounts:{...state.accounts.bankAcc, ...state.accounts.walletAcc},
   };
 };
 
@@ -161,8 +162,8 @@ const mapDispatchToProps = (dispatch,props) => {
       setLanguage: (value) => dispatch(settingActions.setLanguage({id:value, code: Strings[value].langCode ,set:1})),
       setCurrency: (value) => dispatch(settingActions.setCurrency(value)),
       setBudget: (value) => dispatch(settingActions.setBudget(value)),
-      backup: (obj) => dispatch(transactionActions.backup(obj)),
-      restore: (obj) => dispatch(transactionActions.restore(obj)),
+      backup: (obj) => dispatch(settingActions.backup(obj)),
+      restore: (obj) => dispatch(settingActions.restore(obj)),
    };
 };
 
