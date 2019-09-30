@@ -7,59 +7,35 @@ import { getAccSum } from '../utils/accounts';
 // Reducers (Modifies The State And Returns A New State)
 const accounts = (state = initialState.accounts, action) => {
   switch (action.type) {
-    case ActionTypes.ADDBANKACC: {
-      let bankAcc = state.bankAcc,
+    case ActionTypes.RESETACCOUNTS: {
+      return {...initialState.accounts};
+    }
+    case ActionTypes.ADDACC: {
+      let items = state.items,
       id= generateUUID();
-      if(action.bankAcc['id']){
-        id = action.bankAcc['id'];
+      if(action.acc['id']){
+        id = action.acc['id'];
       }
-      action.bankAcc['id']=id;
-      bankAcc[id]=action.bankAcc;
+      action.acc['id']=id;
+      items[id]=action.acc;
       return {
         ...state,
-        bankAcc:bankAcc,
-        bankAccSum:getAccSum(bankAcc)
+        items:items,
       }
     }
-    case ActionTypes.REMOVEBANKACC: {
-      let bankAcc = state.bankAcc;
-      delete(bankAcc[action.id]);
+    case ActionTypes.REMOVEACC: {
+      let items = state.items;
+      delete(items[action.id]);
       return {
         ...state,
-        bankAcc:bankAcc,
-        bankAccSum:getAccSum(bankAcc)
-      }
-    }
-    case ActionTypes.ADDWALLETACC: {
-      let walletAcc = state.walletAcc,
-      id=generateUUID();
-      if(action.walletAcc['id']){
-        id = action.walletAcc['id'];
-      }
-      action.walletAcc['id']=id;
-      walletAcc[id]=action.walletAcc;
-      return {
-        ...state,
-        walletAcc:walletAcc,
-        walletAccSum:getAccSum(walletAcc)
-      }
-    }
-
-    case ActionTypes.REMOVEWALLETACC: {
-      let walletAcc = state.walletAcc;
-      delete(walletAcc[action.id]);
-      return {
-        ...state,
-        walletAcc:walletAcc,
-        walletAccSum:getAccSum(walletAcc)
+        items:items,
       }
     }
 
     case ActionTypes.UPDATEACCOUNTTOTAL: {
       let transaction = action.transaction,
           add = action.add, // (0=>remove, 1=>add)
-          bankAcc = state.bankAcc,
-          walletAcc = state.walletAcc,
+          items = state.items,
           type = transaction.type ? 1:-1, //(1=>income, -1=>expense)
           diff = (transaction.amount - transaction.initAmt) * type;
           if(add==0){
@@ -67,63 +43,40 @@ const accounts = (state = initialState.accounts, action) => {
             diff = transaction.initAmt * type * -1;
           }
         delete transaction['initAmt'];
-      if(bankAcc.hasOwnProperty(transaction.acid)){
-        bankAcc[transaction.acid].bal = parseInt(bankAcc[transaction.acid].bal) + diff;
-      }
-      if(walletAcc.hasOwnProperty(transaction.acid)){
-        walletAcc[transaction.acid].bal = parseInt(walletAcc[transaction.acid].bal) + diff;
+      if(items.hasOwnProperty(transaction.acid)){
+        items[transaction.acid].bal = parseInt(items[transaction.acid].bal) + diff;
       }
       return {
         ...state,
-        bankAcc:bankAcc,
-        walletAcc:walletAcc,
-        bankAccSum:getAccSum(bankAcc),
-        walletAccSum:getAccSum(walletAcc)
+        items:items,
       }
     }
 
     case ActionTypes.BACKUPACCOUNT: {
       let data=action.data,
-          bankAcc = state.bankAcc,
+          items = state.items,
           walletAcc = state.walletAcc;
-          console.log("BACKUPACCOUNT", data);
       for(let a in data){
         if(data[a]){
-          if(bankAcc.hasOwnProperty(a)){
-            bankAcc[a]['sync'] = 0;
-          }
-          if(walletAcc.hasOwnProperty(a)){
-            walletAcc[a]['sync'] = 0;
+          if(items.hasOwnProperty(a)){
+            items[a]['sync'] = 0;
           }
         }
       }
       return {
         ...state,
-        bankAcc:bankAcc,
-        walletAcc:walletAcc,
-        bankAccSum:getAccSum(bankAcc),
-        walletAccSum:getAccSum(walletAcc)
+        items:items,
       }
     }
     case ActionTypes.RESTOREACCOUNT: {
       let data=action.data,
-          bankAcc = state.bankAcc,
-          walletAcc = state.walletAcc;
-          console.log("RESTOREACCOUNT", data);
+          items = state.items;
       for(let a in data){
-        if(bankAcc.hasOwnProperty(a)){
-          bankAcc[a] = data[a];
-        }
-        if(walletAcc.hasOwnProperty(a)){
-          walletAcc[a] = data[a];
-        }
+        items[a] = data[a];
       }
       return {
         ...state,
-        bankAcc:bankAcc,
-        walletAcc:walletAcc,
-        bankAccSum:getAccSum(bankAcc),
-        walletAccSum:getAccSum(walletAcc)
+        items:items,
       }
     }
 

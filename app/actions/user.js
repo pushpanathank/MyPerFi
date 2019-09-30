@@ -34,6 +34,9 @@ export const signup = payloads => dispatch => {
 }
 
 export const logoutUser = () => dispatch => {
+  dispatch({ type: ActionTypes.RESETTRANSACTIONS });
+  dispatch({ type: ActionTypes.RESETACCOUNTS });
+  dispatch({ type: ActionTypes.RESETSETTINGS });
   return dispatch({ type: ActionTypes.LOGOUT });
   
 }

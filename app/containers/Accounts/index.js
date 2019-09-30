@@ -3,6 +3,7 @@ import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 're
 import { Screens, Strings, Theme } from '../../constants';
 import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Divider, Ripple, IconMenu, IconBell } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
+import { groupAccType, getAccSum } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {
   Container, Content, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem
@@ -79,7 +80,7 @@ class Accounts extends React.Component {
           <Block block>
             <Block center middle style={{flex: 1}}>
               <Text color='white'>{language.current} {language.totalBalance}</Text>
-              <Text color='secondary' style={{marginBottom: 15}}>{this.state.activeTab ? this.props.walletAcc.length : this.props.bankAcc.length  } {language.accounts}</Text>
+              <Text color='secondary' style={{marginBottom: 15}}>{this.state.activeTab ? this.props.wallAcc.length : this.props.bankAcc.length  } {language.accounts}</Text>
               <Text h1 color='white'><CurrencySymbol size='h1' color={Theme.colors.white}/> {this.state.activeTab ? this.props.walletAccSum : this.props.bankAccSum }</Text>
             </Block>
             <Block style={styles.contentBgAccount}>
@@ -110,7 +111,7 @@ class Accounts extends React.Component {
                     </TabHeading>}>
 
                     <FlatList
-                        data={this.props.walletAcc}
+                        data={this.props.wallAcc}
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
                         renderItem={this.renderAccountItem}
@@ -133,12 +134,14 @@ class Accounts extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  let accounts = state.accounts.items || {};
   return {
     language: getLanguage(state.settings.languageId),
-    bankAcc: Object.values(state.accounts.bankAcc),
-    walletAcc: Object.values(state.accounts.walletAcc),
-    bankAccSum: state.accounts.bankAccSum,
-    walletAccSum: state.accounts.walletAccSum,
+    accounts: Object.values(accounts),
+    bankAcc: groupAccType(accounts,0,true),
+    wallAcc: groupAccType(accounts,1,true),
+    bankAccSum: getAccSum(accounts,0),
+    walletAccSum: getAccSum(accounts,1),
   };
 };
 

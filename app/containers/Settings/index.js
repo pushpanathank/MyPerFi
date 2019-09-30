@@ -31,6 +31,7 @@ class Settings extends React.Component {
     this.props.backup(data).then(res => {
       this.setState({isBackup: false});
       showToast(res.msg,"success");
+      this.props.navigation.navigate(Screens.Home.route);
       })
       .catch(error => {
         this.setState({isBackup: false});
@@ -43,6 +44,7 @@ class Settings extends React.Component {
     this.props.restore(data).then(res => {
       this.setState({isRestore: false});
       showToast(res.msg,"success");
+      this.props.navigation.navigate(Screens.Home.route);
       })
       .catch(error => {
         this.setState({isRestore: false});
@@ -132,6 +134,7 @@ class Settings extends React.Component {
                     placeholder={'0'}
                     borderColor={Theme.colors.gray2}
                     returnKeyType={"done"}
+                    keyboardType={"numeric"}
                     value={this.props.budget}
                     onChangeText={value => {this.setBudget(value);}}
                     style={{marginBottom:Theme.sizes.indent}}
@@ -149,11 +152,11 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     currency: state.settings.currency,
-    budget: state.settings.budget,
+    budget: state.settings.budget.toString(),
     language: getLanguage(state.settings.languageId),
     languageId: state.settings.languageId || 0,
     transactions:state.transactions.items,
-    accounts:{...state.accounts.bankAcc, ...state.accounts.walletAcc},
+    accounts:{...state.accounts.items},
   };
 };
 

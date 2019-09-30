@@ -59,7 +59,7 @@ const SelectAccount = class CurrencySymbol extends Component {
 const mapStateToProps = (state) => {
   let language = getLanguage(state.settings.languageId);
   return {
-    accounts: [...Object.values(state.accounts.bankAcc),...Object.values(state.accounts.walletAcc),{id:0,name:language.others}],
+    accounts: [...Object.values(state.accounts.items),{id:0,name:language.others}],
   };
 };
 

@@ -1,8 +1,10 @@
 import React, {Component, memo} from "react";
 import { View, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { connect } from "react-redux";
 import { Spinner } from 'native-base';
 import appStyles from '../../theme/appStyles';
 import { ActionTypes, IconList as iconList, Theme } from '../../constants';
+import { getLanguage } from '../../utils/common';
 import Block from '../Block';
 import Icon from './Icon';
 import Text from '../Text';
@@ -71,7 +73,7 @@ class IconList extends Component {
                       onPress={() => this.props.selectedCategory(item)}>
                           <Icon name={item.icon} size={20} />
                       </Button>
-                      <Text small gray style={{marginBottom: Theme.sizes.indentsmall}}>{item.label}</Text>
+                      <Text small gray style={{marginBottom: Theme.sizes.indentsmall}}>{this.props.language[item.icon]}</Text>
                   </Block>
                 )}
               />: <Spinner color={Theme.colors.secondary} />}
@@ -82,7 +84,14 @@ class IconList extends Component {
   }
 }
 
-export default memo(IconList);
+const mapStateToProps = (state) => {
+  let language = getLanguage(state.settings.languageId);
+  return {
+    language: language,
+  };
+};
+
+export default connect(mapStateToProps, null)(memo(IconList));
 
 /*
 removeClippedSubviews={true}

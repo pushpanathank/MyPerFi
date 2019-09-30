@@ -346,7 +346,7 @@ const mapStateToProps = (state) => {
     languageCode: state.settings.languageCode,
     language: language,
     transactions: state.transactions.items,
-    accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}}
+    accounts: {...state.accounts.items, ...{0:{id:0,name:language.others}}}
   };
 };
 

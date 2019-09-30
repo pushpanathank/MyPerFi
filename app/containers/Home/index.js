@@ -5,10 +5,11 @@ import {
   Content,
 } from 'native-base';
 import Modal from 'react-native-modal';
+import PureChart from 'react-native-pure-chart';
 
 import { Theme, Screens, IconList } from '../../constants';
 import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount } from '../../components';
-import { formatDate, getDaysLeft } from '../../utils/accounts';
+import { formatDate, getDaysLeft, getAccSum, getCurrentMonthTotalSpend, getTopSpendAreas, topSpendGraph } from '../../utils/accounts';
 import { getLanguage, getObjectNValues } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
@@ -55,12 +56,40 @@ class Home extends React.Component {
           </View>
         </Block>
         <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
-          <Text>{item.place ? item.place : language['unknown']}</Text>
+          <Text numberOfLines={1}>{item.place ? item.place : language['unknown']}</Text>
           <Text small gray>{accounts[item.acid] ? `${accounts[item.acid].name} - ` : ''}{item.cat ? language[item.cat] : language['unknown']}</Text>
         </Block>
-        <Block column flex={1} right>
+        <Block column flex={1.2} right>
           <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
           <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+        </Block>
+      </Block>
+    </Ripple>);
+  }
+
+  renderTopSpendItem = ({item}) =>{
+    const {language, languageCode, accounts} = this.props;
+    let color = item.cat ? catIcon[item.cat].color : Theme.colors.accent,
+    percentage = ((item.amount/this.props.currMonthSpend)*100).toFixed(2);
+    return(<Ripple>
+      <Block row center space="around" style={appStyles.listItemTrans}>
+        <Block row flex={1} left>
+          <View style={[
+            appStyles.catIcon,
+            appStyles.catIconMid,
+            {backgroundColor: color, marginHorizontal: Theme.sizes.indenthalf}
+            ]}
+            >
+            <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
+          </View>
+        </Block>
+        <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
+          <Text>{language[item.cat]}</Text>
+          <View style={{width:`${percentage}%`, backgroundColor:color, height:Theme.sizes.indentsmall, marginTop:Theme.sizes.indentsmall}}></View>
+        </Block>
+        <Block column flex={1.2} right>
+          <Text><CurrencySymbol size='header'/> {item.amount} </Text>
+          <Text gray small>{`${percentage}%`}</Text>
         </Block>
       </Block>
     </Ripple>);
@@ -160,7 +189,7 @@ class Home extends React.Component {
               <PercentageCircle 
                 radius={Theme.sizes.indent6x} 
                 percent={this.spendPercentage()} 
-                borderWidth={Theme.sizes.indenthalf}
+                borderWidth={Theme.sizes.indent/1.6}
                 color={currMonthSpend > budget ? Theme.colors.red : Theme.colors.secondary} 
                 >
                 {this.summaryText()}
@@ -175,13 +204,13 @@ class Home extends React.Component {
                 <Divider vertical height={70} />
                 <Block right>
                   <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
-                    <Text white body><CurrencySymbol size='body' color={'white'}/>0</Text>
+                    <Text white body><CurrencySymbol size='body' color={'white'}/> 0</Text>
                     <Text small gray3>{language.billDue}</Text>
                   </Ripple>
                 </Block>
               </Block>
             </Block>
-            <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
+            <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.latestTrans}</Text>
               <Divider style={{marginBottom:0}}/>
               <FlatList
@@ -192,18 +221,24 @@ class Home extends React.Component {
                 ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
-            <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
+            <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.topSpend}</Text>
               <Divider style={{marginBottom:0}}/>
+              {/* <Block center middle padding={[Theme.sizes.indenthalf]}>
+                <PureChart data={sampleData} type='pie' />
+                <View style={appStyles.topSpendChartInfo}><Text>{language.total} {language.spend}</Text>
+                <Text h2><CurrencySymbol size='h2'/> {this.props.currMonthSpend}</Text></View>
+              </Block> */ }
               <FlatList
-                data={this.props.transactions}
+                data={this.props.topSpendAreas}
                 numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={this.renderTransactionItem}
+                renderItem={this.renderTopSpendItem}
                 ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
-            <Block block shadow color="white" margin={Theme.sizes.indentsmall} padding={Theme.sizes.indent}>
+            {/*
+            <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.bills}</Text>
               <Divider style={{marginBottom:0}}/>
               <FlatList
@@ -214,6 +249,7 @@ class Home extends React.Component {
                 ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
+           */}
           </Content>
          </ImageBackground>
       </Container>
@@ -222,18 +258,23 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  let language = getLanguage(state.settings.languageId);
+  let language = getLanguage(state.settings.languageId),
+  transactions = state.transactions.items,
+  accounts = state.accounts.items,
+  topSpendAreas= getTopSpendAreas({transactions:transactions}),
+  currMonthSpend= getCurrentMonthTotalSpend(transactions);
     return {
       user: state.auth.user,
       languageId: state.settings.languageId,
       languageCode: state.settings.languageCode,
       budget: parseInt(state.settings.budget),
       language: language,
-      latestTransactions: getObjectNValues({obj:state.transactions.items,n:3,sort:-1}),
+      latestTransactions: getObjectNValues({obj:transactions,n:0,sort:-1}),
       transactions: [],
-      accounts: {...state.accounts.bankAcc, ...state.accounts.walletAcc, ...{0:{id:0,name:language.others}}},
-      availableBal: parseInt(state.accounts.bankAccSum)+parseInt(state.accounts.walletAccSum),
-      currMonthSpend: state.transactions.currMonthSpend,
+      accounts: {...accounts, ...{0:{id:0,name:language.others}}},
+      availableBal: getAccSum(accounts,-1),
+      currMonthSpend: currMonthSpend,
+      topSpendAreas: Object.values(topSpendAreas),
     };
 };
 

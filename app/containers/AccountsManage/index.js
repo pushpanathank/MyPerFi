@@ -19,16 +19,14 @@ class AccountsManage extends React.Component {
     const activeTab = navigation.getParam('activeTab');
     const id = navigation.getParam('id');
     if(id){
-      let obj = activeTab ? this.props.walletAcc[id]:this.props.bankAcc[id];
+      let obj = this.props.accounts[id];
       this.state = {
         activeTab:activeTab,
         accId:id,
-        walInitialValues: id ? this.props.walletAcc[id] : {id:null, name: "",bal: "",act: true},
-        accInitialValues: id ? this.props.bankAcc[id] : {id:null, name: "",no: "",bal: "",act: true},
         accInputs: {
           name: { type: "genericRequired", value: obj.name },
           no: { type: "generic", value: obj.no },
-          bal: { type: "integer", value: obj.bal },
+          bal: { type: "integer", value: obj.bal.toString() },
           act: { type: "bool", value: obj.act },
         },
         validForm: true,
@@ -37,8 +35,6 @@ class AccountsManage extends React.Component {
       this.state = {
         activeTab:activeTab,
         accId:id,
-        walInitialValues: id ? this.props.walletAcc[id] : {id:null, name: "",bal: "",act: true},
-        accInitialValues: id ? this.props.bankAcc[id] : {id:null, name: "",no: "",bal: "",act: true},
         accInputs: {
           name: { type: "genericRequired", value: "" },
           no: { type: "generic", value: "" },
@@ -66,14 +62,11 @@ class AccountsManage extends React.Component {
         no: accInputs.no.value,
         bal: accInputs.bal.value,
         act: accInputs.act.value,
+        type: activeTab,
         sync: 1,
       }
       console.log("acc", acc);
-      if(activeTab){
-        this.props.addWall(acc);
-      }else{
-        this.props.addBank(acc);
-      }
+      this.props.addAcc(acc);
       showToast(msg,"success");
       this.props.navigation.navigate(Screens.Accounts.route);
     }
@@ -198,24 +191,17 @@ class AccountsManage extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    bankAcc: state.accounts.bankAcc,
-    walletAcc: state.accounts.walletAcc,
+    accounts: state.accounts.items,
     language: getLanguage(state.settings.languageId),
   };
 };
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
-      addWall: (values) => dispatch(accountActions.addWalletAcc(values)),
-      addBank: (values) => dispatch(accountActions.addBankAcc(values)),
+      addAcc: (values) => dispatch(accountActions.addAcc(values)),
       removeAcc: (state) =>{
-        if(state.activeTab){
-          dispatch(accountActions.removeWalletAcc(state.accId));
-        }else{
-          dispatch(accountActions.removeBankAcc(state.accId));
-        }
+        dispatch(accountActions.removeAcc(state.accId));
       },
-      logout: () => dispatch(userActions.logoutUser()),
    };
 };
 

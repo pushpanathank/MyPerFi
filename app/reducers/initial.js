@@ -17,13 +17,9 @@ export const initialState = {
 		budget:0
 	},
 	accounts:{
-		bankAcc: {},
-		bankAccSum: 0,
-		walletAcc: {},
-		walletAccSum: 0,
+		items: {},
 	},
 	transactions:{
 		items:{},
-		currMonthSpend:0
 	}
 };

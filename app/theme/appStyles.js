@@ -411,5 +411,13 @@ export default StyleSheet.create({
     paddingVertical: Theme.sizes.indenthalf,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Theme.colors.gray3
-  }
+  },
+  topSpendChartInfo:{position:'absolute', 
+  backgroundColor: Theme.colors.white, 
+  width: 180, 
+  height:180, 
+  borderRadius:90, 
+  justifyContent: 'center', 
+  alignItems: 'center'
+}
 });

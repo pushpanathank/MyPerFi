@@ -53,7 +53,7 @@ const iconList = {
   misc: { icon: "misc", color: "#DC4C46", label: "Misc", desc: ""},
   mobile: { icon: "mobile", color: "#766F57", label: "Mobile", desc: ""},
   moneytransfer: { icon: "moneytransfer", color: "#C48F65", label: "Account Transfer", desc: ""},
-  month: { icon: "month", color: "#223A5E", label: "Month", desc: ""},
+  month: { icon: "month", color: "#223A5E", label: "Monthly", desc: ""},
   music: { icon: "music", color: "#898E8C", label: "Music", desc: ""},
   mutualfund: { icon: "mutualfund", color: "#005960", label: "Mutualfund", desc: ""},
   others: { icon: "others", color: "#9C9A40", label: "Others", desc: ""},

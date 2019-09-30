@@ -5,6 +5,9 @@ import { ActionTypes } from '../constants/';
 // Reducers (Modifies The State And Returns A New State)
 const settings = (state = initialState.settings, action) => {
   switch (action.type) {
+    case ActionTypes.RESETSETTINGS: {
+      return {...initialState.settings};
+    }
     case ActionTypes.LANGUAGECODE: {
       return {
         ...state,
