@@ -1,5 +1,4 @@
 import axios from '../utils/api';
-import url from '../config/api';
 import { ActionTypes, Strings } from '../constants/';
 import { getLanguage } from '../utils/common';
 

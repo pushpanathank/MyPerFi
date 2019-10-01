@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 import PureChart from 'react-native-pure-chart';
 
 import { Theme, Screens, IconList } from '../../constants';
-import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount } from '../../components';
+import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount, SetBudget } from '../../components';
 import { formatDate, getDaysLeft, getAccSum, getCurrentMonthTotalSpend, getTopSpendAreas, topSpendGraph } from '../../utils/accounts';
 import { getLanguage, getObjectNValues } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -25,7 +25,8 @@ class Home extends React.Component {
     this.state = {
       addTransModal: false,
       transType:0,
-      selectAccModal: false
+      selectAccModal: false,
+      selectBudgetModal: false
     }
   }
   toggleTransModal = () => {
@@ -33,6 +34,9 @@ class Home extends React.Component {
   }
   toggleAccModal = (type) => {
     this.setState({selectAccModal: !this.state.selectAccModal, addTransModal:false, transType:type});
+  }
+  toggleBudgetModal = (type) => {
+    this.setState({selectBudgetModal: !this.state.selectBudgetModal, addTransModal:false, selectAccModal:false});
   }
 
   manageTransaction = (type,transid,accid) =>{
@@ -103,19 +107,24 @@ class Home extends React.Component {
   };
 
   goToAccounts = ()=>{
+    this.setState({addTransModal: false, selectAccModal:false});
     this.props.navigation.navigate(Screens.Accounts.route);
+  }
+
+  setBudget = ()=>{
+    this.setState({selectBudgetModal: false});
   }
 
   summaryText = () => {
     const {language, currMonthSpend, budget} = this.props;
-    let overSpent = currMonthSpend > budget ? 1: 0;
+    let overSpent = (budget>0 && currMonthSpend > budget) ? 1: 0;
     return(<Block middle center>
-            <Text white>{overSpent ? language.overSpent :language.spend}</Text>
+            <Text white>{overSpent ? language.overSpent : (budget>0 ? language.safeSpend : language.spend )}</Text>
               {
                 overSpent ?
                 <Text h2 color={Theme.colors.red}><CurrencySymbol size='h2' color={Theme.colors.red}/> {currMonthSpend - budget} </Text>
                 :
-                <Text white h2><CurrencySymbol size='h2' color={'white'}/> {currMonthSpend} </Text>
+                <Text white h2><CurrencySymbol size='h2' color={'white'}/> {budget>0 ? budget - currMonthSpend : currMonthSpend} </Text>
               }
               <Text small gray3>{getDaysLeft()} {language.daysLeft}</Text>
           </Block>);
@@ -126,7 +135,7 @@ class Home extends React.Component {
     if(percentage>100){
       percentage = 100;
     }
-    return percentage;
+    return this.props.budget > 0 ? percentage : 0;
   }
 
   render(){
@@ -182,6 +191,13 @@ class Home extends React.Component {
             transType={this.state.transType}
             toggleModal={this.toggleAccModal}
             onSelect={this.manageTransaction}
+            goToAccounts={this.goToAccounts}
+            />
+
+          <SetBudget 
+            isVisible={this.state.selectBudgetModal}
+            toggleModal={this.toggleBudgetModal}
+            onSelect={this.setBudget}
             />
 
           <Content enableOnAndroid style={appStyles.row}>
@@ -194,13 +210,28 @@ class Home extends React.Component {
                 >
                 {this.summaryText()}
               </PercentageCircle>
-              <Block row space="between" padding={Theme.sizes.indent}>
-                <Block bottom>
+              <Block row space="between" padding={[Theme.sizes.indent,0]}>
+                <Block>
                   <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
                     <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
                     <Text small gray3>{language.currentBal}</Text>
                   </Ripple>
                 </Block>
+                <Divider vertical height={70} />
+                {
+                  this.props.budget == 0 ?
+                  <Block center>
+                    <Ripple onPress={this.toggleBudgetModal} style={appStyles.btnSetBudget}>
+                      <Text small white>Set Budget</Text>
+                    </Ripple>
+                  </Block>: 
+                  <Block center>
+                    <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
+                      <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
+                      <Text small gray3>{language.currentBal}</Text>
+                    </Ripple>
+                  </Block>
+                }
                 <Divider vertical height={70} />
                 <Block right>
                   <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
@@ -271,7 +302,7 @@ const mapStateToProps = (state) => {
       language: language,
       latestTransactions: getObjectNValues({obj:transactions,n:0,sort:-1}),
       transactions: [],
-      accounts: {...accounts, ...{0:{id:0,name:language.others}}},
+      accounts: {...accounts},
       availableBal: getAccSum(accounts,-1),
       currMonthSpend: currMonthSpend,
       topSpendAreas: Object.values(topSpendAreas),

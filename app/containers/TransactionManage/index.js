@@ -243,7 +243,7 @@ class TransactionManage extends React.Component {
           <Content enableOnAndroid style={[appStyles.contentBg,appStyles.contentBg125, styles.container]}>
             <Block column>
               <Input
-                placeholder={language['whereSpend']}
+                placeholder={this.state.type ? language['whereGet']:language['whereSpend']}
                 leftIcon={<Icon name='shop' size='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
                 error={this.renderError('transInputs', 'place', 'email')}

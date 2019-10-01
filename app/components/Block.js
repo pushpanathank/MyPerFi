@@ -184,7 +184,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   right: {
-    justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
   top: {

@@ -27,6 +27,7 @@ import withPreventDoubleClick from "./withPreventDoubleClick";
 import Ripple from "./Ripple";
 import PercentageCircle from "./PercentageCircle";
 import SelectAccount from "./Modals/SelectAccount";
+import SetBudget from "./Modals/SetBudget";
 
 export { 
 	Loader, 
@@ -50,4 +51,5 @@ export {
 	Ripple,
 	PercentageCircle,
 	SelectAccount,
+	SetBudget,
 };

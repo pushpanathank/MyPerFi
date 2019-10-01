@@ -1,5 +1,5 @@
 import axios from '../utils/api';
-import url from '../config/api';
+import url from '../config/apiv1';
 import { ActionTypes } from '../constants/';
 import { getLanguage, getCurrencySymbol } from '../utils/common';
 

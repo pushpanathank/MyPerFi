@@ -1,6 +1,7 @@
 node_modules/**/*
 .expo/*
 npm-debug.*
+app/config/apiv1.js
 *.jks
 <<<<<<< HEAD
 *.p8

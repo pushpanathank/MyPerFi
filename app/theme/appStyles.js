@@ -210,6 +210,13 @@ export default StyleSheet.create({
     shadowRadius: 10,
     elevation: 4,
   },
+  btnSetBudget:{
+    borderRadius:15,
+    backgroundColor: Theme.colors.primaryDark,
+    marginTop: Theme.sizes.indent,
+    paddingVertical: Theme.sizes.indentsmall,
+    paddingHorizontal: Theme.sizes.indent
+  },
   activeDotStyle:{
     backgroundColor: Theme.colors.secondary
   },

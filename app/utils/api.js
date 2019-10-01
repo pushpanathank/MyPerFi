@@ -2,7 +2,7 @@ import _ from 'lodash';
 import storage from './storage';
 import axios from 'axios';
 import querystring from 'querystring';
-import apiConfig from '../config/api';
+import apiConfig from '../config/apiv1';
 
 import pathToRegExp from 'path-to-regexp';
 import { Platform } from 'react-native';
