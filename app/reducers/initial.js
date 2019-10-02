@@ -21,5 +21,8 @@ export const initialState = {
 	},
 	transactions:{
 		items:{},
+	},
+	bills:{
+		items:{}
 	}
 };

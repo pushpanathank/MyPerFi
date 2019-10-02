@@ -39,7 +39,7 @@ class TransactionManage extends React.Component {
         initAmt: trans.amount,
         selectedDate: new Date(trans.date),
         transInputs: {
-          amount: { type: "integer", value: trans.amount },
+          amount: { type: "integerRequired", value: trans.amount },
           place: { type: "generic", value: trans.place },
           date: { type: "generic", value: formatDate({lang:this.props.languageCode, date:trans.date}) },
           spend: { type: "bool", value: trans.spend },
@@ -61,7 +61,7 @@ class TransactionManage extends React.Component {
         initAmt: 0,
         selectedDate: new Date(),
         transInputs: {
-          amount: { type: "integer", value: "" },
+          amount: { type: "integerRequired", value: "" },
           place: { type: "generic", value: "" },
           date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
           spend: { type: "bool", value: type ? false : true },

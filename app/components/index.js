@@ -7,6 +7,7 @@ import Svgicon from "./Svgicon";
 import Headers from "./Headers";
 
 import IconList from "./Icons/IconList";
+import IconBillsList from "./Icons/IconBillsList";
 import Icon from "./Icons/Icon";
 import IconBack from "./Icons/IconBack";
 import IconMenu from "./Icons/IconMenu";
@@ -38,6 +39,7 @@ export {
 	Svgicon, 
 	Headers, 
 	IconList, 
+	IconBillsList, 
 
 	Icon,
 	IconBack, 

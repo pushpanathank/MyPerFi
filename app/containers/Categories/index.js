@@ -2,14 +2,14 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal';
 import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
-import { Logo, Headers, IconList, Block, Icon, IconMenu, IconBell } from '../../components';
+import { Logo, Headers, IconList, Block, Icon, IconMenu, IconBell, Text } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
   Container,
   Content,
   Button,
-  Text, Tabs, Tab, ScrollableTab, TabHeading, List, ListItem, Fab,
+  Tabs, Tab, ScrollableTab, TabHeading, List, ListItem, Fab,
   Header,
 } from 'native-base';
 import { connect } from "react-redux";
@@ -48,8 +48,8 @@ class Categories extends React.Component {
             rightIcon={<IconBell {...this.props} />}
             />
           <View style={[appStyles.heading60]}>
-            <Text style={appStyles.headingText}>{language.categories}</Text>
-            <Text style={appStyles.subheadingText}>{language.manageCat}</Text>
+            <Text h3 white light>{language.categories}</Text>
+            <Text header white>{language.manageCat}</Text>
           </View>
             <View style={appStyles.contentBg}>
             {/* <IconList selectedColor={this.setColor} /> */ }

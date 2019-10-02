@@ -8,5 +8,20 @@ import Categories from "./Categories";
 import Accounts from "./Accounts";
 import AccountsManage from "./AccountsManage";
 import Settings from "./Settings";
+import Bills from "./Bills";
+import BillsManage from "./BillsManage";
 
-export { SignIn, SignUp, Forgotpassword, Drawer, Home, TransactionManage, Categories, Accounts, AccountsManage, Settings };
+export { 
+	SignIn, 
+	SignUp, 
+	Forgotpassword, 
+	Drawer, 
+	Home, 
+	TransactionManage, 
+	Categories, 
+	Accounts, 
+	AccountsManage, 
+	Settings, 
+	Bills, 
+	BillsManage, 
+};

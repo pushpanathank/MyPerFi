@@ -52,6 +52,9 @@ export default StyleSheet.create({
     flex:1,
     height: Theme.sizes.window.height-130,
   },
+  contentBg40:{
+    height: Theme.sizes.window.height-90,
+  },
   contentBg60:{
     height: Theme.sizes.window.height-110,
   },
@@ -215,7 +218,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.primaryDark,
     marginTop: Theme.sizes.indent,
     paddingVertical: Theme.sizes.indentsmall,
-    paddingHorizontal: Theme.sizes.indent
+    paddingHorizontal: Theme.sizes.indenthalf
   },
   activeDotStyle:{
     backgroundColor: Theme.colors.secondary

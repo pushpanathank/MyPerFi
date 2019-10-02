@@ -4,6 +4,7 @@ import common from './common';
 import settings from './settings';
 import accounts from './accounts';
 import transactions from './transactions';
+import bills from './bills';
 import { reducer as formReducer } from 'redux-form';
 
 // Redux: Root Reducer
@@ -14,6 +15,7 @@ const rootReducer = {
   settings: settings,
   accounts: accounts,
   transactions: transactions,
+  bills: bills,
 };
 
 // Exports

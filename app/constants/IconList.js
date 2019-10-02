@@ -86,7 +86,21 @@ const iconList = {
 
 const iconListArray = Object.values(iconList);
 
+const iconBills = {
+  creditcard: { icon: "pay", color: "#D2691E", label: "Credit Card", desc: ""},
+  mobile: { icon: "mobile", color: "#766F57", label: "Mobile", desc: ""},
+  tv: { icon: "tv", color: "#009B77", label: "Tv", desc: ""},
+  insurance: { icon: "insurance", color: "#7F4145", label: "Insurance", desc: ""},
+  investment: { icon: "investment", color: "#3F69AA", label: "Investment", desc: ""},
+  maintenance: { icon: "maintenance", color: "#6B5B95", label: "Maintenance", desc: ""},
+  others: { icon: "others", color: "#9C9A40", label: "Others", desc: ""},
+  loan: { icon: "loan", color: "#E94B3C", label: "Loan", desc: ""},
+  interest: { icon: "interest", color: "#BD3D3A", label: "Interest", desc: ""},
+  rent: { icon: "rent", color: "#F2552C", label: "Rent", desc: ""},
+}
+
 export {
   iconList,
-  iconListArray
+  iconListArray,
+  iconBills
 }

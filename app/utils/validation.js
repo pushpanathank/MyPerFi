@@ -25,6 +25,11 @@ const validationDictionary = {
   },
 
   integer: {
+    presence: { allowEmpty: true, message: "^required" },
+    numericality: { greaterThan: -1, onlyInteger: true, message: "^notValid" }
+  },
+
+  integerRequired: {
     presence: { allowEmpty: false, message: "^required" },
     numericality: { greaterThan: -1, onlyInteger: true, message: "^notValid" }
   },

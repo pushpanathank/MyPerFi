@@ -31,6 +31,14 @@ export default {
   AccountsManage : {
     route: 'AccountsManage',
   },
+  Bills : {
+    route: 'Bills',
+    icon:'bill',
+    label: Strings.bills,
+  },
+  BillsManage : {
+    route: 'BillsManage',
+  },
   Settings : {
     route: 'Settings',
     icon:'settings',

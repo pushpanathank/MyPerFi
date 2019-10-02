@@ -13,14 +13,24 @@ import Block from '../Block';
 import Text from '../Text';
 import Divider from '../Divider';
 import CurrencySymbol from '../CurrencySymbol';
+import Button from '../Button';
 
 
 const setBudget = class SetBudget extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      budget: this.props.budget
+    }
   }
-  setBudget = (value)=>{
-    this.props.setBudget(value.toString());
+
+  setValue = (val)=>{
+    this.setState({ budget: val });
+  }
+  setBudget = ()=>{
+    let val = this.state.budget == '' ? 0: this.state.budget.toString();
+    this.props.setBudget(val);
+    this.props.onSelect();
   }
   render() {
     const {language} = this.props;
@@ -36,25 +46,29 @@ const setBudget = class SetBudget extends Component {
         useNativeDriver
       > 
         <View style={[appStyles.modalContent,{width:'80%', left:'10%'}]}>
-          <View style={{height:Theme.sizes.indent6x, width:'100%'}}>
+          <View style={{height:Theme.sizes.indent6x*1.3, width:'100%'}}>
             <Block column>
-              <Text light>My monthly budget</Text>
-              <Divider style={{marginBottom:0, flex:0}} color={Theme.colors.gray3}/>
+              <Text light>{language.myMonthlyBudget}</Text>
               <Input
-                textColor={Theme.colors.white}
+                textColor={Theme.colors.black}
                 fontSize={Theme.sizes.h5}
                 placeholder={language['enterAmt']}
                 leftIcon={<CurrencySymbol size='h3'/>}
                 leftIconStyle={{bottom:6}}
                 borderColor={Theme.colors.gray}
                 activeBorderColor={Theme.colors.gray3}
-                selectionColor={Theme.colors.white}
+                selectionColor={Theme.colors.black}
                 returnKeyType={"next"}
                 keyboardType={"numeric"}
-                value={this.props.budget}
+                value={this.state.budget}
                 numberOfLines={1}
-                onChangeText={value => {this.setBudget(value)}}
+                onChangeText={value => {this.setValue(value)}}
               />
+              <Block row center middle>
+                <Button ripple color="secondary" center style={{width:'50%', marginTop:Theme.sizes.indent}} onPress={this.setBudget}>
+                   <Text white>{language.setBudget}</Text>
+                </Button>
+              </Block>
           </Block>
           </View>
         </View>
@@ -77,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, null)(setBudget);
+export default connect(mapStateToProps, mapDispatchToProps)(setBudget);

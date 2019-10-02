@@ -40,7 +40,7 @@ const selectAccount = class SelectAccount extends Component {
     const {language, languageCode} = this.props;
     return(<Ripple onPress={()=> this.onSelect(this.props.transType,0,item.id) }>
       <Block row style={[appStyles.listItem,{borderBottomColor: Theme.colors.gray2}]}>
-        <Text header>{item.name}</Text>
+        <Text body>{item.name}</Text>
       </Block>
     </Ripple>);
   }
@@ -61,7 +61,7 @@ const selectAccount = class SelectAccount extends Component {
         <View style={[appStyles.modalContent,{width:'80%', left:'10%'}]}>
           <View style={{height:Theme.sizes.indent6x*2, width:'100%'}}>
             <Block column>
-              <Text h5 light>{language.selectAcc}</Text>
+              <Text title center>{language.selectAcc}</Text>
               <Divider style={{marginBottom:0, flex:0}} color={Theme.colors.gray3}/>
               <FlatList
                 data={this.props.accounts}

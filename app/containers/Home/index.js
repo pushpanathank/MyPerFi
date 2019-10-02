@@ -111,10 +111,6 @@ class Home extends React.Component {
     this.props.navigation.navigate(Screens.Accounts.route);
   }
 
-  setBudget = ()=>{
-    this.setState({selectBudgetModal: false});
-  }
-
   summaryText = () => {
     const {language, currMonthSpend, budget} = this.props;
     let overSpent = (budget>0 && currMonthSpend > budget) ? 1: 0;
@@ -197,38 +193,40 @@ class Home extends React.Component {
           <SetBudget 
             isVisible={this.state.selectBudgetModal}
             toggleModal={this.toggleBudgetModal}
-            onSelect={this.setBudget}
+            onSelect={this.toggleBudgetModal}
             />
 
           <Content enableOnAndroid style={appStyles.row}>
             <Block block center middle style={styles.dashboard}>
-              <PercentageCircle 
-                radius={Theme.sizes.indent6x} 
-                percent={this.spendPercentage()} 
-                borderWidth={Theme.sizes.indent/1.6}
-                color={currMonthSpend > budget ? Theme.colors.red : Theme.colors.secondary} 
-                >
-                {this.summaryText()}
-              </PercentageCircle>
+              <Ripple onPress={this.toggleBudgetModal} rippleContainerBorderRadius={Theme.sizes.indent6x}>
+                <PercentageCircle 
+                  radius={Theme.sizes.indent6x} 
+                  percent={this.spendPercentage()} 
+                  borderWidth={Theme.sizes.indent/1.6}
+                  color={currMonthSpend > budget ? Theme.colors.red : Theme.colors.secondary} 
+                  >
+                  {this.summaryText()}
+                </PercentageCircle>
+              </Ripple>
               <Block row space="between" padding={[Theme.sizes.indent,0]}>
                 <Block>
                   <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
                     <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
-                    <Text small gray3>{language.currentBal}</Text>
+                    <Text small gray3>{language.bankBal}</Text>
                   </Ripple>
                 </Block>
                 <Divider vertical height={70} />
                 {
                   this.props.budget == 0 ?
                   <Block center>
-                    <Ripple onPress={this.toggleBudgetModal} style={appStyles.btnSetBudget}>
-                      <Text small white>Set Budget</Text>
+                    <Ripple onPress={this.toggleBudgetModal} style={appStyles.btnSetBudget} rippleContainerBorderRadius={10}>
+                      <Text small white numberOfLines={1}>{language.setBudget}</Text>
                     </Ripple>
                   </Block>: 
-                  <Block center>
+                  <Block>
                     <Ripple onPress={this.goToAccounts} style={{padding:Theme.sizes.indenthalf}}>
-                      <Text white body><CurrencySymbol size='body' color={'white'}/> {availableBal} </Text>
-                      <Text small gray3>{language.currentBal}</Text>
+                      <Text white body center><CurrencySymbol size='body' color={'white'}/> {currMonthSpend} </Text>
+                      <Text small gray3 center>{language.spend}</Text>
                     </Ripple>
                   </Block>
                 }
@@ -252,7 +250,7 @@ class Home extends React.Component {
                 ListEmptyComponent={this.noItemDisplay}
               />
             </Block>
-            <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
+            <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf, Theme.sizes.indent2x, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.topSpend}</Text>
               <Divider style={{marginBottom:0}}/>
               {/* <Block center middle padding={[Theme.sizes.indenthalf]}>

@@ -7,7 +7,7 @@ export const signin = payloads => dispatch => {
   dispatch({ type: ActionTypes.LOADING, isLoading: true });
   return axios.post(url.signin,  {payloads: payloads})
   .then(res => {
-    console.log("res", res.data);
+    // console.log("res", res.data);
     dispatch({ type: ActionTypes.LOADING, isLoading: false });
       if(res.status == 200){
         if(res.data.status==200){
@@ -37,6 +37,7 @@ export const logoutUser = () => dispatch => {
   dispatch({ type: ActionTypes.RESETTRANSACTIONS });
   dispatch({ type: ActionTypes.RESETACCOUNTS });
   dispatch({ type: ActionTypes.RESETSETTINGS });
+  dispatch({ type: ActionTypes.RESETBILLS });
   return dispatch({ type: ActionTypes.LOGOUT });
   
 }

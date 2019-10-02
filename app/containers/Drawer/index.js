@@ -23,7 +23,7 @@ import { Icon, Logo, Block, Text, Button } from '../../components';
 class Drawer extends React.Component {
   constructor(props) {
     super(props);
-    this.listItems = [ Screens.Home,Screens.Accounts,Screens.Categories,Screens.Settings];
+    this.listItems = [ Screens.Home,Screens.Accounts,Screens.Bills,Screens.Categories,Screens.Settings];
   }
 
   logout(){

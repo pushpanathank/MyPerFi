@@ -26,7 +26,7 @@ class AccountsManage extends React.Component {
         accInputs: {
           name: { type: "genericRequired", value: obj.name },
           no: { type: "generic", value: obj.no },
-          bal: { type: "integer", value: obj.bal.toString() },
+          bal: { type: "integerRequired", value: obj.bal.toString() },
           act: { type: "bool", value: obj.act },
         },
         validForm: true,
@@ -38,7 +38,7 @@ class AccountsManage extends React.Component {
         accInputs: {
           name: { type: "genericRequired", value: "" },
           no: { type: "generic", value: "" },
-          bal: { type: "integer", value: "" },
+          bal: { type: "integerRequired", value: "" },
           act: { type: "bool", value: true },
         },
         validForm: true,

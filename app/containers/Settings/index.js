@@ -66,7 +66,7 @@ class Settings extends React.Component {
             rightIcon={<IconBell {...this.props} />}
             />
           <View style={[appStyles.heading50]}>
-            <Text style={appStyles.headingText}>{language.settings}</Text>
+            <Text h3 white light>{language.settings}</Text>
           </View>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
               <Block style={styles.inputs}>
