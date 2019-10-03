@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
 import { connect } from "react-redux";
-
+// https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
 import { Theme, Screens, ActionTypes, IconList } from '../../constants';
 import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol } from '../../components';
 import { getLanguage } from '../../utils/common';
@@ -54,7 +54,11 @@ class Bills extends React.Component {
           </Block>
           <Block column flex={1.2} right>
             <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
-            <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+            {
+              (item.cyc==1 || item.cyc==7) ?
+              <Text gray small>{language[cycle[item.cyc]]}</Text> :
+              <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateShort'})} - {language.every} {language[cycle[item.cyc]]}</Text>
+            }
           </Block>
         </Block>
       </Ripple>);
@@ -145,7 +149,7 @@ class Bills extends React.Component {
 }
 const mapStateToProps = (state) => {
 
-console.log("state.bills.items", state.bills.items);
+//console.log("state.bills.items", state.bills.items);
   return {
     user: state.auth.user,
     language: getLanguage(state.settings.languageId),

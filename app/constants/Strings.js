@@ -25,6 +25,7 @@ export default[
 		backup: 'Backup',
 		restore: 'Restore',
 		total: 'Total',
+		every: 'Every',
 
 		latestTrans: 'Latest Transactions',
 		topSpend: 'Top Spend Areas',
@@ -268,6 +269,7 @@ export default[
 		backup: 'காப்பு ',
 		restore: 'மீட்பு',
 		total: 'மொத்த',
+		every: 'ஒவ்வொரு',
 
 		latestTrans: 'சமீபத்திய பரிவர்த்தனைகள்',
 		topSpend: 'அதிக செலவு பகுதிகள்',
