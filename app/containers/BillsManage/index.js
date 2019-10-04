@@ -14,7 +14,7 @@ import {
 import { connect } from "react-redux";
 import { billActions } from "../../actions/";
 import { validationService } from '../../utils/validation';
-import { formatDate } from '../../utils/accounts';
+import { formatDate, getCurrentBillMonth } from '../../utils/accounts';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -25,11 +25,13 @@ class BillsManage extends React.Component {
     super(props);
     const {navigation} = this.props;
     const id = navigation.getParam('id');
+    const type = navigation.getParam('type');
     if(id){
-      let obj = this.props.bills[id];
+      let obj = type ? this.props.bills[id] : this.props.currBills[id];
       this.state = {
         billId: id,
-        cyc: obj.cyc,
+        curr: type,
+        cyc: obj.cyc || 0,
         selectedDate: new Date(obj.date),
         type: obj.type,
         billInputs: {
@@ -39,6 +41,7 @@ class BillsManage extends React.Component {
           date: { type: "generic", value: formatDate({lang:this.props.languageCode, date:obj.date}) },
           autoGen: { type: "bool", value: obj.autoGen },
           inact: { type: "bool", value: obj.inact },
+          paid: { type: "bool", value: obj.paid || false },
         },
         validForm: true,
         visibleDatePicker: false,
@@ -47,6 +50,7 @@ class BillsManage extends React.Component {
     }else{
       this.state = {
         billId:0,
+        curr:type,
         cyc: 30,
         selectedDate: new Date(),
         type: 'others',
@@ -57,6 +61,7 @@ class BillsManage extends React.Component {
           date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
           autoGen: { type: "bool", value: false },
           inact: { type: "bool", value: false },
+          paid: { type: "bool", value: false },
         },
         validForm: true,
         visibleDatePicker: false,
@@ -70,15 +75,17 @@ class BillsManage extends React.Component {
   }
   addBiller(){
     this.getFormValidation({obj:'billInputs'});
-    const { billInputs, type, selectedDate, cyc, billId } = this.state;
+    const { billInputs, type, curr, paid, selectedDate, cyc, billId } = this.state;
     const msg = billId ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
       const bill = {
         id:billId,
+        curr:curr,
         name:billInputs.name.value,
         accNo: billInputs.accNo.value,
         type: type,
+        paid: billInputs.paid.value,
         cyc: cyc,
         amount: billInputs.amount.value,
         date: formatDate({date:selectedDate, format:'save'}),
@@ -150,6 +157,18 @@ class BillsManage extends React.Component {
             <Text h3 white light>{language.manageBills}</Text>
           </View>
           <Content enableOnAndroid style={[appStyles.contentBg, styles.container]}>
+            {
+              this.state.curr == 0 && this.state.billId ?
+                <Block row center space="between" style={{marginBottom: Theme.sizes.indent}}>
+                    <Text gray>{language.markPaid}?</Text>
+                    <Switch
+                      value={billInputs.paid.value}
+                      onValueChange={value => {this.onInputChange({ field: "paid", value, obj:'billInputs' });}}
+                    />
+                </Block>
+              :
+              <Block />
+            }
             <Block block>
               <Text gray>{language.billerName}</Text>
             </Block>
@@ -216,40 +235,46 @@ class BillsManage extends React.Component {
                 </Block>
               </Ripple>
             </Block>
-            <Block block>
-              <Text gray>{language.billCycle}</Text>
-            </Block>
-            <Block column style={styles.borderBottom}>
-              <Picker
-                selectedValue={cyc}
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                onValueChange={(itemValue, itemIndex) =>{
-                  this.setState({cyc:itemValue});
-                }
-                }>
-                <Picker.Item key={1} label={`${language.daily}`} value={1} />
-                <Picker.Item key={7} label={`${language.weekly}`} value={7} />
-                <Picker.Item key={30} label={`${language.monthly}`} value={30} />
-                <Picker.Item key={90} label={`${language.quarterly}`} value={90} />
-                <Picker.Item key={180} label={`${language.halfyearly}`} value={180} />
-                <Picker.Item key={365} label={`${language.yearly}`} value={365} />
-              </Picker>
-            </Block>
-            <Block row center space="between" style={{marginTop: Theme.sizes.indent}}>
-              <Text gray>{language.autoGenerate}?</Text>
-              <Switch
-                value={billInputs.autoGen.value}
-                onValueChange={value => {this.onInputChange({ field: "autoGen", value, obj:'billInputs' });}}
-              />
-            </Block>
-            <Block row center space="between" style={{marginTop: Theme.sizes.indent, marginBottom: Theme.sizes.indent3x}}>
-              <Text gray>{language.inactive}?</Text>
-              <Switch
-                value={billInputs.inact.value}
-                onValueChange={value => {this.onInputChange({ field: "inact", value, obj:'billInputs' });}}
-              />
-            </Block>
+            { this.state.curr ? 
+              <View>
+                <Block block>
+                  <Text gray>{language.billCycle}</Text>
+                </Block>
+                <Block column style={styles.borderBottom}>
+                  <Picker
+                    selectedValue={cyc}
+                    style={styles.picker}
+                    itemStyle={styles.pickerItem}
+                    onValueChange={(itemValue, itemIndex) =>{
+                      this.setState({cyc:itemValue});
+                    }
+                    }>
+                    <Picker.Item key={1} label={`${language.daily}`} value={1} />
+                    <Picker.Item key={7} label={`${language.weekly}`} value={7} />
+                    <Picker.Item key={30} label={`${language.monthly}`} value={30} />
+                    <Picker.Item key={90} label={`${language.quarterly}`} value={90} />
+                    <Picker.Item key={180} label={`${language.halfyearly}`} value={180} />
+                    <Picker.Item key={365} label={`${language.yearly}`} value={365} />
+                  </Picker>
+                </Block>
+                <Block row center space="between" style={{marginTop: Theme.sizes.indent}}>
+                  <Text gray>{language.autoGenerate}?</Text>
+                  <Switch
+                    value={billInputs.autoGen.value}
+                    onValueChange={value => {this.onInputChange({ field: "autoGen", value, obj:'billInputs' });}}
+                  />
+                </Block>
+                <Block row center space="between" style={{marginTop: Theme.sizes.indent, marginBottom: Theme.sizes.indent3x}}>
+                  <Text gray>{language.inactive}?</Text>
+                  <Switch
+                    value={billInputs.inact.value}
+                    onValueChange={value => {this.onInputChange({ field: "inact", value, obj:'billInputs' });}}
+                  />
+                </Block>
+              </View>
+            :
+            <Block />
+          }
             { this.state.billId ? 
               <Block center middle row margin={[Theme.sizes.indent,0]}>
                 <Button color="accent" block 
@@ -294,11 +319,13 @@ class BillsManage extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  let curr_month = getCurrentBillMonth();
   return {
     user: state.auth.user,
     languageCode: state.settings.languageCode,
     language: getLanguage(state.settings.languageId),
     bills: state.bills.items,
+    currBills: state.bills[curr_month],
   };
 };
 
@@ -306,7 +333,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addBiller : (values) => dispatch(billActions.addBiller(values)),
     removeBiller: (state) =>{
-        dispatch(billActions.removeBiller(state.billId));
+        dispatch(billActions.removeBiller({id:state.billId, type:state.curr}));
       }
    };
 };

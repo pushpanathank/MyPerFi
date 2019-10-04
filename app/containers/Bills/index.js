@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
 import { connect } from "react-redux";
 // https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
-import { Theme, Screens, ActionTypes, IconList } from '../../constants';
-import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol } from '../../components';
+import { Theme, Screens, ActionTypes, IconList, Account } from '../../constants';
+import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
 import { getLanguage } from '../../utils/common';
-import { formatDate } from '../../utils/accounts';
+import { formatDate, getCurrentBillMonth, getBillDaysLeft } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {
   Container,
@@ -17,25 +17,85 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 const iconBills = IconList.iconBills;
-const cycle = { 1: 'daily',  7: 'weekly',  30: 'monthly',  90: 'quarterly',  180: 'halfyearly',  365: 'yearly' };
+const cycle = Account.cycle;
+let activeTab = 0;
 
 class Bills extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeTab: activeTab,
     }
+    this.onChangeTab = this.onChangeTab.bind(this);
   }
 
-  goToBillsManage = () => {
-    this.props.navigation.navigate(Screens.BillsManage.route,{id:0});
+  goToBillsManage = (type) => {
+    this.props.navigation.navigate(Screens.BillsManage.route,{id:0,type:type});
+  }
+
+  onChangeTab(obj){
+    activeTab = obj.i;
+    this.setState({activeTab: activeTab});
+  }
+
+  renderCurrentBills = ({item}) =>{
+    const {language, languageCode, accounts} = this.props;
+    let color = item.paid ? Theme.colors.green : Theme.colors.black,
+    daysLeft = getBillDaysLeft(item.date),
+    bgColor = daysLeft<0 ? Theme.colors.accent : Theme.colors.green;
+    return(
+      <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
+      <Ripple
+        onPress={() => { this.props.navigation.navigate(Screens.BillsManage.route,{id:item.id,type:this.state.activeTab}) }}
+        >
+        <Block row center space="around">
+          <Block row flex={1} left>
+            <View style={[
+              appStyles.catIcon,
+              appStyles.catIconMid,
+              {backgroundColor: iconBills[item.type].color, marginHorizontal: Theme.sizes.indenthalf}
+              ]}
+              >
+              <Icon name={item.type} size={Theme.sizes.title}/>
+            </View>
+          </Block>
+          <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
+            <Text numberOfLines={1}>{item.name}</Text>
+            <Text small gray>{language[item.type]} - {language[cycle[item.cyc]]}</Text>
+          </Block>
+          <Block column flex={1.4} right middle>
+            <Text style={[styles.dayPay,{backgroundColor:bgColor}]} center>{daysLeft}</Text>
+            <Text gray small>{daysLeft<0 ? language.daysOverdue : language.daysToPay }</Text>
+          </Block>
+        </Block>
+        <Divider style={{marginVerticle:Theme.sizes.indentsmall}}/>
+        <Block row center space="around">
+          <Block row left>
+
+          </Block>
+          <Block column right>
+            <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
+            <Text gray small>{language.dueDate} : {formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+          </Block>
+        </Block>
+        <Block row>
+          <Button color="secondary" block 
+            onPress={() => { this.removeBill() }}
+            >
+            <Text center>{language.markPaid}</Text>
+          </Button>
+        </Block>
+      </Ripple>
+      </Block>);
   }
 
   renderBills = ({item}) =>{
     const {language, languageCode, accounts} = this.props;
-    let color = item.type ? Theme.colors.green : Theme.colors.black;
-    return(<Ripple
+    let color = item.paid ? Theme.colors.green : Theme.colors.black;
+    return(
+      <Ripple
         style={[appStyles.listItem,{margin:0}]}
-        onPress={() => { this.props.navigation.navigate(Screens.BillsManage.route,{id:item.id}) }}
+        onPress={() => { this.props.navigation.navigate(Screens.BillsManage.route,{id:item.id,type:this.state.activeTab}) }}
         >
         <Block row center space="around">
           <Block row flex={1} left>
@@ -61,7 +121,8 @@ class Bills extends React.Component {
             }
           </Block>
         </Block>
-      </Ripple>);
+      </Ripple>
+      );
   }
 
   noItemDisplay = () => {
@@ -89,8 +150,9 @@ class Bills extends React.Component {
           </View>
             <View style={[appStyles.contentBg]}>
               <Tabs transparent 
-              tabBarUnderlineStyle={appStyles.tabBarUnderlineStyle}
-              renderTabBar={()=> <ScrollableTab style={appStyles.tabsAcc} />}>                  
+                tabBarUnderlineStyle={appStyles.tabBarUnderlineStyle}
+                onChangeTab={this.onChangeTab}
+                renderTabBar={()=> <ScrollableTab style={appStyles.tabsAcc} />}>                  
                   <Tab 
                   tabStyle={appStyles.tabStyleAcc}
                   heading={ 
@@ -100,15 +162,15 @@ class Bills extends React.Component {
                     <Block>
 
                       <FlatList
-                      data={this.props.bills}
+                      data={this.props.currBills}
                       numColumns={1}
                       keyExtractor={(item, index) => index.toString()}
-                      renderItem={this.renderBills}
+                      renderItem={this.renderCurrentBills}
                       ListEmptyComponent={this.noItemDisplay}
                     />
                     
                       <Button ripple rippleContainerBorderRadius={Theme.sizes.indent}
-                        onPress={() => { this.goToBillsManage(); }}
+                        onPress={() => { this.goToBillsManage(0); }}
                         style={appStyles.fabBottomRight}
                         >
                         <Icon name="plus" size={16} />
@@ -132,7 +194,7 @@ class Bills extends React.Component {
                     />
                     
                       <Button ripple rippleContainerBorderRadius={Theme.sizes.indent}
-                        onPress={() => { this.goToBillsManage(); }}
+                        onPress={() => { this.goToBillsManage(1); }}
                         style={appStyles.fabBottomRight}
                         >
                         <Icon name="plus" size={16} />
@@ -149,12 +211,16 @@ class Bills extends React.Component {
 }
 const mapStateToProps = (state) => {
 
-//console.log("state.bills.items", state.bills.items);
+// console.log("state.bills", state.bills);
+  let curr_month = getCurrentBillMonth(),
+  currBillsObj = state.bills[curr_month] || {};
   return {
     user: state.auth.user,
     language: getLanguage(state.settings.languageId),
     bills: Object.values(state.bills.items||{}),
     billsObj: state.bills.items || {},
+    currBills: Object.values(currBillsObj),
+    currBillsObj: currBillsObj,
   };
 };
 
