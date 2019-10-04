@@ -1,6 +1,5 @@
 import React, { Component, memo } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo';
 import { Theme } from '../constants';
 import Ripple from './Ripple';
 
@@ -40,7 +39,7 @@ class Button extends Component {
       style,
     ];
 
-    if (gradient) {
+    /*if (gradient) {
       return (
         <TouchableOpacity
           style={buttonStyles}
@@ -58,7 +57,7 @@ class Button extends Component {
           </LinearGradient>
         </TouchableOpacity>
       )
-    }
+    }*/
     if(ripple){
       return (
         <Ripple

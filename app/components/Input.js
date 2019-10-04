@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
-import { Icon } from 'expo';
 import * as Animatable from 'react-native-animatable';
 
 import Text from './Text';

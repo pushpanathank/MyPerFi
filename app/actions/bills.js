@@ -5,6 +5,6 @@ export const addBiller = payloads => dispatch => {
 }
 
 export const removeBiller = payloads => dispatch => {
-  return dispatch({ type: ActionTypes.REMOVEBILLER, id: payloads });
+  return dispatch({ type: ActionTypes.REMOVEBILLER, bill: payloads });
 }
 

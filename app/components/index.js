@@ -19,7 +19,6 @@ import Button from "./Button";
 import Card from "./Card";
 import Text from "./Text";
 import Input from "./Input";
-import Progress from "./Progress";
 import Divider from "./Divider";
 import Switch from "./Switch";
 import CurrencySymbol from "./CurrencySymbol";
@@ -46,7 +45,7 @@ export {
 	IconMenu, 
 	IconBell, 
 	IconButton, 
-	Block, Badge, Button, Card, Text, Input, Progress, Divider, Switch,
+	Block, Badge, Button, Card, Text, Input, Divider, Switch,
 	CurrencySymbol,
 	withPreventDoubleClick,
 	

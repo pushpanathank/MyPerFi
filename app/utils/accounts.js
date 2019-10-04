@@ -38,6 +38,18 @@ const getAccSum = (accounts,type) => {
 	return total.toLocaleString();
 }
 
+const getBillSum = (bills,type) => {
+	// console.log("accounts", accounts);
+	// type (0->all,1->paid,2->not paid)
+	if(!bills) return;
+	bills = Array.isArray(bills) ? bills : Object.values(bills);
+	let accs = type ? bills.filter((bill) => (bill.paid && type==1) || (!bill.paid && type==2)) : bills;
+	let total = accs.reduce(function(prev, cur) {
+		  return prev + parseFloat(cur.amount);
+		}, 0);
+	return {sum:total.toLocaleString(),count:accs.length};
+}
+
 const getCurrentMonthTotalSpend = (transactions)=>{
 	let start = moment().startOf('month').unix(),
 	end = moment().endOf('month').unix(), sum=0;
@@ -86,8 +98,19 @@ function formatDate({lang='en',date=null,format='transaction'}){
 	return moment().format(form);
 }
 
+function getCurrentBillMonth(){
+	let form = dateFormat['monthYear'];
+	return moment().format(form).replace(/ /g, "_");
+}
+
 function getDaysLeft() {
 	let a = moment().endOf('month');
+	let b = moment();
+	return a.diff(b, 'days');
+}
+
+function getBillDaysLeft(date) {
+	let a = moment(date);
 	let b = moment();
 	return a.diff(b, 'days');
 }
@@ -98,7 +121,10 @@ export {
 	getCurrentMonthTotalSpend,
 	getTopSpendAreas,
 	topSpendGraph,
+	getCurrentBillMonth,
+	getBillSum,
 
 	formatDate,
 	getDaysLeft,
+	getBillDaysLeft,
 };
