@@ -3,7 +3,7 @@ import { Text, Animated, Easing } from 'react-native'
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 
 import { SignIn, SignUp, Forgotpassword, Home, Drawer, Categories, Accounts, 
-  AccountsManage, Settings, TransactionManage , Bills , BillsManage } from "../containers";
+  AccountsManage, Settings, TransactionManage , Bills , BillsManage, TopSpend, Transactions, AccountsTransfer } from "../containers";
 import { Theme, Screens } from "../constants";
 
 const transitionConfig = () => ({
@@ -41,6 +41,7 @@ const transitionConfig = () => ({
 const AccountsStack = createStackNavigator({
   [Screens.Accounts.route]: { screen: Accounts },
   [Screens.AccountsManage.route]: { screen: AccountsManage },
+  [Screens.AccountsTransfer.route]: { screen: AccountsTransfer },
 }, {
   headerMode: 'none',
   initialRouteName: Screens.Accounts.route,
@@ -57,6 +58,8 @@ const BillsStack = createStackNavigator({
 const HomeStack = createStackNavigator({
   [Screens.Home.route]: { screen: Home },
   [Screens.TransactionManage.route]: { screen: TransactionManage },
+  [Screens.Transactions.route]: { screen: Transactions },
+  [Screens.TopSpend.route]: { screen: TopSpend },
 }, {
   headerMode: 'none',
   initialRouteName: Screens.Home.route,
@@ -74,7 +77,7 @@ const DrawerStack = createDrawerNavigator({
     screen: Settings 
   },
 }, {
-  initialRouteName: Screens.Bills.route,
+  initialRouteName: Screens.Accounts.route,
   gesturesEnabled: true,
   // drawerBackgroundColor: 'rgba(255,255,255,.9)',
   drawerType: 'front',

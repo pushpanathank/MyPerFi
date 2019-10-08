@@ -18,8 +18,8 @@ export const setBudget = payloads => dispatch => {
 }
 
 export const backup = payloads => dispatch => {
-	let trans = {}, accs = {}, transactions=payloads.transactions, accounts=payloads.accounts;
-	for(let t in transactions){
+	let trans = {}, accs = {}, transactions=payloads.transactions, accounts=payloads.accounts, bills=payloads.bills;
+    for(let t in transactions){
       if(transactions[t]['sync']){
         trans[t] = transactions[t];
       }
@@ -29,8 +29,9 @@ export const backup = payloads => dispatch => {
         accs[a] = accounts[a];
       }
     }
-    let data = { user_id : payloads.user_id, transactions: JSON.stringify(trans), accounts: JSON.stringify(accs)};
-    console.log("data", data);
+
+    let data = { user_id : payloads.user_id, transactions: JSON.stringify(trans), accounts: JSON.stringify(accs), bills: JSON.stringify(bills)};
+    // console.log("data", data);
   return axios.post(url.backup,  {payloads: data})
   .then(res => {
     // console.log("res", res.data);
@@ -54,6 +55,7 @@ export const restore = payloads => dispatch => {
         if(res.data.status==200){
           dispatch({ type: ActionTypes.RESTORETRANSACTION, data: res.data.data.trans });
           dispatch({ type: ActionTypes.RESTOREACCOUNT, data: res.data.data.accs });
+          dispatch({ type: ActionTypes.RESTOREBILLS, data: res.data.data.bills });
         }
         return res.data
       } else {

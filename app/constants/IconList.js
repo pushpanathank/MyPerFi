@@ -15,6 +15,7 @@ const iconList = {
   courier: { icon: "courier", color: "#9B1B30", label: "Courier", desc: ""},
   cycle: { icon: "cycle", color: "#6B5B95", label: "Cycle", desc: ""},
   dining: { icon: "dining", color: "#615550", label: "Dining", desc: ""},
+  dress: { icon: "dress", color: "#00539C", label: "Dress", desc: ""},
   dinner: { icon: "dinner", color: "#77212E", label: "Dinner", desc: ""},
   donation: { icon: "donation", color: "#FA9A85", label: "Donation", desc: ""},
   drinks: { icon: "drinks", color: "#5A3E36", label: "Drinks", desc: ""},
@@ -87,16 +88,17 @@ const iconList = {
 const iconListArray = Object.values(iconList);
 
 const iconBills = {
-  creditcard: { icon: "pay", color: "#D2691E", label: "Credit Card", desc: ""},
-  mobile: { icon: "mobile", color: "#766F57", label: "Mobile", desc: ""},
-  tv: { icon: "tv", color: "#009B77", label: "Tv", desc: ""},
+  creditcardpay: { icon: "creditcardpay", color: "#D2691E", label: "Credit Card", desc: ""},
+  emi: { icon: "emi", color: "#2A4B7C", label: "EMI", desc: ""},
   insurance: { icon: "insurance", color: "#7F4145", label: "Insurance", desc: ""},
   investment: { icon: "investment", color: "#3F69AA", label: "Investment", desc: ""},
+  interest: { icon: "interest", color: "#BD3D3A", label: "Interest", desc: ""},
+  loan: { icon: "loan", color: "#E94B3C", label: "Loan", desc: ""},
+  mobile: { icon: "mobile", color: "#766F57", label: "Mobile", desc: ""},
   maintenance: { icon: "maintenance", color: "#6B5B95", label: "Maintenance", desc: ""},
   others: { icon: "others", color: "#9C9A40", label: "Others", desc: ""},
-  loan: { icon: "loan", color: "#E94B3C", label: "Loan", desc: ""},
-  interest: { icon: "interest", color: "#BD3D3A", label: "Interest", desc: ""},
   rent: { icon: "rent", color: "#F2552C", label: "Rent", desc: ""},
+  tv: { icon: "tv", color: "#009B77", label: "Tv", desc: ""},
 }
 
 export {

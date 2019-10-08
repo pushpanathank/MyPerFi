@@ -5,14 +5,14 @@ import { connect } from "react-redux";
 import { Theme, Screens, ActionTypes, IconList, Account } from '../../constants';
 import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
 import { getLanguage } from '../../utils/common';
-import { formatDate, getCurrentBillMonth, getBillDaysLeft } from '../../utils/accounts';
+import { formatDate, getCurrentBillMonth, getBillDaysLeft, arrangeBills } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {
   Container,
   Content,
   Tabs, Tab, ScrollableTab, TabHeading,
 } from 'native-base';
-import * as userActions from "../../actions/user";
+import { billActions } from "../../actions/";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
@@ -31,6 +31,15 @@ class Bills extends React.Component {
 
   goToBillsManage = (type) => {
     this.props.navigation.navigate(Screens.BillsManage.route,{id:0,type:type});
+  }
+
+  markAsPaid = (item)=>{
+    item.paid=true;
+    this.props.markPaid(item);
+  }
+
+  generateBills = ()=>{
+    this.props.generate();
   }
 
   onChangeTab(obj){
@@ -63,15 +72,24 @@ class Bills extends React.Component {
             <Text numberOfLines={1}>{item.name}</Text>
             <Text small gray>{language[item.type]} - {language[cycle[item.cyc]]}</Text>
           </Block>
-          <Block column flex={1.4} right middle>
-            <Text style={[styles.dayPay,{backgroundColor:bgColor}]} center>{daysLeft}</Text>
-            <Text gray small>{daysLeft<0 ? language.daysOverdue : language.daysToPay }</Text>
-          </Block>
+          {
+            item.paid ?
+            <Block column flex={1.4} right middle>
+              <Text style={[appStyles.paid]} center>{language.paid}</Text>
+            </Block>
+            :
+            <Block column flex={1.4} right middle>
+              <Text style={[styles.dayPay,{backgroundColor:bgColor}]} center>{daysLeft}</Text>
+              <Text gray small>{daysLeft<0 ? language.daysOverdue : language.daysToPay }</Text>
+            </Block>
+          }
         </Block>
-        <Divider style={{marginVerticle:Theme.sizes.indentsmall}}/>
+        </Ripple>
+        <Divider style={{marginTop:Theme.sizes.indenthalf,marginBottom:Theme.sizes.indentsmall}}/>
         <Block row center space="around">
-          <Block row left>
-
+          <Block column left>
+            <Icon name="trends" size={Theme.sizes.h3} color={Theme.colors.gray} />
+            <Text gray small>Bill History</Text>
           </Block>
           <Block column right>
             <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
@@ -79,13 +97,15 @@ class Bills extends React.Component {
           </Block>
         </Block>
         <Block row>
-          <Button color="secondary" block 
-            onPress={() => { this.removeBill() }}
-            >
-            <Text center>{language.markPaid}</Text>
-          </Button>
+          {
+            !item.paid ? 
+            <Button color="secondary" block onPress={() => { this.markAsPaid(item) }}>
+              <Text center>{language.markPaid}</Text>
+            </Button>
+            :
+            <View />
+          }
         </Block>
-      </Ripple>
       </Block>);
   }
 
@@ -112,12 +132,12 @@ class Bills extends React.Component {
             <Text numberOfLines={1}>{item.name}</Text>
             <Text small gray>{language[item.type]} - {language[cycle[item.cyc]]}</Text>
           </Block>
-          <Block column flex={1.2} right>
+          <Block column flex={1.4} right>
             <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
             {
               (item.cyc==1 || item.cyc==7) ?
               <Text gray small>{language[cycle[item.cyc]]}</Text> :
-              <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateShort'})} - {language.every} {language[cycle[item.cyc]]}</Text>
+              <Text gray small>{language.dueDate} : {formatDate({lang:languageCode, date:item.date, format:'dateShort'})}</Text>
             }
           </Block>
         </Block>
@@ -127,9 +147,21 @@ class Bills extends React.Component {
 
   noItemDisplay = () => {
     const {language} = this.props;
-    return (
-      <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noTransactions}</Text></Block>
-    );
+    if(this.state.activeTab==0){
+      return (
+        <Block column center middle style={{padding:Theme.sizes.indent}}>
+          <Text gray>{language.noBills}</Text>
+          <Text gray style={{marginTop:Theme.sizes.indenthalf}}>{language.genBill}</Text>
+          <Button color="secondary" block onPress={() => { this.generateBills() }} style={{paddingHorizontal:Theme.sizes.indent,marginTop:Theme.sizes.indent}}>
+            <Text center white>{language.generate}</Text>
+          </Button>
+        </Block>
+      );
+    }else{
+      return (
+        <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noBills}</Text></Block>
+      );
+    }
   };
 
   render(){
@@ -219,13 +251,15 @@ const mapStateToProps = (state) => {
     language: getLanguage(state.settings.languageId),
     bills: Object.values(state.bills.items||{}),
     billsObj: state.bills.items || {},
-    currBills: Object.values(currBillsObj),
+    currBills: arrangeBills(currBillsObj,0),
     currBillsObj: currBillsObj,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    markPaid: (values) => dispatch(billActions.addBiller(values)),
+    generate: () => dispatch(billActions.generateBills()),
    };
 };
 

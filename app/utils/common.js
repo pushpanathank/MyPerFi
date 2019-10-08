@@ -3,6 +3,7 @@ import { Toast, Icon } from 'native-base';
 import { Strings, Account } from '../constants';
 import moment from 'moment';
 
+const mergeObj =(t,s)=>{const o=Object,a=o.assign;for(const k of o.keys(s))s[k]instanceof o&&a(s[k],mergeObj(t[k],s[k]));return a(t||{},s),t}
 const showToast = (msg,type) => {
 	if(msg=='') return;
 	Toast.show({
@@ -61,6 +62,7 @@ const getObjectNValues = ({obj, n=0, sort=0, ret=1})=> {
 }
 
 export {
+	mergeObj,
 	getLanguage,
 	getCurrencySymbol,
 	showToast,

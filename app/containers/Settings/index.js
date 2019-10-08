@@ -27,7 +27,7 @@ class Settings extends React.Component {
 
   backup = ()=>{
     this.setState({isBackup: true});
-    let data = { user_id : this.props.user.user_id, transactions: this.props.transactions, accounts: this.props.accounts};
+    let data = { user_id : this.props.user.user_id, transactions: this.props.transactions, accounts: this.props.accounts, bills: this.props.bills};
     this.props.backup(data).then(res => {
       this.setState({isBackup: false});
       showToast(res.msg,"success");
@@ -157,6 +157,7 @@ const mapStateToProps = (state) => {
     languageId: state.settings.languageId || 0,
     transactions:state.transactions.items,
     accounts:{...state.accounts.items},
+    bills:{...state.bills},
   };
 };
 

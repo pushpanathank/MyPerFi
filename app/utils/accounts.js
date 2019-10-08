@@ -10,6 +10,8 @@ const dateFormat = {
 	dateMonthShort: 'DD MMM',
 	dateShort: 'DD',
 	monthYear: 'MM YYYY',
+	monthShortYear: 'MMM YYYY',
+	yearMonth: 'YYYY MM',
 	transaction : 'ddd, DD MMM, YYYY',
 	save : 'YYYY-MM-DD',
 	transactionTime : 'ddd, DD MMM, YYYY | hh:mm A'
@@ -61,7 +63,7 @@ const getCurrentMonthTotalSpend = (transactions)=>{
 	return sum;
 }
 
-const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=moment().format('MM')})=>{
+const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=moment().format('MM'),len=0})=>{
 	let startDate = moment([year, month - 1]);
 	let start = startDate.startOf('month').unix(),
 	end = moment(startDate).endOf('month').unix(),
@@ -75,7 +77,43 @@ const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=mo
 			cat[trans.cat].amount = cat[trans.cat].amount + parseInt(trans.amount);
 		}
 	}
-	return cat;
+	let catArr = Object.values(cat);
+	catArr.sort(function(a,b){  return b.amount - a.amount; });
+	return len ? catArr.slice(0, len) : catArr;
+}
+
+const getTransactions = ({transactions={},len=0, latest=0, langCode='en'})=>{
+	if(!transactions) return;
+	transactions = Array.isArray(transactions) ? transactions : Object.values(transactions);
+	transactions.sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+	let ret;
+	if(latest){
+		let year=moment().format('YYYY'),
+		month=moment().format('MM'),
+		startDate = moment([year, month - 1]);
+		let start = startDate.startOf('month').unix(),
+		end = moment(startDate).endOf('month').unix(),
+		arr=transactions;
+		// arr=[];
+		// arr = transactions.filter((tran) => (tran.ts>=start && tran.ts<=end));
+		ret = len ? arr.slice(0, len) : arr;
+	}else{
+		let monthTrans = {}, key=0;
+		transactions.map(function(tran) {
+			key = formatDate({lang:langCode,date:tran.date,format:'monthShortYear'});
+			if(!monthTrans.hasOwnProperty(key)){
+				monthTrans[key]={month:key,in:0,out:0,trans:[]};
+			}
+			if(tran.spend){
+				monthTrans[key].out += parseInt(tran.amount);
+			}else{
+				monthTrans[key].in += parseInt(tran.amount);
+			}
+			monthTrans[key].trans.push(tran);
+		});
+		ret = Object.values(monthTrans);
+	}
+	return ret;
 }
 
 const topSpendGraph = (topSpend,language,totalSpend)=>{
@@ -115,6 +153,18 @@ function getBillDaysLeft(date) {
 	return a.diff(b, 'days');
 }
 
+const arrangeBills = (bills,len) => {
+	if(!bills) return;
+	bills = Array.isArray(bills) ? bills : Object.values(bills);
+	bills.sort(function(a,b){  return new Date(a.date) - new Date(b.date); });
+	let paid = bills.filter((bill) => (bill.paid)),
+	notpaid = bills.filter((bill) => (!bill.paid)),
+	combine = [...notpaid,...paid];
+	return len ? combine.slice(0, len) : combine;
+}
+
+
+
 export {
 	groupAccType,
 	getAccSum,
@@ -123,8 +173,10 @@ export {
 	topSpendGraph,
 	getCurrentBillMonth,
 	getBillSum,
+	getTransactions,
 
 	formatDate,
 	getDaysLeft,
 	getBillDaysLeft,
+	arrangeBills,
 };

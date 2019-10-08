@@ -15,7 +15,7 @@ class IconButton extends React.Component {
         onPress={() => this.props.onPress()}
         style={[appStyles.menuIcon, this.props.style]}
       >
-        <Icon name={this.props.icon} size="26"/>
+        <Icon name={this.props.icon} size={this.props.size||26}/>
       </Button> 
     );
   }

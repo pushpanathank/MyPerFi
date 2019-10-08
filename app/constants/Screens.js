@@ -18,6 +18,12 @@ export default {
   TransactionManage : {
     route: 'TransactionManage',
   },
+  Transactions : {
+    route: 'Transactions',
+  },
+  TopSpend : {
+    route: 'TopSpend',
+  },
   Categories : {
     route: 'Categories',
     icon:'inbox',
@@ -30,6 +36,9 @@ export default {
   },
   AccountsManage : {
     route: 'AccountsManage',
+  },
+  AccountsTransfer : {
+    route: 'AccountsTransfer',
   },
   Bills : {
     route: 'Bills',

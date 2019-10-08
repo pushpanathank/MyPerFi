@@ -1,8 +1,8 @@
 // Initial State
 import { initialState } from './initial';
 import { ActionTypes } from '../constants/';
-import { generateUUID } from '../utils/common';
-import { getCurrentBillMonth } from '../utils/accounts';
+import { generateUUID, mergeObj } from '../utils/common';
+import { formatDate, getCurrentBillMonth } from '../utils/accounts';
 
 // Reducers (Modifies The State And Returns A New State)
 const bills = (state = initialState.bills, action) => {
@@ -44,6 +44,48 @@ const bills = (state = initialState.bills, action) => {
       return {
         ...state,
         items:items,
+      }
+    }
+    case ActionTypes.RESTOREBILLS: {
+      let data = {...action.data},
+      items = state.items,
+      newitems = data.items;
+
+      for(let b in newitems){
+        items[b]=newitems[b];
+      }
+      delete(data.items);
+
+      for(let d in data){
+        if(!state.hasOwnProperty(d)){
+          state[d] = {};
+        }
+        for(let b in data[d]){
+          state[d][b]=data[d][b];
+        }
+      }
+      return {...state}
+    }
+
+    case ActionTypes.GENERATEBILLS: {
+      let items = {...state.items},
+      month= getCurrentBillMonth(),
+      id= generateUUID(), item={};
+      if(!state.hasOwnProperty(month)){
+        state[month] = {};
+      }
+      for(let b in items){
+        item = items[b];
+        id= generateUUID();
+        date = formatDate({format:'yearMonth'})+' '+formatDate({date:item.date, format:'dateShort'});
+        item.date = date.replace(/ /g, "-");
+        item.curr = 0;
+        item.id = id;
+        state[month][id]=item;
+      }
+      
+      return {
+        ...state
       }
     }
 

@@ -8,3 +8,7 @@ export const removeBiller = payloads => dispatch => {
   return dispatch({ type: ActionTypes.REMOVEBILLER, bill: payloads });
 }
 
+export const generateBills = payloads => dispatch => {
+  return dispatch({ type: ActionTypes.GENERATEBILLS });
+}
+

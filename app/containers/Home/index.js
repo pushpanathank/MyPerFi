@@ -9,8 +9,8 @@ import PureChart from 'react-native-pure-chart';
 
 import { Theme, Screens, IconList, Account } from '../../constants';
 import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount, SetBudget } from '../../components';
-import { formatDate, getDaysLeft, getAccSum, getCurrentMonthTotalSpend, getTopSpendAreas, topSpendGraph, getCurrentBillMonth, getBillSum } from '../../utils/accounts';
-import { getLanguage, getObjectNValues } from '../../utils/common';
+import { formatDate, getDaysLeft, getAccSum, getCurrentMonthTotalSpend, getTopSpendAreas, topSpendGraph, getCurrentBillMonth, getBillSum, arrangeBills, getTransactions } from '../../utils/accounts';
+import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
 import * as userActions from "../../actions/user";
@@ -123,9 +123,15 @@ class Home extends React.Component {
           <Block column flex={1.2} right>
             <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
             {
-              (item.cyc==1 || item.cyc==7) ?
-              <Text gray small>{language[cycle[item.cyc]]}</Text> :
-              <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateShort'})} - {language.every} {language[cycle[item.cyc]]}</Text>
+              item.paid ?
+                <Text style={[appStyles.paid]} center>{language.paid}</Text>
+                :
+                <View>
+                  {(item.cyc==1 || item.cyc==7) ?
+                  <Text gray small>{language[cycle[item.cyc]]}</Text> :
+                  <Text gray small>{language.dueOn} : {formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+                }
+              </View>
             }
           </Block>
         </Block>
@@ -146,6 +152,14 @@ class Home extends React.Component {
 
   goToBills = ()=>{
     this.props.navigation.navigate(Screens.Bills.route);
+  }
+
+  goToTopSpend = ()=>{
+    this.props.navigation.navigate(Screens.TopSpend.route);
+  }
+
+  goToTransactions = ()=>{
+    this.props.navigation.navigate(Screens.Transactions.route);
   }
 
   summaryText = () => {
@@ -286,6 +300,9 @@ class Home extends React.Component {
                 renderItem={this.renderTransactionItem}
                 ListEmptyComponent={this.noItemDisplay('noTransactions')}
               />
+              <Ripple onPress={()=>this.goToTransactions()}>
+                <Text gray center caption style={{paddingVertical: Theme.sizes.indenthalf}}>{language.viewAll}</Text>
+              </Ripple>
             </Block>
             <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.topSpend}</Text>
@@ -302,6 +319,9 @@ class Home extends React.Component {
                 renderItem={this.renderTopSpendItem}
                 ListEmptyComponent={this.noItemDisplay('noTransactions')}
               />
+              <Ripple onPress={()=>this.goToTopSpend()}>
+                <Text gray center caption style={{paddingVertical: Theme.sizes.indenthalf}}>{language.viewAll}</Text>
+              </Ripple>
             </Block>
             <Block block shadow color="white" margin={[Theme.sizes.indentsmall, Theme.sizes.indenthalf, Theme.sizes.indent2x, Theme.sizes.indenthalf]} padding={Theme.sizes.indent}>
               <Text h5 light>{language.bills}</Text>
@@ -313,6 +333,9 @@ class Home extends React.Component {
                 renderItem={this.renderBillItem}
                 ListEmptyComponent={this.noItemDisplay('noBills')}
               />
+              <Ripple onPress={()=>this.goToBills()}>
+                <Text gray center caption style={{paddingVertical: Theme.sizes.indenthalf}}>{language.viewAll}</Text>
+              </Ripple>
             </Block>
           </Content>
          </ImageBackground>
@@ -323,25 +346,26 @@ class Home extends React.Component {
 }
 const mapStateToProps = (state) => {
   let language = getLanguage(state.settings.languageId),
+  languageCode = state.settings.languageCode,
   transactions = state.transactions.items,
   accounts = state.accounts.items,
-  topSpendAreas= getTopSpendAreas({transactions:transactions}),
+  topSpendAreas= getTopSpendAreas({transactions:transactions,len:3}),
   currMonthSpend= getCurrentMonthTotalSpend(transactions),
   curr_month = getCurrentBillMonth(),
   currBillsObj = state.bills[curr_month] || {};
     return {
       user: state.auth.user,
       languageId: state.settings.languageId,
-      languageCode: state.settings.languageCode,
+      languageCode: languageCode,
       budget: parseInt(state.settings.budget),
       language: language,
-      latestTransactions: getObjectNValues({obj:transactions,n:0,sort:-1}),
+      latestTransactions: getTransactions({transactions:transactions,len:3,latest:1,landCode:languageCode}),
       transactions: [],
       accounts: {...accounts},
       availableBal: getAccSum(accounts,-1),
       currMonthSpend: currMonthSpend,
-      topSpendAreas: Object.values(topSpendAreas),
-      currBills: getObjectNValues({obj:currBillsObj,n:3,sort:-1}),
+      topSpendAreas: topSpendAreas,
+      currBills: arrangeBills(currBillsObj,3),
       currBillsSum: getBillSum(currBillsObj,2),
     };
 };

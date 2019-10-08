@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
 import { Screens, Strings, Theme } from '../../constants';
-import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Divider, Ripple, IconMenu, IconBell } from '../../components';
+import { Icon, Headers, Text, Block, CurrencySymbol, Button, Divider, Ripple, IconMenu, IconButton } from '../../components';
 import { getLanguage, showToast } from '../../utils/common';
 import { groupAccType, getAccSum } from '../../utils/accounts';
 import imgs from '../../assets/images';
@@ -35,6 +35,10 @@ class Accounts extends React.Component {
     return (
       <Block column center middle style={{padding:Theme.sizes.indent}}><Text gray>{language.noAccounts}</Text></Block>
     );
+  };
+
+  accTransfer = () => {
+    this.props.navigation.navigate(Screens.AccountsTransfer.route);
   };
 
   onChangeTab(obj){
@@ -75,7 +79,7 @@ class Accounts extends React.Component {
             {...this.props} 
             title={''} 
             leftIcon={<IconMenu {...this.props} />} 
-            rightIcon={<IconBell {...this.props} />}
+            rightIcon={<IconButton icon={'transfer'} size={23} onPress={this.accTransfer} />}
             />
           <Block block>
             <Block center middle style={{flex: 1}}>

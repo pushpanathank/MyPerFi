@@ -35,7 +35,7 @@ class IconBillsList extends Component {
                 data={this.state.data}
                 numColumns={3}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
+                renderItem={({ item }) => (
                   <Block center middle>
                       <Button 
                       style={[appStyles.catIcon,appStyles.catIconBig,{backgroundColor:item.color, marginBottom: Theme.sizes.indentsmall}]}

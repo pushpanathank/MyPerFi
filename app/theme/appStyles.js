@@ -423,11 +423,17 @@ export default StyleSheet.create({
     borderBottomColor: Theme.colors.gray3
   },
   topSpendChartInfo:{position:'absolute', 
-  backgroundColor: Theme.colors.white, 
-  width: 180, 
-  height:180, 
-  borderRadius:90, 
-  justifyContent: 'center', 
-  alignItems: 'center'
-}
+    backgroundColor: Theme.colors.white, 
+    width: 180, 
+    height:180, 
+    borderRadius:90, 
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  paid:{
+    backgroundColor: Theme.colors.green,
+    fontSize: Theme.sizes.caption,
+    color: Theme.colors.white,
+    paddingHorizontal: Theme.sizes.indenthalf
+  }
 });

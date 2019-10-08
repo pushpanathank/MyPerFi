@@ -7,9 +7,12 @@ import TransactionManage from "./TransactionManage";
 import Categories from "./Categories";
 import Accounts from "./Accounts";
 import AccountsManage from "./AccountsManage";
+import AccountsTransfer from "./AccountsTransfer";
 import Settings from "./Settings";
 import Bills from "./Bills";
 import BillsManage from "./BillsManage";
+import TopSpend from "./TopSpend";
+import Transactions from "./Transactions";
 
 export { 
 	SignIn, 
@@ -21,7 +24,10 @@ export {
 	Categories, 
 	Accounts, 
 	AccountsManage, 
+	AccountsTransfer, 
 	Settings, 
 	Bills, 
 	BillsManage, 
+	TopSpend, 
+	Transactions, 
 };

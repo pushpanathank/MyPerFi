@@ -26,8 +26,12 @@ class BillsManage extends React.Component {
     const {navigation} = this.props;
     const id = navigation.getParam('id');
     const type = navigation.getParam('type');
+    console.log("id", id, type);
     if(id){
       let obj = type ? this.props.bills[id] : this.props.currBills[id];
+      console.log("this.props.currBills", this.props.currBills);
+      console.log("this.props.bills", this.props.bills);
+      console.log("obj", obj);
       this.state = {
         billId: id,
         curr: type,
@@ -93,7 +97,7 @@ class BillsManage extends React.Component {
         inact: billInputs.inact.value,
         sync: 1,
       }
-      console.log("bill", bill);
+      //console.log("bill", bill);
       this.props.addBiller(bill);
       showToast(msg,"success");
       this.props.navigation.navigate(Screens.Bills.route);
@@ -160,7 +164,7 @@ class BillsManage extends React.Component {
             {
               this.state.curr == 0 && this.state.billId ?
                 <Block row center space="between" style={{marginBottom: Theme.sizes.indent}}>
-                    <Text gray>{language.markPaid}?</Text>
+                    <Text gray>{language.markPaid}</Text>
                     <Switch
                       value={billInputs.paid.value}
                       onValueChange={value => {this.onInputChange({ field: "paid", value, obj:'billInputs' });}}
@@ -252,8 +256,6 @@ class BillsManage extends React.Component {
                     <Picker.Item key={1} label={`${language.daily}`} value={1} />
                     <Picker.Item key={7} label={`${language.weekly}`} value={7} />
                     <Picker.Item key={30} label={`${language.monthly}`} value={30} />
-                    <Picker.Item key={90} label={`${language.quarterly}`} value={90} />
-                    <Picker.Item key={180} label={`${language.halfyearly}`} value={180} />
                     <Picker.Item key={365} label={`${language.yearly}`} value={365} />
                   </Picker>
                 </Block>
