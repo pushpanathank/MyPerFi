@@ -32,7 +32,7 @@ class Headers extends React.Component {
           <Block row middle center style={{flex:4}}>
             <Text h5 white numberOfLines={1}>{this.props.title}</Text>
           </Block>
-          <Block row right style={{flex:1}}>
+          <Block row right style={{flex:this.props.rightFlex||1}}>
             { this.props.rightIcon ? this.props.rightIcon : <Text/> }
           </Block>
         </Header>

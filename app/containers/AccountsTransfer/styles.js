@@ -3,8 +3,10 @@ export default {
   container: {
     padding: Theme.sizes.indent
   },
-  form:{
-
+  error:{
+  	position:'absolute',
+  	bottom:Theme.sizes.indentsmall,
+  	right:0
   },
   inputRow:{
   	marginTop: Theme.sizes.indent

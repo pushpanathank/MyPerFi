@@ -28,6 +28,7 @@ import Ripple from "./Ripple";
 import PercentageCircle from "./PercentageCircle";
 import SelectAccount from "./Modals/SelectAccount";
 import SetBudget from "./Modals/SetBudget";
+import SelectTransaction from "./Modals/SelectTransaction";
 
 export { 
 	Loader, 
@@ -53,4 +54,5 @@ export {
 	PercentageCircle,
 	SelectAccount,
 	SetBudget,
+	SelectTransaction,
 };

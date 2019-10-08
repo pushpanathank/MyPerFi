@@ -2,10 +2,11 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, Keyboard, Alert} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import * as Animatable from 'react-native-animatable';
 
 import { Screens, Strings, Theme } from '../../constants';
 import { Headers, Text, Block, CurrencySymbol, Button, Input, Icon, Switch, IconBack, IconButton, SelectAccount, Ripple } from '../../components';
-import { getLanguage, showToast } from '../../utils/common';
+import { getLanguage, showToast, generateUUIDInt } from '../../utils/common';
 import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
@@ -19,26 +20,34 @@ class AccountsTransfer extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
-    const id = navigation.getParam('id');
-    if(id){
-      let obj = this.props.accounts[id];
+    const transid = navigation.getParam('transid')||0;
+    if(transid != 0){
+      let obj = this.props.transactions[transid];
       this.state = {
-        accId:id,
+        id:transid,
+        selectedDate: new Date(obj.date),
+        type: 2,
+        category: obj.cat,
+        initAmt: obj.amount,
         transInputs: {
-          frmAcc: { type: "genericRequired", value: obj.name },
-          toAcc: { type: "genericRequired", value: obj.name },
-          amount: { type: "integerRequired", value: obj.bal.toString() },
-          date: { type: "generic", value: formatDate({lang:this.props.languageCode}) },
-          note: { type: "generic", value: "" },
+          frmAcc: { type: "genericRequired", value: obj.frmAcc },
+          toAcc: { type: "genericRequired", value: obj.toAcc },
+          amount: { type: "integerRequired", value: obj.amount.toString() },
+          date: { type: "generic", value: formatDate({lang:this.props.languageCode, date:obj.date}) },
+          note: { type: "generic", value: obj.note },
         },
         validForm: true,
-        type:0,
+        from:0,
         selectAccModal: false,
         visibleDatePicker: false
       }
     }else{
       this.state = {
-        accId:id,
+        id:transid,
+        selectedDate: new Date(),
+        type: 2,
+        category: 'transfer',
+        initAmt: 0,
         transInputs: {
           frmAcc: { type: "genericRequired", value: '' },
           toAcc: { type: "genericRequired", value: '' },
@@ -47,7 +56,7 @@ class AccountsTransfer extends React.Component {
           note: { type: "generic", value: '' },
         },
         validForm: true,
-        type:0,
+        from:0,
         selectAccModal: false,
         visibleDatePicker: false
       }
@@ -57,25 +66,29 @@ class AccountsTransfer extends React.Component {
     this.getFormValidation = validationService.getFormValidation.bind(this);
     this.renderError = validationService.renderError.bind(this);
     this.accTransfer = this.accTransfer.bind(this);
+    this.removeTransfer = this.removeTransfer.bind(this);
   }
 
-  toggleAccModal = (type) => {
-    console.log("type", type);
-    this.setState({selectAccModal: !this.state.selectAccModal, type:type});
+  toggleAccModal = (from) => {
+    Keyboard.dismiss();
+    this.setState({selectAccModal: !this.state.selectAccModal, from:from});
   }
 
   selectAccount = (type,transid,accid)=>{
-    this.toggleAccModal(this.state.type);
+    this.toggleAccModal(this.state.from);
     let { transInputs } = this.state;
-    if(transInputs.frmAcc.value==transInputs.toAcc.value){
-      showToast(this.props.language.sameAccError,"danger");
-      return;
+    if(this.state.from){
+      transInputs.frmAcc.value=accid;
     }else{
-      if(this.state.type){
-        transInputs.toAcc.value=accid;
+      transInputs.toAcc.value=accid;
+    }
+    if(transInputs.frmAcc.value==transInputs.toAcc.value && (transInputs.frmAcc.value!='' || transInputs.toAcc.value!='')){
+      if(this.state.from){
+        transInputs.frmAcc.value='';
       }else{
-        transInputs.frmAcc.value=accid;
+        transInputs.toAcc.value='';
       }
+      showToast(this.props.language.sameAccError,"danger");
     }
     this.setState({transInputs: transInputs});
   }
@@ -86,7 +99,6 @@ class AccountsTransfer extends React.Component {
   }
 
   handleDatePicked = date => {
-    console.log("date", date);
     let { transInputs } = this.state;
     transInputs.date.value = formatDate({lang:this.props.languageCode,date:date});
     this.toggleDatePicker();
@@ -95,44 +107,75 @@ class AccountsTransfer extends React.Component {
 
   accTransfer(){
     this.getFormValidation({obj:'transInputs'});
-    const { transInputs, accId, activeTab } = this.state;
-    const msg = accId ? this.props.language.updated: this.props.language.added;
+    const { transInputs, id, selectedDate } = this.state;
+    const msg = id ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
-      const acc = {
-        id:accId,
-        name:transInputs.name.value,
-        no: transInputs.no.value,
-        bal: transInputs.bal.value,
-        act: transInputs.act.value,
-        type: activeTab,
-        sync: 1,
-      }
-      console.log("acc", acc);
-      this.props.addAcc(acc);
+      const trans = this.getTransactionObj();
+      // console.log("trans", trans);
+      this.props.addTransfer(trans);
       showToast(msg,"success");
       this.props.navigation.navigate(Screens.Accounts.route);
     }
   }
 
-  removeAcc(){
+  getTransactionObj = ()=>{
+    const { accounts } = this.props;
+    const { transInputs, selectedDate } = this.state;
+    return {
+        id:this.state.id,
+        frmAcc:transInputs.frmAcc.value,
+        toAcc:transInputs.toAcc.value,
+        type:this.state.type,
+        cat: this.state.category,
+        initAmt: this.state.initAmt,
+        amount: transInputs.amount.value,
+        place: accounts[transInputs.frmAcc.value].name + ' -> ' + accounts[transInputs.toAcc.value].name,
+        date: formatDate({date:selectedDate, format:'save'}),
+        ts: generateUUIDInt(selectedDate),
+        spend: false,
+        reimb: false,
+        note: transInputs.note.value,
+        sync: 1,
+      }
+  }
+
+  removeTransfer(){
+    const {language} = this.props;
     Alert.alert(
-      this.props.language.confirm,
-      this.props.language.delAccConfirm,
+      language.confirm,
+      language.delTransConfirm,
       [
         {
-          text: this.props.language.cancel,
+          text: language.cancel,
           onPress: () => {},
           style: 'cancel',
         },
         {text: this.props.language.okay, onPress: () => {
-          this.props.removeAcc(this.state);
+          const trans = this.getTransactionObj();
+          this.props.removeTransfer(trans);
           showToast(this.props.language.deleted,"success");
           this.props.navigation.navigate(Screens.Accounts.route);
         }},
       ],
       {cancelable: false},
     );
+  }
+
+  _renderRightButton = ()=> {
+    if(this.state.id!=0){
+      return (<Block row>
+        <IconButton icon={'delete'} onPress={this.removeTransfer} size={20} />
+        <IconButton icon={'tick'} onPress={this.accTransfer} />
+        </Block>);
+    }else{
+      return (<Block row>
+        <IconButton icon={'tick'} onPress={this.accTransfer} />
+        </Block>);
+    }
+  }
+  _renderError(error) {
+    return (<Animatable.Text animation="wobble" duration={500} useNativeDriver style={[appStyles.inputError,styles.error]}>{error}</Animatable.Text>)
   }
 
   render(){
@@ -147,7 +190,8 @@ class AccountsTransfer extends React.Component {
             {...this.props} 
             title={''} 
             leftIcon={<IconBack />} 
-            rightIcon={<IconButton icon={'tick'} onPress={this.accTransfer} />} 
+            rightIcon={this._renderRightButton()} 
+            rightFlex={this.state.id!=0 ? 2:1}
             />
           <View style={[appStyles.heading40]}>
             <Text title color='white'>{language.accTransfer}</Text>
@@ -172,11 +216,11 @@ class AccountsTransfer extends React.Component {
               <Block block>
                 <Text gray>{language.fromAcc}</Text>
               </Block>
-              <Ripple onPress={()=>this.toggleAccModal(0)}>
+              <Ripple onPress={()=>this.toggleAccModal(1)}>
                 <Block row center style={appStyles.listItem}>
                   <Icon name='wallet' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                   <Text>{accounts[transInputs.frmAcc.value] ? accounts[transInputs.frmAcc.value].name : language.selectAcc}</Text>
-                  <Text>{this.renderError('transInputs', 'frmAcc', 'fromAcc')}</Text>
+                  {this._renderError(this.renderError('transInputs', 'frmAcc', 'fromAcc'))}
                 </Block>
               </Ripple>
               <Block block style={styles.inputRow}>
@@ -184,11 +228,11 @@ class AccountsTransfer extends React.Component {
               </Block>
               <Block column>
                 <Input
-                  leftIcon={<CurrencySymbol size='h2'/>}
+                  leftIcon={<CurrencySymbol size='h2' style={{bottom:-15}}/>}
                   leftIconStyle={{bottom:Theme.sizes.indent}}
                   borderColor={Theme.colors.gray2}
                   error={this.renderError('transInputs', 'amount', 'amount')}
-                  errorStyle={{bottom: -Theme.sizes.indentsmall}}
+                  errorStyle={styles.error}
                   returnKeyType={"next"}
                   keyboardType={"decimal-pad"}
                   value={transInputs.amount.value}
@@ -201,10 +245,11 @@ class AccountsTransfer extends React.Component {
               <Block block>
                 <Text gray>{language.toAcc}</Text>
               </Block>
-              <Ripple onPress={()=>this.toggleAccModal(1)}>
+              <Ripple onPress={()=>this.toggleAccModal(0)}>
                 <Block row center style={appStyles.listItem}>
                   <Icon name='wallet' size='20' color={Theme.colors.gray3} style={{marginRight:Theme.sizes.indent}}/>
                   <Text>{accounts[transInputs.toAcc.value] ? accounts[transInputs.toAcc.value].name : language.selectAcc}</Text>
+                  {this._renderError(this.renderError('transInputs', 'toAcc', 'toAcc'))}
                 </Block>
               </Ripple>
               <Block block style={styles.inputRow}>
@@ -219,7 +264,7 @@ class AccountsTransfer extends React.Component {
             <Block block style={styles.inputRow}>
               <Text gray>{`${language['addNote']} (${language['optional']})`}</Text>
             </Block>
-            <Block column>
+            <Block column style={{marginBottom:Theme.sizes.indent}}>
               <Input
                 leftIcon={<Icon name='addnote' size='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}
@@ -231,16 +276,6 @@ class AccountsTransfer extends React.Component {
               />
             </Block>
             </View>
-          { this.state.accId ? 
-            <Block center middle row margin={[Theme.sizes.indent,0]}>
-              <Button color="accent" block 
-                onPress={() => { this.removeAcc() }}
-                >
-                <Text white center>{language.delete}</Text>
-              </Button>
-            </Block> :
-            <Text />
-          }
           </Content>
         </ImageBackground>
       </Container>
@@ -253,14 +288,15 @@ const mapStateToProps = (state) => {
     languageCode: state.settings.languageCode,
     accounts: state.accounts.items,
     language: getLanguage(state.settings.languageId),
+    transactions: state.transactions.items,
   };
 };
 
 const mapDispatchToProps = (dispatch,props) => {
   return {
-      addAcc: (values) => dispatch(accountActions.addAcc(values)),
-      removeAcc: (state) =>{
-        dispatch(accountActions.removeAcc(state.accId));
+      addTransfer: (values) => dispatch(accountActions.addTransfer(values)),
+      removeTransfer: (trans) =>{
+        dispatch(accountActions.removeTransfer(trans));
       },
    };
 };

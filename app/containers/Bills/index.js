@@ -3,7 +3,7 @@ import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
 import { connect } from "react-redux";
 // https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
 import { Theme, Screens, ActionTypes, IconList, Account } from '../../constants';
-import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
+import { Logo, Headers, Block, Icon, IconMenu, IconBell, Text, Button, Ripple, CurrencySymbol, Divider, SelectTransaction } from '../../components';
 import { getLanguage } from '../../utils/common';
 import { formatDate, getCurrentBillMonth, getBillDaysLeft, arrangeBills } from '../../utils/accounts';
 import imgs from '../../assets/images';
@@ -25,6 +25,8 @@ class Bills extends React.Component {
     super(props);
     this.state = {
       activeTab: activeTab,
+      selectAccModal: false,
+      item:{}
     }
     this.onChangeTab = this.onChangeTab.bind(this);
   }
@@ -34,8 +36,20 @@ class Bills extends React.Component {
   }
 
   markAsPaid = (item)=>{
-    item.paid=true;
-    this.props.markPaid(item);
+    // item.paid=true;
+    // this.props.markPaid(item);
+    this.setState({ item:item });
+    this.toggleAccModal();
+  }
+
+  toggleAccModal = () => {
+    this.setState({selectAccModal: !this.state.selectAccModal});
+  }
+
+  onSelectTransaction = (transaction) => {
+    console.log("item", transaction);
+    this.toggleAccModal();
+    this.props.markPaidWith({transaction:transaction,bill:this.state.item});
   }
 
   generateBills = ()=>{
@@ -177,6 +191,14 @@ class Bills extends React.Component {
             leftIcon={<IconMenu {...this.props} />} 
             rightIcon={<IconBell {...this.props} />}
             />
+
+          <SelectTransaction 
+            title={language.paidWith}
+            isVisible={this.state.selectAccModal}
+            toggleModal={this.toggleAccModal}
+            onSelect={this.onSelectTransaction}
+            />
+
           <View style={[appStyles.heading40,{paddingTop:0}]}>
             <Text h3 white light>{language.billemi}</Text>
           </View>
@@ -246,6 +268,7 @@ const mapStateToProps = (state) => {
 // console.log("state.bills", state.bills);
   let curr_month = getCurrentBillMonth(),
   currBillsObj = state.bills[curr_month] || {};
+  console.log("currBillsObj", currBillsObj);
   return {
     user: state.auth.user,
     language: getLanguage(state.settings.languageId),
@@ -259,6 +282,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     markPaid: (values) => dispatch(billActions.addBiller(values)),
+    markPaidWith: (values) => dispatch(billActions.markPaidWith(values)),
     generate: () => dispatch(billActions.generateBills()),
    };
 };

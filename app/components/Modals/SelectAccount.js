@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Modal from 'react-native-modal';
 
 import { getLanguage } from '../../utils/common';
+import { groupAccType } from '../../utils/accounts';
 import appStyles from '../../theme/appStyles';
 import imgs from '../../assets/images';
 import { Theme } from '../../constants';
@@ -39,7 +40,7 @@ const selectAccount = class SelectAccount extends Component {
   renderAccountItem = ({item}) =>{
     const {language, languageCode} = this.props;
     return(<Ripple onPress={()=> this.onSelect(this.props.transType,0,item.id) }>
-      <Block row style={[appStyles.listItem,{borderBottomColor: Theme.colors.gray2}]}>
+      <Block row style={[appStyles.listItem,{borderBottomColor: Theme.colors.gray2,paddingVertical: Theme.sizes.indenthalf}]}>
         <Text body>{item.name}</Text>
       </Block>
     </Ripple>);
@@ -61,7 +62,7 @@ const selectAccount = class SelectAccount extends Component {
         <View style={[appStyles.modalContent,{width:'80%', left:'10%'}]}>
           <View style={{height:Theme.sizes.indent6x*2, width:'100%'}}>
             <Block column>
-              <Text title center>{language.selectAcc}</Text>
+              <Text title center>{this.props.title ? this.props.title : language.selectAcc}</Text>
               <Divider style={{marginBottom:0, flex:0}} color={Theme.colors.gray3}/>
               <FlatList
                 data={this.props.accounts}
@@ -82,7 +83,7 @@ const mapStateToProps = (state) => {
   let language = getLanguage(state.settings.languageId);
   return {
     language: language,
-    accounts: [...Object.values(state.accounts.items||{})],
+    accounts: groupAccType({accounts:state.accounts.items,type:-1}),
   };
 };
 

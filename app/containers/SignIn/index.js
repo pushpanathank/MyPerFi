@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native'
+import { StyleSheet, View, ImageBackground, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native'
 import _ from 'lodash'; 
 import { NavigationActions } from 'react-navigation';
 import {
@@ -66,6 +66,7 @@ class SignIn extends React.Component {
   signin(){
     this.getFormValidation({obj:'authInputs'});
     if(this.state.validForm){
+      Keyboard.dismiss();
       const { authInputs } = this.state;
       const user = {email: authInputs.email.value, password: authInputs.password.value};
       this.props.signinAction(user).then(res => {

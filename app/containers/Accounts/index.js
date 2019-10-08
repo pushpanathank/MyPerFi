@@ -38,7 +38,7 @@ class Accounts extends React.Component {
   };
 
   accTransfer = () => {
-    this.props.navigation.navigate(Screens.AccountsTransfer.route);
+    this.props.navigation.navigate(Screens.AccountsTransfer.route,{transid:0});
   };
 
   onChangeTab(obj){
@@ -50,7 +50,7 @@ class Accounts extends React.Component {
     const {language} = this.props;
     return(<Ripple
         style={[appStyles.listItem,{margin:0}]}
-        onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:item.id}) }}
+        onPress={() => { this.props.navigation.navigate(Screens.Transactions.route,{type:item.type, id:item.id}) }}
         >
         <Block row space="between">
           <Block middle>
@@ -126,7 +126,7 @@ class Accounts extends React.Component {
               </Block>
             </Block>
             <Button
-              onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{activeTab:activeTab, id:null}) }}
+              onPress={() => { this.props.navigation.navigate(Screens.AccountsManage.route,{type:activeTab, id:null}) }}
              style={appStyles.fabBottomRight}
             >
              <Icon name={'plus'} size={18} />
@@ -142,8 +142,8 @@ const mapStateToProps = (state) => {
   return {
     language: getLanguage(state.settings.languageId),
     accounts: Object.values(accounts),
-    bankAcc: groupAccType(accounts,0,true),
-    wallAcc: groupAccType(accounts,1,true),
+    bankAcc: groupAccType({accounts:accounts,type:0,isArray:1}),
+    wallAcc: groupAccType({accounts:accounts,type:1,isArray:1}),
     bankAccSum: getAccSum(accounts,0),
     walletAccSum: getAccSum(accounts,1),
   };

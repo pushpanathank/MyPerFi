@@ -42,12 +42,16 @@ class Home extends React.Component {
 
   manageTransaction = (type,transid,accid) =>{
     if(transid==0) this.setState({addTransModal: false, selectAccModal:false});
-    this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,transid:transid,accid:accid})
+    if(type==2){
+      this.props.navigation.navigate(Screens.AccountsTransfer.route,{type:type,transid:transid,accid:accid});
+    }else{
+      this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,transid:transid,accid:accid});
+    }
   }
 
   renderTransactionItem = ({item}) =>{
     const {language, languageCode, accounts} = this.props;
-    let color = item.type ? Theme.colors.green : Theme.colors.black;
+    let color = item.type==1 ? Theme.colors.green : Theme.colors.black;
     return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id,item.acid) }>
       <Block row center space="around" style={appStyles.listItemTrans}>
         <Block row flex={1} left>

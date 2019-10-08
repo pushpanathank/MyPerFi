@@ -16,12 +16,12 @@ class AccountsManage extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
-    const activeTab = navigation.getParam('activeTab');
+    const type = navigation.getParam('type');
     const id = navigation.getParam('id');
     if(id){
       let obj = this.props.accounts[id];
       this.state = {
-        activeTab:activeTab,
+        type:type,
         accId:id,
         accInputs: {
           name: { type: "genericRequired", value: obj.name },
@@ -33,7 +33,7 @@ class AccountsManage extends React.Component {
       }
     }else{
       this.state = {
-        activeTab:activeTab,
+        type:type,
         accId:id,
         accInputs: {
           name: { type: "genericRequired", value: "" },
@@ -52,7 +52,7 @@ class AccountsManage extends React.Component {
   }
   addAccount(){
     this.getFormValidation({obj:'accInputs'});
-    const { accInputs, accId, activeTab } = this.state;
+    const { accInputs, accId, type } = this.state;
     const msg = accId ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
@@ -62,10 +62,10 @@ class AccountsManage extends React.Component {
         no: accInputs.no.value,
         bal: accInputs.bal.value,
         act: accInputs.act.value,
-        type: activeTab,
+        type: type,
         sync: 1,
       }
-      console.log("acc", acc);
+      // console.log("acc", acc);
       this.props.addAcc(acc);
       showToast(msg,"success");
       this.props.navigation.navigate(Screens.Accounts.route);
@@ -108,14 +108,14 @@ class AccountsManage extends React.Component {
             />
           <View style={[appStyles.heading40]}>
           { this.state.accId ? 
-            <Text title color='white'>{this.state.activeTab ? language.editWallet : language.editBankacc}</Text> : 
-            <Text title color='white'>{this.state.activeTab ? language.addWallet : language.addBankacc}</Text>
+            <Text title color='white'>{this.state.type ? language.editWallet : language.editBankacc}</Text> : 
+            <Text title color='white'>{this.state.type ? language.addWallet : language.addBankacc}</Text>
           }
           </View>
           <Content enableOnAndroid style={[appStyles.contentBg,styles.container]}>
             <View>
               <Block block>
-                <Text gray>{this.state.activeTab ? language.walName: language.accName}</Text>
+                <Text gray>{this.state.type ? language.walName: language.accName}</Text>
               </Block>
               <Block column>
                 <Input
@@ -128,7 +128,7 @@ class AccountsManage extends React.Component {
                   style={{marginBottom:Theme.sizes.indent}}
                 />
               </Block>
-              { !this.state.activeTab ?
+              { !this.state.type ?
                 <View>
                   <Block block>
                     <Text gray>{language.accNo} ({language.last4})</Text>
@@ -148,7 +148,7 @@ class AccountsManage extends React.Component {
                 </View>:  <View />
               }
               <Block block>
-                <Text gray>{this.state.activeTab ? language.walBal: language.accBal}</Text>
+                <Text gray>{this.state.type ? language.walBal: language.accBal}</Text>
               </Block>
               <Block column>
                 <Input
@@ -165,7 +165,7 @@ class AccountsManage extends React.Component {
                 />
               </Block>
               <Block row center space="between" style={{marginTop: Theme.sizes.indenthalf}}>
-                <Text gray>{this.state.activeTab ? language.walAct : language.accAct}?</Text>
+                <Text gray>{this.state.type ? language.walAct : language.accAct}?</Text>
                 <Switch
                   value={accInputs.act.value}
                   onValueChange={value => {this.onInputChange({ field: "act", value, obj:'accInputs' });}}

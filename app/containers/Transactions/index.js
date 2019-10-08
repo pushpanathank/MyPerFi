@@ -1,9 +1,12 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
 import { connect } from "react-redux";
+import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
+import * as Animatable from 'react-native-animatable';
+
 // https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
 import { Theme, Screens, ActionTypes, Account, IconList } from '../../constants';
-import { Headers, Block, Icon, IconBack, IconBell, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
+import { Headers, Block, Icon, IconBack, IconButton, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
 import { getLanguage } from '../../utils/common';
 import { formatDate, getTopSpendAreas, getCurrentMonthTotalSpend, getTransactions } from '../../utils/accounts';
 import imgs from '../../assets/images';
@@ -17,16 +20,32 @@ const catIcon = IconList.iconList;
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
+    const {navigation} = this.props;
+    const type = navigation.getParam('type'),
+    accId = navigation.getParam('id')||0;
     this.state = {
+      title:'',
+      accId:accId,
+      type:type,
+      transactions: getTransactions({transactions:this.props.transactions,accId:accId})
     }
+    this.editAccount = this.editAccount.bind(this);
   }
 
   manageTransaction = (type,transid,accid) =>{
-    this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,transid:transid,accid:accid})
+    if(type==2){
+      this.props.navigation.navigate(Screens.AccountsTransfer.route,{type:type,transid:transid,accid:accid});
+    }else{
+      this.props.navigation.navigate(Screens.TransactionManage.route,{type:type,transid:transid,accid:accid});
+    }
+  }
+
+  editAccount(){
+    const {accId,type} = this.state;
+    this.props.navigation.navigate(Screens.AccountsManage.route,{type:type, id:accId});
   }
 
   renderTransactionMonth = ({item}) =>{
-    console.log("item", item);
     const {language, languageCode} = this.props;
     return(<View>
       <Block row center space="around" style={{padding:Theme.sizes.indent}}>
@@ -48,7 +67,7 @@ class Transactions extends React.Component {
 
   renderTransactionItem = ({item}) =>{
     const {language, languageCode, accounts} = this.props;
-    let color = item.type ? Theme.colors.green : Theme.colors.black;
+    let color = item.type==1 ? Theme.colors.green : Theme.colors.black;
     return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id,item.acid) }>
       <Block row center space="around" style={[appStyles.listItemTrans,styles.listItem]}>
         <Block row flex={1} left>
@@ -80,31 +99,62 @@ class Transactions extends React.Component {
     );
   };
 
+  showTitle = (show,title)=>{
+    if(show){
+      this.setState({title:title});
+    }else{
+      this.setState({title:''});
+    }
+  }
+
   render(){
-    const {language} = this.props;
+    const {language, accounts} = this.props;
+    const acc = accounts[this.state.accId],
+    title = this.state.accId!=0 ? acc.name : language.transaction;
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-          <Headers 
-            {...this.props} 
-            title={''} 
-            leftIcon={<IconBack />} 
-            rightIcon={<IconBell {...this.props} />}
-            />
-          <View style={[appStyles.heading40,{paddingTop:0}]}>
-            <Text h3 white light>{language.transaction}</Text>
-          </View>
-            <View style={[appStyles.contentBg]}>
-              <FlatList
-                data={this.props.transactions}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={this.renderTransactionMonth}
-                ListEmptyComponent={this.noItemDisplay('noTransactions')}
+        <Headers 
+                {...this.props} 
+                title={this.state.title} 
+                leftIcon={<IconBack />} 
+                rightIcon={<IconButton icon={'tick'} onPress={this.editAccount} />}
               />
-            </View>   
+              <HeaderImageScrollView
+                maxHeight={140}
+                minHeight={0}
+                overlayColor={Theme.colors.primary}
+                maxOverlayOpacity={1}
+                headerContainerStyle={{backgroundColor:Theme.colors.primary}}
+                fadeOutForeground
+                renderForeground={() => (
+                    this.state.accId!=0 ?
+                    <Block center middle>
+                      <Text color='white' header>{acc.name}</Text>
+                      <Text h1 color='white'><CurrencySymbol size='h1' color={Theme.colors.white}/> {acc.bal}</Text>
+                    </Block> : 
+                    <Block center middle>
+                      <Text h3 white light>{language.transaction}</Text>
+                    </Block>
+                )}
+                useNativeDriver={true}
+                scrollViewBackgroundColor={Theme.colors.white}
+              >
+                <TriggeringView
+                  onDisplay={() => this.showTitle(0,title)}
+                  onBeginHidden={() => this.showTitle(1,title)}
+                >
+                  <FlatList
+                      data={this.state.transactions}
+                      numColumns={1}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={this.renderTransactionMonth}
+                      ListEmptyComponent={this.noItemDisplay('noTransactions')}
+                    />
+                </TriggeringView>
+              </HeaderImageScrollView>
          </ImageBackground>
       </Container>
      
@@ -112,12 +162,11 @@ class Transactions extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  let language = getLanguage(state.settings.languageId),
-  transactions = state.transactions.items;
+  let language = getLanguage(state.settings.languageId);
   return {
     language: language,
     accounts : state.accounts.items,
-    transactions: getTransactions({transactions:transactions})
+    transactions: state.transactions.items
   };
 };
 

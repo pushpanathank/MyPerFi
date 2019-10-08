@@ -52,6 +52,28 @@ const accounts = (state = initialState.accounts, action) => {
       }
     }
 
+    case ActionTypes.UPDATEACCOUNTTRANSFERTOTAL: {
+      let transaction = action.transaction,
+          add = action.add, // (0=>remove, 1=>add)
+          items = state.items,
+          diff = (transaction.amount - transaction.initAmt);
+          if(add==0){
+            //subract the transaction
+            diff = transaction.initAmt * -1;
+          }
+        delete transaction['initAmt'];
+      if(items.hasOwnProperty(transaction.frmAcc)){
+        items[transaction.frmAcc].bal = parseInt(items[transaction.frmAcc].bal) - diff;
+      }
+      if(items.hasOwnProperty(transaction.toAcc)){
+        items[transaction.toAcc].bal = parseInt(items[transaction.toAcc].bal) + diff;
+      }
+      return {
+        ...state,
+        items:items,
+      }
+    }
+
     case ActionTypes.BACKUPACCOUNT: {
       let data=action.data,
           items = state.items,

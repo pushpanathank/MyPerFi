@@ -26,18 +26,15 @@ class BillsManage extends React.Component {
     const {navigation} = this.props;
     const id = navigation.getParam('id');
     const type = navigation.getParam('type');
-    console.log("id", id, type);
     if(id){
       let obj = type ? this.props.bills[id] : this.props.currBills[id];
-      console.log("this.props.currBills", this.props.currBills);
-      console.log("this.props.bills", this.props.bills);
-      console.log("obj", obj);
       this.state = {
         billId: id,
         curr: type,
         cyc: obj.cyc || 0,
         selectedDate: new Date(obj.date),
         type: obj.type,
+        partPaid: obj.partPaid,
         billInputs: {
           name: { type: "genericRequired", value: obj.name },
           accNo: { type: "generic", value: obj.accNo },
@@ -58,6 +55,7 @@ class BillsManage extends React.Component {
         cyc: 30,
         selectedDate: new Date(),
         type: 'others',
+        partPaid: false,
         billInputs: {
           name: { type: "genericRequired", value: "" },
           accNo: { type: "generic", value: "" },
@@ -79,7 +77,7 @@ class BillsManage extends React.Component {
   }
   addBiller(){
     this.getFormValidation({obj:'billInputs'});
-    const { billInputs, type, curr, paid, selectedDate, cyc, billId } = this.state;
+    const { billInputs, type, curr, paid, selectedDate, cyc, billId, partPaid } = this.state;
     const msg = billId ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
@@ -90,6 +88,7 @@ class BillsManage extends React.Component {
         accNo: billInputs.accNo.value,
         type: type,
         paid: billInputs.paid.value,
+        partPaid: partPaid,
         cyc: cyc,
         amount: billInputs.amount.value,
         date: formatDate({date:selectedDate, format:'save'}),

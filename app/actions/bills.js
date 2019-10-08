@@ -12,3 +12,7 @@ export const generateBills = payloads => dispatch => {
   return dispatch({ type: ActionTypes.GENERATEBILLS });
 }
 
+export const markPaidWith = payloads => dispatch => {
+  return dispatch({ type: ActionTypes.PAIDWITHBILLER, bill: payloads.bill, transaction: payloads.transaction });
+}
+

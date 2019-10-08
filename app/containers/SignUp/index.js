@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Image} from 'react-native'
+import { StyleSheet, View, ImageBackground, Image, Keyboard} from 'react-native'
 import _ from 'lodash';
 import { NavigationActions } from 'react-navigation';
 import {
@@ -52,6 +52,7 @@ class SignUp extends React.Component {
   signup(){
     this.getFormValidation({obj:'authInputs'});
     if(this.state.validForm){
+      Keyboard.dismiss();
       const { authInputs } = this.state;
       const user = {
         name: authInputs.name.value, 

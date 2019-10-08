@@ -80,9 +80,31 @@ const bills = (state = initialState.bills, action) => {
         date = formatDate({format:'yearMonth'})+' '+formatDate({date:item.date, format:'dateShort'});
         item.date = date.replace(/ /g, "-");
         item.curr = 0;
+        item.trans = [];
         item.id = id;
         state[month][id]=item;
       }
+      
+      return {
+        ...state
+      }
+    }
+
+    case ActionTypes.PAIDWITHBILLER: {
+      let items = {...state.items},
+      month= getCurrentBillMonth(),
+      bill= action.bill,
+      transaction= action.transaction;
+
+      if(!bill.hasOwnProperty('trans')) bill['trans'] = [];
+      bill.trans.push(transaction.id);
+      if(parseInt(transaction.amount) >= parseInt(bill.amount)){
+        bill.paid = true;
+        bill.partPaid = false;
+      }else{
+        bill.partPaid = true;
+      }
+      state[month][bill.id]=bill;
       
       return {
         ...state

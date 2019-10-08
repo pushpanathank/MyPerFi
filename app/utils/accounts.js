@@ -17,15 +17,22 @@ const dateFormat = {
 	transactionTime : 'ddd, DD MMM, YYYY | hh:mm A'
 }
 
-const groupAccType = (accounts,type,isArray) => {
+const groupAccType = ({accounts={},type=-1,isArray=1}) => {
+	// type (-1->all, 0->bank, 1->wallet)
 	if(!accounts) return;
 	accounts = Array.isArray(accounts) ? accounts : Object.values(accounts);
 	let obj = {};
-	accounts.map(function(acc) {
-		if(acc.type==type){
-			obj[acc.id] = acc;
-		}
-		});
+	if(type==-1){
+		let bank = accounts.filter((acc) => (acc.type==0)),
+		wallet = accounts.filter((acc) => (acc.type==1));
+		obj = [...bank,...wallet];
+	}else{
+		accounts.map(function(acc) {
+			if(acc.type==type){
+				obj[acc.id] = acc;
+			}
+			});
+	}
 	return isArray ? Object.values(obj) : obj;
 }
 
@@ -82,7 +89,7 @@ const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=mo
 	return len ? catArr.slice(0, len) : catArr;
 }
 
-const getTransactions = ({transactions={},len=0, latest=0, langCode='en'})=>{
+const getTransactions = ({transactions={},len=0, latest=0, langCode='en', accId=0})=>{
 	if(!transactions) return;
 	transactions = Array.isArray(transactions) ? transactions : Object.values(transactions);
 	transactions.sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
@@ -100,6 +107,9 @@ const getTransactions = ({transactions={},len=0, latest=0, langCode='en'})=>{
 	}else{
 		let monthTrans = {}, key=0;
 		transactions.map(function(tran) {
+			if((accId!=0 && accId != tran.acid && tran.type!=2)||(accId!=0 && accId != tran.toAcc && tran.type==2)){
+				return;
+			}
 			key = formatDate({lang:langCode,date:tran.date,format:'monthShortYear'});
 			if(!monthTrans.hasOwnProperty(key)){
 				monthTrans[key]={month:key,in:0,out:0,trans:[]};
@@ -107,7 +117,9 @@ const getTransactions = ({transactions={},len=0, latest=0, langCode='en'})=>{
 			if(tran.spend){
 				monthTrans[key].out += parseInt(tran.amount);
 			}else{
-				monthTrans[key].in += parseInt(tran.amount);
+				if(tran.type!=2){
+					monthTrans[key].in += parseInt(tran.amount);
+				}
 			}
 			monthTrans[key].trans.push(tran);
 		});
