@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Keyboard, Picker, Alert} from 'react-native';
+import { StyleSheet, View, ImageBackground, Keyboard, Picker, Alert, FlatList} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from "react-native-modal-datetime-picker";
 
@@ -19,6 +19,7 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 const iconBills = IconList.iconBills;
+const catIcon = IconList.iconList;
 
 class BillsManage extends React.Component {
   constructor(props) {
@@ -35,10 +36,12 @@ class BillsManage extends React.Component {
         selectedDate: new Date(obj.date),
         type: obj.type,
         partPaid: obj.partPaid,
+        initAmt: obj.initAmt,
+        billTrans: obj.trans,
         billInputs: {
           name: { type: "genericRequired", value: obj.name },
           accNo: { type: "generic", value: obj.accNo },
-          amount: { type: "integerRequired", value: obj.amount },
+          amount: { type: "integerRequired", value: obj.amount.toString() },
           date: { type: "generic", value: formatDate({lang:this.props.languageCode, date:obj.date}) },
           autoGen: { type: "bool", value: obj.autoGen },
           inact: { type: "bool", value: obj.inact },
@@ -56,6 +59,8 @@ class BillsManage extends React.Component {
         selectedDate: new Date(),
         type: 'others',
         partPaid: false,
+        initAmt: 0,
+        billTrans:[],
         billInputs: {
           name: { type: "genericRequired", value: "" },
           accNo: { type: "generic", value: "" },
@@ -77,7 +82,7 @@ class BillsManage extends React.Component {
   }
   addBiller(){
     this.getFormValidation({obj:'billInputs'});
-    const { billInputs, type, curr, paid, selectedDate, cyc, billId, partPaid } = this.state;
+    const { billInputs, type, curr, paid, selectedDate, cyc, billId, partPaid, initAmt } = this.state;
     const msg = billId ? this.props.language.updated: this.props.language.added;
     if(this.state.validForm){
       Keyboard.dismiss();
@@ -91,6 +96,7 @@ class BillsManage extends React.Component {
         partPaid: partPaid,
         cyc: cyc,
         amount: billInputs.amount.value,
+        initAmt: billId ? initAmt : billInputs.amount.value,
         date: formatDate({date:selectedDate, format:'save'}),
         autoGen: billInputs.autoGen.value,
         inact: billInputs.inact.value,
@@ -142,6 +148,55 @@ class BillsManage extends React.Component {
     this.setState({billInputs: billInputs, selectedDate: date});
   };
 
+  noItemDisplay = () =>{
+    const {language} = this.props;
+    return (
+        <Block column center middle style={{padding:Theme.sizes.indent}}>
+          <Text gray>{language.noTransactions}</Text>
+        </Block>
+    );
+  }
+  renderTransactionItem = ({item}) =>{
+    item = this.props.transactions[item];
+    const {language, languageCode, accounts} = this.props;
+    let color = Theme.colors.black;
+    return(
+      <Block row center space="around" style={appStyles.listItemTrans}>
+        <Block row flex={1} left>
+          <View style={[
+            appStyles.catIcon,
+            appStyles.catIconMid,
+            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            ]}
+            >
+            <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
+          </View>
+        </Block>
+        <Block column left flex={4} style={{paddingLeft:Theme.sizes.indenthalf}}>
+          <Text numberOfLines={1}>{item.place ? item.place : language['unknown']}</Text>
+          <Text small gray>{accounts[item.acid] ? `${accounts[item.acid].name} - ` : ''}{item.cat ? language[item.cat] : language['unknown']}</Text>
+        </Block>
+        <Block column flex={1.5} right>
+          <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
+          <Text gray small>{formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
+        </Block>
+      </Block>
+    );
+  }
+
+  _renderRightButton = ()=> {
+    if(this.state.billId!=0){
+      return (<Block row>
+        <IconButton icon={'delete'} onPress={this.removeBill} size={20} />
+        <IconButton icon={'tick'} onPress={this.addBiller} />
+        </Block>);
+    }else{
+      return (<Block row>
+        <IconButton icon={'tick'} onPress={this.addBiller} />
+        </Block>);
+    }
+  }
+
   render(){
     const {language} = this.props;
     const {billInputs, cyc} = this.state;
@@ -154,7 +209,8 @@ class BillsManage extends React.Component {
             {...this.props} 
             title={''} 
             leftIcon={<IconMenu {...this.props} />} 
-            rightIcon={<IconButton icon={'tick'} onPress={this.addBiller} />}
+            rightIcon={this._renderRightButton()} 
+            rightFlex={this.state.id!=0 ? 2:1}
             />
           <View style={[appStyles.heading40,{paddingTop:0}]}>
             <Text h3 white light>{language.manageBills}</Text>
@@ -276,16 +332,21 @@ class BillsManage extends React.Component {
             :
             <Block />
           }
-            { this.state.billId ? 
-              <Block center middle row margin={[Theme.sizes.indent,0]}>
-                <Button color="accent" block 
-                  onPress={() => { this.removeBill() }}
-                  >
-                  <Text white center>{language.delete}</Text>
-                </Button>
-              </Block> :
-              <Text />
-            }
+          {
+            this.state.billTrans.length ? 
+            <View style={{marginBottom:Theme.sizes.indent2x}}>
+              <Text h5 secondary>{language.paidWith}</Text>
+              <FlatList
+                  data={this.state.billTrans}
+                  numColumns={1}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={this.renderTransactionItem}
+                  ListEmptyComponent={this.noItemDisplay}
+                />
+              </View>
+              :
+            <Text />
+          }
           </Content>
 
           <DateTimePicker
@@ -327,6 +388,8 @@ const mapStateToProps = (state) => {
     language: getLanguage(state.settings.languageId),
     bills: state.bills.items,
     currBills: state.bills[curr_month],
+    accounts: state.accounts.items,
+    transactions: state.transactions.items,
   };
 };
 

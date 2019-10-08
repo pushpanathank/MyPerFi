@@ -81,6 +81,8 @@ const bills = (state = initialState.bills, action) => {
         item.date = date.replace(/ /g, "-");
         item.curr = 0;
         item.trans = [];
+        item.partPaid = false;
+        item.initAmt = item.amount;
         item.id = id;
         state[month][id]=item;
       }
@@ -94,17 +96,27 @@ const bills = (state = initialState.bills, action) => {
       let items = {...state.items},
       month= getCurrentBillMonth(),
       bill= action.bill,
-      transaction= action.transaction;
+      transaction= action.transaction,
+      transAmt = parseInt(transaction.amount),
+      initAmt = parseInt(bill.initAmt);
 
       if(!bill.hasOwnProperty('trans')) bill['trans'] = [];
-      bill.trans.push(transaction.id);
-      if(parseInt(transaction.amount) >= parseInt(bill.amount)){
-        bill.paid = true;
-        bill.partPaid = false;
-      }else{
-        bill.partPaid = true;
+      bill.trans=[];
+      console.log("bill", bill);
+      if(bill.trans.indexOf(transaction.id)==-1){
+        initAmt = bill.trans.length ? bill.amount : initAmt;
+        bill.trans.push(transaction.id);
+        bill.trans = bill.trans.filter((value, index, self)=> {return self.indexOf(value) === index});
+
+        if(transAmt >= initAmt){
+          bill.paid = true;
+          bill.partPaid = false;
+        }else{
+          bill.partPaid = true;
+          bill.amount = initAmt - transAmt;
+        }
+        state[month][bill.id]=bill;
       }
-      state[month][bill.id]=bill;
       
       return {
         ...state

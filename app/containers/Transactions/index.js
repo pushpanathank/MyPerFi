@@ -52,8 +52,14 @@ class Transactions extends React.Component {
         <Block row left>
           <Text secondary title>{item.month} </Text>
         </Block>
-          <Text color={Theme.colors.green} caption><CurrencySymbol size='caption' color={Theme.colors.green}/> {item.in}    </Text>
-          <Text color={Theme.colors.red} right caption><CurrencySymbol size='caption' color={Theme.colors.red}/>{item.out}</Text>
+          <Icon name="plus_filled" size={10} color={Theme.colors.green} style={{marginHorizontal:5}}/> 
+          <Text color={Theme.colors.green} caption>
+          <CurrencySymbol size='caption' color={Theme.colors.green}/> {item.in}    
+          </Text>
+          <Icon name="minus_filled" size={10} color={Theme.colors.red} style={{marginHorizontal:5}}/> 
+          <Text color={Theme.colors.red} right caption>
+          <CurrencySymbol size='caption' color={Theme.colors.red}/>{item.out}
+          </Text>
       </Block>
       <FlatList
           data={item.trans}
@@ -120,7 +126,7 @@ class Transactions extends React.Component {
                 {...this.props} 
                 title={this.state.title} 
                 leftIcon={<IconBack />} 
-                rightIcon={<IconButton icon={'tick'} onPress={this.editAccount} />}
+                rightIcon={<IconButton icon={'edit'} onPress={this.editAccount} size={20} />}
               />
               <HeaderImageScrollView
                 maxHeight={140}

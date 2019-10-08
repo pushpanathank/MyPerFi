@@ -240,7 +240,7 @@ class AccountsTransfer extends React.Component {
                 />
               </Block>
               <Block block center middle style={{marginVertical:Theme.sizes.indent}}>
-                <Icon name="transfer" size={23} color={Theme.colors.secondary} />
+                <Icon name="sort" size={30} color={Theme.colors.secondary} />
               </Block>
               <Block block>
                 <Text gray>{language.toAcc}</Text>
@@ -264,7 +264,7 @@ class AccountsTransfer extends React.Component {
             <Block block style={styles.inputRow}>
               <Text gray>{`${language['addNote']} (${language['optional']})`}</Text>
             </Block>
-            <Block column style={{marginBottom:Theme.sizes.indent}}>
+            <Block column style={{marginBottom:Theme.sizes.indent6x}}>
               <Input
                 leftIcon={<Icon name='addnote' size='20' color={Theme.colors.gray3}/>}
                 borderColor={Theme.colors.gray2}

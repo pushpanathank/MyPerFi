@@ -47,7 +47,7 @@ class Bills extends React.Component {
   }
 
   onSelectTransaction = (transaction) => {
-    console.log("item", transaction);
+    // console.log("item", transaction);
     this.toggleAccModal();
     this.props.markPaidWith({transaction:transaction,bill:this.state.item});
   }
@@ -106,7 +106,7 @@ class Bills extends React.Component {
             <Text gray small>Bill History</Text>
           </Block>
           <Block column right>
-            <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.amount} </Text>
+            <Text style={{color: color }}><CurrencySymbol size='header' color={color}/> {item.partPaid? item.amount : item.initAmt } </Text>
             <Text gray small>{language.dueDate} : {formatDate({lang:languageCode, date:item.date, format:'dateMonthShort'})}</Text>
           </Block>
         </Block>
@@ -193,6 +193,7 @@ class Bills extends React.Component {
             />
 
           <SelectTransaction 
+            type={this.state.item.type}
             title={language.paidWith}
             isVisible={this.state.selectAccModal}
             toggleModal={this.toggleAccModal}
@@ -265,10 +266,9 @@ class Bills extends React.Component {
 }
 const mapStateToProps = (state) => {
 
-// console.log("state.bills", state.bills);
+// console.log("state.bills", state.bills.items);
   let curr_month = getCurrentBillMonth(),
   currBillsObj = state.bills[curr_month] || {};
-  console.log("currBillsObj", currBillsObj);
   return {
     user: state.auth.user,
     language: getLanguage(state.settings.languageId),
