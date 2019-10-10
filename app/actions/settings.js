@@ -31,10 +31,10 @@ export const backup = payloads => dispatch => {
     }
 
     let data = { user_id : payloads.user_id, transactions: JSON.stringify(trans), accounts: JSON.stringify(accs), bills: JSON.stringify(bills)};
-    // console.log("data", data);
+    console.log("data", data);
   return axios.post(url.backup,  {payloads: data})
   .then(res => {
-    // console.log("res", res.data);
+    console.log("res", res.data);
       if(res.status == 200){
         if(res.data.status==200){
           dispatch({ type: ActionTypes.BACKUPTRANSACTION, data: res.data.data.trans });

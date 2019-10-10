@@ -21,6 +21,7 @@ const groupAccType = ({accounts={},type=-1,isArray=1}) => {
 	// type (-1->all, 0->bank, 1->wallet)
 	if(!accounts) return;
 	accounts = Array.isArray(accounts) ? accounts : Object.values(accounts);
+	accounts = accounts.filter((acc) => (acc.del==0));
 	let obj = {};
 	if(type==-1){
 		let bank = accounts.filter((acc) => (acc.type==0)),
@@ -89,10 +90,11 @@ const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=mo
 	return len ? catArr.slice(0, len) : catArr;
 }
 
-const getTransactions = ({transactions={},len=0, latest=0, langCode='en', accId=0})=>{
+const getTransactions = ({transactions={},len=0, latest=0, langCode='en', accId=0, thisMonth=0})=>{
 	if(!transactions) return;
 	transactions = Array.isArray(transactions) ? transactions : Object.values(transactions);
 	transactions.sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+	transactions = transactions.filter((tran) => (tran.del==0));
 	let ret;
 	if(latest){
 		let year=moment().format('YYYY'),
@@ -102,7 +104,9 @@ const getTransactions = ({transactions={},len=0, latest=0, langCode='en', accId=
 		end = moment(startDate).endOf('month').unix(),
 		arr=transactions;
 		// arr=[];
-		// arr = transactions.filter((tran) => (tran.ts>=start && tran.ts<=end));
+		if(thisMonth){
+			arr = transactions.filter((tran) => (tran.ts>=start && tran.ts<=end));
+		}
 		ret = len ? arr.slice(0, len) : arr;
 	}else{
 		let monthTrans = {}, key=0;

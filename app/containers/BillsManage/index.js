@@ -35,9 +35,9 @@ class BillsManage extends React.Component {
         cyc: obj.cyc || 0,
         selectedDate: new Date(obj.date),
         type: obj.type,
-        partPaid: obj.partPaid,
-        initAmt: obj.initAmt,
-        billTrans: obj.trans,
+        partPaid: obj.partPaid || false,
+        initAmt: obj.initAmt || obj.amount,
+        billTrans: obj.trans||[],
         billInputs: {
           name: { type: "genericRequired", value: obj.name },
           accNo: { type: "generic", value: obj.accNo },
@@ -210,7 +210,7 @@ class BillsManage extends React.Component {
             title={''} 
             leftIcon={<IconMenu {...this.props} />} 
             rightIcon={this._renderRightButton()} 
-            rightFlex={this.state.id!=0 ? 2:1}
+            rightFlex={this.state.billId!=0 ? 2:1}
             />
           <View style={[appStyles.heading40,{paddingTop:0}]}>
             <Text h3 white light>{language.manageBills}</Text>

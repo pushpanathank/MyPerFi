@@ -64,6 +64,7 @@ class AccountsManage extends React.Component {
         act: accInputs.act.value,
         type: type,
         sync: 1,
+        del: 0,
       }
       // console.log("acc", acc);
       this.props.addAcc(acc);

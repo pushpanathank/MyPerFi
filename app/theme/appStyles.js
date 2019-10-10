@@ -267,6 +267,9 @@ export default StyleSheet.create({
   },
   activeDrawerItem:{
     // backgroundColor: Theme.colors.primaryLight
+    borderLeftWidth: 5,
+    borderLeftColor: Theme.colors.secondary,
+    opacity:1
   },
 
   iconList:{

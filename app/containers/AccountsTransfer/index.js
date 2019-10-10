@@ -137,6 +137,7 @@ class AccountsTransfer extends React.Component {
         reimb: false,
         note: transInputs.note.value,
         sync: 1,
+        del: 0,
       }
   }
 

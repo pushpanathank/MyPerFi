@@ -35,11 +35,13 @@ class Bills extends React.Component {
     this.props.navigation.navigate(Screens.BillsManage.route,{id:0,type:type});
   }
 
-  markAsPaid = (item)=>{
-    // item.paid=true;
-    // this.props.markPaid(item);
+  markAsPaid = (item,selectTrans)=>{
     this.setState({ item:item });
     this.toggleAccModal();
+    if(!selectTrans){
+      item.paid=true;
+      this.props.markPaid(item);
+    }
   }
 
   toggleAccModal = () => {
@@ -62,6 +64,7 @@ class Bills extends React.Component {
   }
 
   renderCurrentBills = ({item}) =>{
+    if(!item.name) return;
     const {language, languageCode, accounts} = this.props;
     let color = item.paid ? Theme.colors.green : Theme.colors.black,
     daysLeft = getBillDaysLeft(item.date),
@@ -113,7 +116,7 @@ class Bills extends React.Component {
         <Block row>
           {
             !item.paid ? 
-            <Button color="secondary" block onPress={() => { this.markAsPaid(item) }}>
+            <Button color="secondary" block onPress={() => { this.markAsPaid(item,1) }}>
               <Text center>{language.markPaid}</Text>
             </Button>
             :
@@ -193,11 +196,12 @@ class Bills extends React.Component {
             />
 
           <SelectTransaction 
-            type={this.state.item.type}
+            item={this.state.item}
             title={language.paidWith}
             isVisible={this.state.selectAccModal}
             toggleModal={this.toggleAccModal}
             onSelect={this.onSelectTransaction}
+            markAsPaid={this.markAsPaid}
             />
 
           <View style={[appStyles.heading40,{paddingTop:0}]}>
@@ -217,6 +221,7 @@ class Bills extends React.Component {
                     <Block>
 
                       <FlatList
+                      contentContainerStyle={{ paddingBottom: Theme.sizes.indent3x}}
                       data={this.props.currBills}
                       numColumns={1}
                       keyExtractor={(item, index) => index.toString()}
@@ -241,6 +246,7 @@ class Bills extends React.Component {
                     <Block>
 
                     <FlatList
+                      contentContainerStyle={{ paddingBottom: Theme.sizes.indent3x}}
                       data={this.props.bills}
                       numColumns={1}
                       keyExtractor={(item, index) => index.toString()}

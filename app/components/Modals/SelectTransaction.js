@@ -14,6 +14,7 @@ import Text from '../Text';
 import Divider from '../Divider';
 import Icon from '../Icons/Icon';
 import CurrencySymbol from '../CurrencySymbol';
+import Button from '../Button';
 
 const catIcon = IconList.iconList;
 
@@ -34,6 +35,9 @@ const selectAccount = class SelectAccount extends Component {
     return (
         <Block column center middle style={{padding:Theme.sizes.indent}}>
           <Text gray>{language.noTransactions}</Text>
+          <Button color="secondary" onPress={()=> this.props.markAsPaid(this.props.item,0)} style={{paddingHorizontal:Theme.sizes.indent}}>
+            <Text>{language.paidWithOther}</Text>
+          </Button>
         </Block>
     );
   }
@@ -65,8 +69,8 @@ const selectAccount = class SelectAccount extends Component {
   }
 
   render() {
-    const {language, type} = this.props;
-    let transactions = type!= '' ? this.props.transactions.filter((tran) => (tran.cat==type)) : this.props.transactions;
+    const {language, item} = this.props;
+    let transactions = item.type!= '' ? this.props.transactions.filter((tran) => (tran.cat==item.type)) : this.props.transactions;
     return (
       <Modal
         isVisible={this.props.isVisible}
@@ -105,7 +109,7 @@ const mapStateToProps = (state) => {
     language: language,
     languageCode:languageCode,
     accounts: state.accounts.items,
-    transactions:  getTransactions({transactions:state.transactions.items,len:0,latest:1,landCode:languageCode}),
+    transactions:  getTransactions({transactions:state.transactions.items,len:0,latest:1,landCode:languageCode,thisMonth:1}),
   };
 };
 

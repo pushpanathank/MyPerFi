@@ -25,7 +25,8 @@ const accounts = (state = initialState.accounts, action) => {
     }
     case ActionTypes.REMOVEACC: {
       let items = state.items;
-      delete(items[action.id]);
+      // delete(items[action.id]);
+      items[action.id]['del']=1;
       return {
         ...state,
         items:items,

@@ -99,6 +99,7 @@ class Accounts extends React.Component {
                           <Text color='white'>{language.bankacc}</Text>
                       </TabHeading>}>
                       <FlatList
+                        contentContainerStyle={{ paddingBottom: Theme.sizes.indent3x}}
                         data={this.props.bankAcc}
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}
@@ -115,6 +116,7 @@ class Accounts extends React.Component {
                     </TabHeading>}>
 
                     <FlatList
+                        contentContainerStyle={{ paddingBottom: Theme.sizes.indent3x}}
                         data={this.props.wallAcc}
                         ItemSeparatorComponent={this.itemSeparator}
                         ListEmptyComponent={this.noItemDisplay}

@@ -101,8 +101,7 @@ const bills = (state = initialState.bills, action) => {
       initAmt = parseInt(bill.initAmt);
 
       if(!bill.hasOwnProperty('trans')) bill['trans'] = [];
-      bill.trans=[];
-      console.log("bill", bill);
+      // bill.trans=[];
       if(bill.trans.indexOf(transaction.id)==-1){
         initAmt = bill.trans.length ? bill.amount : initAmt;
         bill.trans.push(transaction.id);

@@ -22,9 +22,11 @@ const transactions = (state = initialState.transactions, action) => {
     }
     case ActionTypes.REMOVETRANSACTION: {
       let id=action.id;
-      delete state.items[id];
+      // delete state.items[id];
+      state.items[id]['del']=1;
       return {...state};
     }
+
     case ActionTypes.BACKUPTRANSACTION: {
       let data=action.data;
       for(let t in data){

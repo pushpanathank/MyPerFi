@@ -128,6 +128,7 @@ export default[
 		daysToPay: 'days to pay',
 		genBill: 'Do you want to generate bills for this month?',
 		generate: 'Generate',
+		paidWithOther: 'Paid with others',
 
 		added: 'Added successfully',
 		deleted: 'Deleted successfully',
@@ -202,6 +203,7 @@ export default[
 		cycle: 'Cycle',
 		dining: 'Dining',
 		dinner: 'Dinner',
+		dress: 'Dress',
 		donation: 'Donation',
 		drinks: 'Drinks',
 		education: 'Education',
@@ -387,6 +389,7 @@ export default[
 		daysToPay: 'செலுத்த வேண்டிய நாட்கள்',
 		genBill: 'இந்த மாதத்திற்கான ரசிதுகளை உருவாக்க விரும்புகிறீர்களா?',
 		generate: 'உருவாக்கு',
+		paidWithOther: 'பிற வழியில் செலுத்தப்பட்டது',
 
 
 		added: 'வெற்றிகரமாக சேர்க்கப்பட்டது',
@@ -462,6 +465,7 @@ export default[
 		cycle: 'மிதிவண்டி',
 		dining: 'சாப்பாட்டு',
 		dinner: 'இரவு சாப்பாடு',
+		dress: 'உடை',
 		donation: 'நன்கொடை',
 		drinks: 'பானங்கள்',
 		education: 'கல்வி',

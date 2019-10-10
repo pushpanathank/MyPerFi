@@ -140,6 +140,7 @@ class TransactionManage extends React.Component {
         reimb: transInputs.reimb.value,
         note: transInputs.note.value,
         sync: 1,
+        del: 0,
       }
   }
 
