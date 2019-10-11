@@ -3,11 +3,11 @@ import { FlatList, View } from 'react-native';
 import { connect } from "react-redux";
 import Modal from 'react-native-modal';
 
-import { getLanguage } from '../../utils/common';
+import { getLanguage, getCategoryByKey } from '../../utils/common';
 import { getTransactions, formatDate } from '../../utils/accounts';
 import appStyles from '../../theme/appStyles';
 import imgs from '../../assets/images';
-import { Theme, IconList } from '../../constants';
+import { Theme } from '../../constants';
 import Ripple from '../Ripple';
 import Block from '../Block';
 import Text from '../Text';
@@ -15,8 +15,6 @@ import Divider from '../Divider';
 import Icon from '../Icons/Icon';
 import CurrencySymbol from '../CurrencySymbol';
 import Button from '../Button';
-
-const catIcon = IconList.iconList;
 
 const selectAccount = class SelectAccount extends Component {
   constructor(props) {
@@ -50,7 +48,7 @@ const selectAccount = class SelectAccount extends Component {
           <View style={[
             appStyles.catIcon,
             appStyles.catIconMid,
-            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            {backgroundColor: item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
             ]}
             >
             <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>

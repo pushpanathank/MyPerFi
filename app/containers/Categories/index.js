@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal';
-import { Theme, Screens, Account, IconList as iconList, ActionTypes } from '../../constants';
+import { Theme, Screens, Account, ActionTypes } from '../../constants';
 import { Logo, Headers, IconList, Block, Icon, IconMenu, IconBell, Text } from '../../components';
 import { getLanguage } from '../../utils/common';
 import imgs from '../../assets/images';
@@ -17,7 +17,6 @@ import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-const catIcon= iconList.iconList;
 
 class Categories extends React.Component {
   constructor(props) {
@@ -73,7 +72,7 @@ class Categories extends React.Component {
                             >
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:catIcon[data].color,margin:0}]}>
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:getCategoryByKey(data).color,margin:0}]}>
                                       <Icon 
                                         style={appStyles.iconListSingle} 
                                         name={data} 
@@ -107,7 +106,7 @@ class Categories extends React.Component {
                                 onPress={() => this.setColor(data)}>
                                 <Block row style={styles.inputRow}>
                                   <Block style={{flex:1}}>
-                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:catIcon[data].color,margin:0}]}>
+                                    <Block middle center style={[appStyles.catIcon,{backgroundColor:getCategoryByKey(data).color,margin:0}]}>
                                       <Icon 
                                         style={appStyles.iconListSingle} 
                                         name={data} 

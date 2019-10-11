@@ -2,9 +2,9 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
 import { connect } from "react-redux";
 // https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
-import { Theme, Screens, ActionTypes, Account, IconList } from '../../constants';
+import { Theme, Screens, ActionTypes, Account } from '../../constants';
 import { Headers, Block, Icon, IconBack, IconBell, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
-import { getLanguage } from '../../utils/common';
+import { getLanguage, getCategoryByKey } from '../../utils/common';
 import { formatDate, getTopSpendAreas, getCurrentMonthTotalSpend } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {  Container,  Content } from 'native-base';
@@ -12,7 +12,6 @@ import { billActions } from "../../actions/";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-const catIcon = IconList.iconList;
 
 class TopSpend extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class TopSpend extends React.Component {
 
   renderTopSpendItem = ({item}) =>{
     const {language, languageCode} = this.props;
-    let color = item.cat ? catIcon[item.cat].color : Theme.colors.accent,
+    let color = item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent,
     percentage = ((item.amount/this.props.currMonthSpend)*100).toFixed(2);
     return(<Ripple>
       <Block row center space="around" style={[appStyles.listItemTrans,styles.listItem]}>

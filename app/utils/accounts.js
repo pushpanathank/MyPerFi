@@ -93,7 +93,8 @@ const getTopSpendAreas = ({transactions={},year=moment().format('YYYY'),month=mo
 const getTransactions = ({transactions={},len=0, latest=0, langCode='en', accId=0, thisMonth=0})=>{
 	if(!transactions) return;
 	transactions = Array.isArray(transactions) ? transactions : Object.values(transactions);
-	transactions.sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+	transactions.sort(function(a,b){ return b.ts - a.ts; });
+	// transactions.sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
 	transactions = transactions.filter((tran) => (tran.del==0));
 	let ret;
 	if(latest){

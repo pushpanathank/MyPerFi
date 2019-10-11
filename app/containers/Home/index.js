@@ -7,17 +7,16 @@ import {
 import Modal from 'react-native-modal';
 import PureChart from 'react-native-pure-chart';
 
-import { Theme, Screens, IconList, Account } from '../../constants';
+import { Theme, Screens, Account } from '../../constants';
 import { Icon, Headers, Block, Text, Divider, Button, Ripple, CurrencySymbol, IconMenu, IconBell, PercentageCircle, SelectAccount, SetBudget } from '../../components';
 import { formatDate, getDaysLeft, getAccSum, getCurrentMonthTotalSpend, getTopSpendAreas, topSpendGraph, getCurrentBillMonth, getBillSum, arrangeBills, getTransactions } from '../../utils/accounts';
-import { getLanguage } from '../../utils/common';
+import { getLanguage, getCategoryByKey } from '../../utils/common';
 import imgs from '../../assets/images';
 import { connect } from "react-redux";
 import * as userActions from "../../actions/user";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-const catIcon = IconList.iconList;
 const cycle = Account.cycle;
 
 class Home extends React.Component {
@@ -58,7 +57,7 @@ class Home extends React.Component {
           <View style={[
             appStyles.catIcon,
             appStyles.catIconMid,
-            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            {backgroundColor: item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
             ]}
             >
             <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
@@ -78,7 +77,7 @@ class Home extends React.Component {
 
   renderTopSpendItem = ({item}) =>{
     const {language, languageCode, accounts} = this.props;
-    let color = item.cat ? catIcon[item.cat].color : Theme.colors.accent,
+    let color = item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent,
     percentage = ((item.amount/this.props.currMonthSpend)*100).toFixed(2);
     return(<Ripple>
       <Block row center space="around" style={appStyles.listItemTrans}>
@@ -114,7 +113,7 @@ class Home extends React.Component {
             <View style={[
               appStyles.catIcon,
               appStyles.catIconMid,
-              {backgroundColor: catIcon[item.type].color, marginHorizontal: Theme.sizes.indenthalf}
+              {backgroundColor: getCategoryByKey(item.type).color, marginHorizontal: Theme.sizes.indenthalf}
               ]}
               >
               <Icon name={item.type} size={Theme.sizes.title}/>

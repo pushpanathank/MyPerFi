@@ -4,9 +4,9 @@ import { NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modal';
 import DateTimePicker from "react-native-modal-datetime-picker";
 
-import { Screens, Strings, Theme, IconList as iconList } from '../../constants';
+import { Screens, Strings, Theme } from '../../constants';
 import { Logo, Icon, Headers, Text, Block, CurrencySymbol, Button, Input, Ripple, Switch, IconList, IconButton, IconBack, SelectAccount } from '../../components';
-import { getLanguage, showToast, generateUUIDInt } from '../../utils/common';
+import { getLanguage, showToast, generateUUIDInt, getCategoryByKey } from '../../utils/common';
 import { formatDate } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import { Container, Content } from 'native-base';
@@ -16,7 +16,6 @@ import { validationService } from '../../utils/validation';
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-const catIcon = iconList.iconList;
 const addStr = ["addEx","addIn"];
 const editStr = ["editEx","editIn"];
 
@@ -205,7 +204,7 @@ class TransactionManage extends React.Component {
                 style={[
                   appStyles.catIcon,
                   appStyles.catIconMid,
-                  {backgroundColor: category ? catIcon[category].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+                  {backgroundColor: category ? getCategoryByKey(category).color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
                   ]}
                 >
                 <Icon 

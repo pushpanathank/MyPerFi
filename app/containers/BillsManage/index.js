@@ -5,7 +5,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { Theme, Screens, ActionTypes, IconList } from '../../constants';
 import { Headers, Block, Icon, IconMenu, IconButton, Text, Button, Ripple, Input, Switch, CurrencySymbol, IconBillsList } from '../../components';
-import { getLanguage, showToast } from '../../utils/common';
+import { getLanguage, showToast, getCategoryByKey } from '../../utils/common';
 import imgs from '../../assets/images';
 import {
   Container,
@@ -19,7 +19,6 @@ import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
 const iconBills = IconList.iconBills;
-const catIcon = IconList.iconList;
 
 class BillsManage extends React.Component {
   constructor(props) {
@@ -166,7 +165,7 @@ class BillsManage extends React.Component {
           <View style={[
             appStyles.catIcon,
             appStyles.catIconMid,
-            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            {backgroundColor: item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
             ]}
             >
             <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toast, Icon } from 'native-base';
-import { Strings, Account } from '../constants';
+import { Strings, Account, IconList, Theme } from '../constants';
 import moment from 'moment';
 
 const mergeObj =(t,s)=>{const o=Object,a=o.assign;for(const k of o.keys(s))s[k]instanceof o&&a(s[k],mergeObj(t[k],s[k]));return a(t||{},s),t}
@@ -25,8 +25,9 @@ const getCurrentRoute = (state: Object) => {
   return findCurrentRoute(state.nav)
 }
 
-const getFontIcon = (name,style={},size=12,type='AntDesign') =>{
-	return <Icon name={name} fontSize={size} type={type} style={[{color:'#ffffff'},style]} />;
+const getCategoryByKey = (key) =>{
+	const catIcon = IconList.iconList;
+	return catIcon[key] ? catIcon[key] : { icon: "exclamation", color: Theme.colors.accent, label: "Unknown", desc: ""};
 }
 
 const getLanguage = (code) =>{
@@ -67,7 +68,7 @@ export {
 	getCurrencySymbol,
 	showToast,
 	getCurrentRoute,
-	getFontIcon,
+	getCategoryByKey,
 	generateUUID,
 	generateUUIDInt,
 	getObjectNValues

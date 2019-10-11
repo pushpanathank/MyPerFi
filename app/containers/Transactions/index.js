@@ -1,13 +1,11 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, FlatList} from 'react-native'
+import { StyleSheet, View, ImageBackground, FlatList, Animated, ScrollView} from 'react-native'
 import { connect } from "react-redux";
-import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
-import * as Animatable from 'react-native-animatable';
 
 // https://stackoverflow.com/questions/56092937/local-schedule-notification-react-native
-import { Theme, Screens, ActionTypes, Account, IconList } from '../../constants';
+import { Theme, Screens, ActionTypes, Account } from '../../constants';
 import { Headers, Block, Icon, IconBack, IconButton, Text, Button, Ripple, CurrencySymbol, Divider } from '../../components';
-import { getLanguage } from '../../utils/common';
+import { getLanguage, getCategoryByKey } from '../../utils/common';
 import { formatDate, getTopSpendAreas, getCurrentMonthTotalSpend, getTransactions } from '../../utils/accounts';
 import imgs from '../../assets/images';
 import {  Container,  Content } from 'native-base';
@@ -15,23 +13,41 @@ import { billActions } from "../../actions/";
 import appStyles from '../../theme/appStyles';
 import styles from './styles';
 
-const catIcon = IconList.iconList;
+const HEADER_MIN_HEIGHT = 75;
+const HEADER_MAX_HEIGHT = 200;
 
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
     const type = navigation.getParam('type'),
-    accId = navigation.getParam('id')||0;
+    accId = navigation.getParam('id')||0,
+    trans = getTransactions({transactions:this.props.transactions,accId:accId}),
+    transArr=[];
+    for(let t in trans){
+      let header = {month:trans[t].month, in:trans[t].in, out:trans[t].out, isHeader: true},
+      tr=trans[t];
+      transArr.push(header);
+      for(let i in tr.trans){
+        let ti = tr.trans[i];
+        ti.isHeader = false;
+        transArr.push(ti);
+      }
+    }
     this.state = {
-      title:'',
       accId:accId,
       type:type,
-      transactions: getTransactions({transactions:this.props.transactions,accId:accId})
+      loaded:20,
+      transactions: transArr
     }
     this.editAccount = this.editAccount.bind(this);
+    this.scrollYAnimatedValue = new Animated.Value(0);
   }
 
+  _handleLoadMore = () =>{
+    console.log("_handleLoadMore");
+
+  }
   manageTransaction = (type,transid,accid) =>{
     if(type==2){
       this.props.navigation.navigate(Screens.AccountsTransfer.route,{type:type,transid:transid,accid:accid});
@@ -47,8 +63,9 @@ class Transactions extends React.Component {
 
   renderTransactionMonth = ({item}) =>{
     const {language, languageCode} = this.props;
-    return(<View>
-      <Block row center space="around" style={{padding:Theme.sizes.indent}}>
+    
+    if(item.isHeader){
+      return(<Block row center space="around" style={{padding:Theme.sizes.indent,backgroundColor: Theme.colors.white}}>
         <Block row left>
           <Text secondary title>{item.month} </Text>
         </Block>
@@ -60,18 +77,13 @@ class Transactions extends React.Component {
           <Text color={Theme.colors.red} right caption>
           <CurrencySymbol size='caption' color={Theme.colors.red}/>{item.out}
           </Text>
-      </Block>
-      <FlatList
-          data={item.trans}
-          numColumns={1}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={this.renderTransactionItem}
-          ListEmptyComponent={this.noItemDisplay('noTransactions')}
-        />
-    </View>);
+      </Block>);
+    }else{
+      return this.renderTransactionItem(item);
+    }
   }
 
-  renderTransactionItem = ({item}) =>{
+  renderTransactionItem = (item) =>{
     const {language, languageCode, accounts} = this.props;
     let color = item.type==1 ? Theme.colors.green : Theme.colors.black;
     return(<Ripple onPress={()=> this.manageTransaction(item.type,item.id,item.acid) }>
@@ -80,7 +92,7 @@ class Transactions extends React.Component {
           <View style={[
             appStyles.catIcon,
             appStyles.catIconMid,
-            {backgroundColor: item.cat ? catIcon[item.cat].color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
+            {backgroundColor: item.cat ? getCategoryByKey(item.cat).color : Theme.colors.accent, marginHorizontal: Theme.sizes.indenthalf}
             ]}
             >
             <Icon name={item.cat? item.cat: 'exclamation'} size={Theme.sizes.title}/>
@@ -105,63 +117,61 @@ class Transactions extends React.Component {
     );
   };
 
-  showTitle = (show,title)=>{
-    if(show){
-      this.setState({title:title});
-    }else{
-      this.setState({title:''});
-    }
-  }
-
   render(){
     const {language, accounts} = this.props;
     const acc = accounts[this.state.accId],
     title = this.state.accId!=0 ? acc.name : language.transaction;
+    const headerHeight = this.scrollYAnimatedValue.interpolate(
+      {
+        inputRange: [0, (HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT)],
+        outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+        extrapolate: 'clamp'
+      });
+
     return (
       <Container style={appStyles.container}>
         <ImageBackground 
             source={imgs.bg} 
             style={ { width: Theme.sizes.window.width, height: Theme.sizes.window.height }}>
-        <Headers 
-                {...this.props} 
-                title={this.state.title} 
-                leftIcon={<IconBack />} 
-                rightIcon={<IconButton icon={'edit'} onPress={this.editAccount} size={20} />}
-              />
-              <HeaderImageScrollView
-                maxHeight={140}
-                minHeight={0}
-                overlayColor={Theme.colors.primary}
-                maxOverlayOpacity={1}
-                headerContainerStyle={{backgroundColor:Theme.colors.primary}}
-                fadeOutForeground
-                renderForeground={() => (
-                    this.state.accId!=0 ?
-                    <Block center middle>
-                      <Text color='white' header>{acc.name}</Text>
-                      <Text h1 color='white'><CurrencySymbol size='h1' color={Theme.colors.white}/> {acc.bal}</Text>
-                    </Block> : 
-                    <Block center middle>
-                      <Text h3 white light>{language.transaction}</Text>
-                    </Block>
-                )}
-                useNativeDriver={true}
-                scrollViewBackgroundColor={Theme.colors.white}
-              >
-                <TriggeringView
-                  onDisplay={() => this.showTitle(0,title)}
-                  onBeginHidden={() => this.showTitle(1,title)}
-                >
+        <ScrollView
+          contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.scrollYAnimatedValue } } }]
+          )}>
                   <FlatList
                       data={this.state.transactions}
                       numColumns={1}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={this.renderTransactionMonth}
                       ListEmptyComponent={this.noItemDisplay('noTransactions')}
+                      onEndReached={this._handleLoadMore}
+                      onEndReachedThreshold={0.5}
+                      initialNumToRender={10}
                     />
-                </TriggeringView>
-              </HeaderImageScrollView>
+          </ScrollView>
          </ImageBackground>
+
+         <Animated.View style={[styles.animatedHeaderContainer, { height: headerHeight }]}>
+          <Block row>
+            <Block style={{flex:1}}>
+              <IconBack />
+            </Block>
+            <Block middle center style={{flex:4}}>
+              <Text h5 white numberOfLines={1}>{title}</Text>
+              {
+                this.state.accId!=0 ?
+                <Text h1 color='white' style={{opacity:1}}><CurrencySymbol size='h1' color={Theme.colors.white}/> {acc.bal}</Text>
+                :
+                <Text />
+              }
+            </Block>
+            <Block right style={{flex:1}}>
+              <IconButton icon={'edit'} onPress={this.editAccount} size={20} />
+            </Block>
+          </Block>
+        </Animated.View>
+        
       </Container>
      
     );
